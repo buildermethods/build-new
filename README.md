@@ -24,10 +24,10 @@ Ships with:
 Ensure PostgreSQL is running locally, then:
 
 ```bash
-bin/setup
+bin/setup      # installs gems, creates and migrates the databases
+npm install    # installs JS dependencies
+bin/dev        # starts Rails (:3000) + Vite (:3036)
 ```
-
-This installs gems, creates and migrates the development/test databases, and starts the dev server.
 
 If your PostgreSQL user/password differs from the defaults (uses your OS user, no password), set:
 
@@ -66,7 +66,7 @@ bin/brakeman           # Security scanning
 
 Generated with `bin/rails g authentication` and customized:
 
-- `User` has `email_address`, `password_digest`, and `timezone`
+- `User` has `email`, `password_digest`, and `timezone`
 - Signup reads the browser's IANA timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`) and stores it on the user
 - Password reset emails are sent via Action Mailer (previewable at `/letter_opener` in development)
 - Sessions are cookie-backed; `Current.user` is available everywhere, and `current_user` is shared to every Inertia page via `inertia_share` in `ApplicationController`

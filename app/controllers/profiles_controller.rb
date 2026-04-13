@@ -4,7 +4,7 @@ class ProfilesController < ApplicationController
   end
 
   def update_email
-    if Current.user.update(params.permit(:email_address))
+    if Current.user.update(params.permit(:email))
       redirect_to profile_path, notice: "Email updated."
     else
       redirect_to profile_path,

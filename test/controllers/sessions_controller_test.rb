@@ -14,7 +14,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "logs in with valid credentials and redirects to the dashboard" do
     assert_difference -> { Session.count }, 1 do
       post login_path, params: {
-        email_address: @user.email_address,
+        email: @user.email,
         password: @password
       }
     end
@@ -25,7 +25,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "rejects invalid credentials" do
     assert_no_difference -> { Session.count } do
       post login_path, params: {
-        email_address: @user.email_address,
+        email: @user.email,
         password: "wrong-password"
       }
     end
@@ -36,7 +36,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "rejects an unknown email" do
     assert_no_difference -> { Session.count } do
       post login_path, params: {
-        email_address: "ghost@example.com",
+        email: "ghost@example.com",
         password: "whatever"
       }
     end
@@ -51,7 +51,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   test "authenticated users can reach the dashboard" do
     post login_path, params: {
-      email_address: @user.email_address,
+      email: @user.email,
       password: @password
     }
 
@@ -61,7 +61,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   test "DELETE /logout terminates the session and redirects to login" do
     post login_path, params: {
-      email_address: @user.email_address,
+      email: @user.email,
       password: @password
     }
 

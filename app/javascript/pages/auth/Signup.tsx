@@ -9,7 +9,7 @@ import type { PageProps } from "@/types/inertia"
 
 export default function Signup() {
   const { props } = usePage<PageProps>()
-  const form = useForm({ email_address: "", password: "", timezone: "" })
+  const form = useForm({ email: "", password: "", timezone: "" })
 
   useEffect(() => {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -40,18 +40,18 @@ export default function Signup() {
       >
         <form onSubmit={submit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="email_address">Email</Label>
+            <Label htmlFor="email">Email</Label>
             <Input
-              id="email_address"
+              id="email"
               type="email"
               autoComplete="email"
               required
-              aria-invalid={!!errors.email_address}
-              value={form.data.email_address}
-              onChange={(e) => form.setData("email_address", e.target.value)}
+              aria-invalid={!!errors.email}
+              value={form.data.email}
+              onChange={(e) => form.setData("email", e.target.value)}
             />
-            {errors.email_address && (
-              <p className="text-xs text-destructive">{errors.email_address}</p>
+            {errors.email && (
+              <p className="text-xs text-destructive">{errors.email}</p>
             )}
           </div>
           <div className="flex flex-col gap-2">

@@ -20,6 +20,6 @@ class RegistrationsController < ApplicationController
 
   private
     def registration_params
-      params.permit(:email_address, :password, :timezone)
+      params.permit(:email, :password, :timezone)
     end
 end

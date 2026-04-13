@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
     {
       current_user: Current.user && {
         id: Current.user.id,
-        email_address: Current.user.email_address,
+        email: Current.user.email,
         timezone: Current.user.timezone
       },
       flash: {

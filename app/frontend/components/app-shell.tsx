@@ -61,16 +61,16 @@ export function AppShell({
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="gap-2">
                   <span className="hidden max-w-[180px] truncate sm:inline">
-                    {user?.email_address}
+                    {user?.email}
                   </span>
                   <ChevronDown className="size-4 opacity-60" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52">
-                {user?.email_address && (
+                {user?.email && (
                   <>
                     <DropdownMenuLabel className="truncate text-xs font-normal text-muted-foreground">
-                      {user.email_address}
+                      {user.email}
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                   </>

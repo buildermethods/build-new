@@ -9,7 +9,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "signs up a new user, starts a session, and redirects to the dashboard" do
     assert_difference -> { User.count }, 1 do
       post signup_path, params: {
-        email_address: "new@example.com",
+        email: "new@example.com",
         password: "secret123",
         timezone: "America/Los_Angeles"
       }
@@ -17,7 +17,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to dashboard_path
 
-    user = User.find_by(email_address: "new@example.com")
+    user = User.find_by(email: "new@example.com")
     assert_equal "America/Los_Angeles", user.timezone
     assert user.authenticate("secret123")
   end
@@ -25,7 +25,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "rejects an invalid email" do
     assert_no_difference -> { User.count } do
       post signup_path, params: {
-        email_address: "not-an-email",
+        email: "not-an-email",
         password: "secret123"
       }
     end
@@ -36,7 +36,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "rejects a password shorter than 7 characters" do
     assert_no_difference -> { User.count } do
       post signup_path, params: {
-        email_address: "short@example.com",
+        email: "short@example.com",
         password: "abc123"
       }
     end
@@ -47,7 +47,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "accepts a 7-character password" do
     assert_difference -> { User.count }, 1 do
       post signup_path, params: {
-        email_address: "seven@example.com",
+        email: "seven@example.com",
         password: "abcd123"
       }
     end
@@ -60,7 +60,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference -> { User.count } do
       post signup_path, params: {
-        email_address: existing.email_address,
+        email: existing.email,
         password: "secret123"
       }
     end
@@ -70,7 +70,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
   test "signed-in users can reach the dashboard after signup" do
     post signup_path, params: {
-      email_address: "flow@example.com",
+      email: "flow@example.com",
       password: "secret123"
     }
 

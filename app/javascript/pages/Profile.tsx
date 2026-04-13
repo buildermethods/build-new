@@ -12,7 +12,7 @@ export default function Profile() {
   const user = props.current_user
   const errors = props.errors ?? {}
 
-  const emailForm = useForm({ email_address: user?.email_address ?? "" })
+  const emailForm = useForm({ email: user?.email ?? "" })
   const passwordForm = useForm({ current_password: "", password: "" })
 
   const submitEmail = (e: FormEvent) => {
@@ -55,21 +55,21 @@ export default function Profile() {
             </div>
             <form onSubmit={submitEmail} className="flex flex-col gap-4">
               <div className="flex flex-col gap-2">
-                <Label htmlFor="email_address">Email</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="email_address"
+                  id="email"
                   type="email"
                   autoComplete="email"
                   required
-                  aria-invalid={!!errors.email_address}
-                  value={emailForm.data.email_address}
+                  aria-invalid={!!errors.email}
+                  value={emailForm.data.email}
                   onChange={(e) =>
-                    emailForm.setData("email_address", e.target.value)
+                    emailForm.setData("email", e.target.value)
                   }
                 />
-                {errors.email_address && (
+                {errors.email && (
                   <p className="text-xs text-destructive">
-                    {errors.email_address}
+                    {errors.email}
                   </p>
                 )}
               </div>

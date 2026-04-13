@@ -9,7 +9,7 @@ import type { PageProps } from "@/types/inertia"
 
 export default function Login() {
   const { props } = usePage<PageProps>()
-  const form = useForm({ email_address: "", password: "" })
+  const form = useForm({ email: "", password: "" })
 
   const submit = (e: FormEvent) => {
     e.preventDefault()
@@ -44,14 +44,14 @@ export default function Login() {
         )}
         <form onSubmit={submit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="email_address">Email</Label>
+            <Label htmlFor="email">Email</Label>
             <Input
-              id="email_address"
+              id="email"
               type="email"
               autoComplete="email"
               required
-              value={form.data.email_address}
-              onChange={(e) => form.setData("email_address", e.target.value)}
+              value={form.data.email}
+              onChange={(e) => form.setData("email", e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-2">

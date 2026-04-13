@@ -51,7 +51,7 @@ The `@` path alias resolves to `app/frontend/` in both Vite and TypeScript confi
 Generated with `bin/rails g authentication` and customized for Inertia:
 
 - Routes: `/login`, `/signup`, `/logout`, `/passwords/new`, `/passwords/:token/edit`
-- `User` fields: `email_address`, `password_digest`, `timezone`
+- `User` fields: `email`, `password_digest`, `timezone`
 - `SessionsController`, `RegistrationsController`, `PasswordsController` render Inertia pages for `new`/`edit` and redirect on mutations
 - `ApplicationController` uses `inertia_share` to expose `current_user`, `flash`, and `errors` on every page
 - `Current.user` (`app/models/current.rb`) delegates to `session.user`
