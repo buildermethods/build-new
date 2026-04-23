@@ -37,6 +37,34 @@ export DATABASE_PASSWORD=your_pg_password
 export DATABASE_HOST=localhost   # optional, defaults to localhost
 ```
 
+## Opening the database in a GUI
+
+Recommended: [TablePlus](https://tableplus.com/). The database name is derived from the project directory — it's the directory name lowercased, with any non-alphanumerics replaced by `_`, plus a `_development` suffix. You can also confirm the exact name by running `bin/rails runner 'puts ActiveRecord::Base.connection_db_config.database'`, or by reading the `development:` block in `config/database.yml`.
+
+Open it directly by passing the full name to `open`:
+
+```bash
+open "postgres://$USER@localhost:5432/your_project_development"
+```
+
+Replace `your_project_development` with the actual database name for this project (see `config/database.yml`).
+
+Or detect the name dynamically from the current working directory:
+
+```bash
+open "postgres://$USER@localhost:5432/$(basename "$PWD" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_]/_/g')_development"
+```
+
+If you use this across multiple projects, save it as a shell function. Add this to your `~/.zshrc` (or `~/.bashrc`):
+
+```bash
+opendb() {
+  open "postgres://$USER@localhost:5432/$(basename "$PWD" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_]/_/g')_development"
+}
+```
+
+Reload your shell (`source ~/.zshrc`), then run `opendb` from any project root to open that project's development database in TablePlus.
+
 ## Commands
 
 ```bash
