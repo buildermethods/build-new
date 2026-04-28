@@ -29,6 +29,8 @@
     "typescript": "^5.9.3"
   },
   "scripts": {
-    "check": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json"
+    "check": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json",
+    "build:ssr": "vite build --ssr app/javascript/entrypoints/ssr.tsx --outDir public/vite-ssr --emptyOutDir",
+    "ssr": "node public/vite-ssr/ssr.js"
   }
 }

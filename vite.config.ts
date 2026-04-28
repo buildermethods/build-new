@@ -15,4 +15,11 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./app/frontend', import.meta.url)),
     },
   },
+  // SSR bundle is built from app/javascript/entrypoints/ssr.tsx via
+  // `vite build --ssr` (see package.json `build:ssr`). noExternal: true
+  // bundles every dependency into the SSR output so the Node process
+  // can boot without resolving anything from node_modules at runtime.
+  ssr: {
+    noExternal: true,
+  },
 })

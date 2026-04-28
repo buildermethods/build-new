@@ -45,6 +45,11 @@ The `@` path alias resolves to `app/frontend/` in both Vite and TypeScript confi
 2. Controller action calls `render inertia: "PageName", props: { ... }`
 3. Create `app/javascript/pages/PageName.tsx`
 4. Wrap authenticated pages in `<AppShell title="...">` from `@/components/app-shell`
+5. Set a descriptive `<Head title>` and `<meta name="description">` on the page (see "Page metadata" below) — required for every page, no exceptions
+6. If the page is **publicly viewable** (no `require_authentication`), also:
+   - Add it to `config/sitemap.rb` so crawlers discover it
+   - Add it to `public/llms.txt` under the right section
+   - Make sure it is not blocked in `public/robots.txt`
 
 ### Auth
 
@@ -68,12 +73,16 @@ System preference, via an inline script in `app/views/layouts/application.html.e
 ### Key files
 
 - `app/javascript/entrypoints/inertia.ts` — React mount point, page resolution
+- `app/javascript/entrypoints/ssr.tsx` — SSR mount point (mirrors `inertia.ts` but renders to string)
 - `app/javascript/entrypoints/application.css` — Tailwind 4 theme (light/dark CSS variables)
-- `app/views/layouts/application.html.erb` — Vite client, Inertia entrypoint, dark-mode bootstrap
+- `app/views/layouts/application.html.erb` — Vite client, Inertia entrypoint, dark-mode bootstrap, `inertia_ssr_head`
 - `app/controllers/application_controller.rb` — `inertia_share` for shared props
 - `app/controllers/concerns/authentication.rb` — session helpers, `require_authentication`
-- `config/initializers/inertia_rails.rb` — Inertia config (encrypted history, auto-included errors hash)
+- `config/initializers/inertia_rails.rb` — Inertia config (encrypted history, auto-included errors hash, SSR)
 - `config/routes.rb` — all routes
+- `config/sitemap.rb` — sitemap_generator config; lists every public URL
+- `public/robots.txt` — crawler allow/deny rules + sitemap pointer
+- `public/llms.txt` — curated, plain-text site map for LLM crawlers
 - `components.json` — shadcn/ui config
 
 ## Inertia controller response rules (common LLM footgun)
@@ -109,6 +118,81 @@ end
 **Exception:** `head :ok` / `render json:` are fine for endpoints called via raw `fetch()` / `XMLHttpRequest` — not via Inertia's router — e.g. background session-saving or `/api` endpoints.
 
 **In tests:** Inertia mutation actions return `302 redirect`, not `200 ok`. Use `assert_response :redirect` for PATCH/PUT/DELETE on web controllers.
+
+## Server-side rendering (SSR)
+
+Inertia SSR is wired up so search engines and LLM crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.) receive fully rendered HTML instead of an empty `<div id="app">` populated only by client-side JavaScript. Without SSR, public pages are effectively invisible to non-JS crawlers.
+
+**How it works.** When SSR is enabled, the Rails request handler POSTs the page name + props to a long-running Node process (default `http://localhost:13714`). That process runs `app/javascript/entrypoints/ssr.tsx`, renders the React tree with `ReactDOMServer.renderToString`, and returns the HTML + `<head>` tags. Rails inlines them via `<%= inertia_ssr_head %>` and the rendered markup in `app/views/layouts/application.html.erb`. The client-side bundle then hydrates on top of that markup.
+
+**Configuration.**
+
+- `config/initializers/inertia_rails.rb` — `ssr_enabled` is on in production by default, off in development. Override with `INERTIA_SSR=1` (force on) or `INERTIA_SSR=0` (force off).
+- `vite.config.ts` — `ssr: { noExternal: true }` bundles all dependencies into the SSR output so the Node process boots without needing `node_modules` resolution at runtime.
+- `package.json` — `npm run build:ssr` produces `public/vite-ssr/ssr.js`; `npm run ssr` runs it.
+
+**Local SSR testing (recommended after touching pages, the layout, or shared components).**
+
+1. `npm run build:ssr`
+2. In a second terminal: `npm run ssr`
+3. Start Rails with `INERTIA_SSR=1 bin/dev`
+4. Load a page and view source — the `<div id="app">` should contain real markup, not an empty container.
+
+A commented `ssr_build` + `ssr` block in `Procfile.dev` automates steps 1–2 if uncommented.
+
+**Production checklist.** The deploy pipeline must:
+
+1. Run `npm run build` (client bundle) **and** `npm run build:ssr` (SSR bundle).
+2. Start the Node SSR process (`node public/vite-ssr/ssr.js`) alongside Rails — typically as a separate Procfile entry, container sidecar, or systemd unit. If the SSR process is unreachable, Inertia falls back to an empty `<div id="app">` and crawlers see nothing.
+
+**Keeping SSR working.**
+
+- Anything imported by a page component runs in Node during SSR. **Never reference `window`, `document`, `localStorage`, or other browser-only globals at module top-level or during render.** Guard with `typeof window !== "undefined"` or move the access into a `useEffect`.
+- Don't add code paths in `inertia.ts` (client) without mirroring them in `ssr.tsx` if they affect rendered output (e.g. shared providers, default layouts). The two entrypoints must produce the same component tree.
+- Avoid randomness, `Date.now()`, and other non-deterministic values during render — they cause hydration mismatches.
+- After adding heavy native deps, re-run `npm run build:ssr` locally; if it fails because of an ESM/CJS issue, add the offending package to `ssr.noExternal` exceptions in `vite.config.ts` (or leave `noExternal: true` and pin the package version that works).
+
+## Crawler discovery: sitemap.xml, robots.txt, llms.txt
+
+Three discovery files live at the site root and must stay in sync as public pages are added or removed:
+
+**`config/sitemap.rb` → `public/sitemap.xml`** (sitemap_generator gem). Regenerate with `bin/rails sitemap:refresh:no_ping` (writes the file) or `bin/rails sitemap:refresh` (writes + pings search engines). The host comes from `APP_HOST` env var, falling back to `Rails.application.config.action_controller.default_url_options[:host]`. **Whenever a publicly viewable route is added, removed, or has its URL changed, update `config/sitemap.rb` accordingly and regenerate.** Auth-gated routes must not appear here.
+
+**`public/robots.txt`** — explicitly allows all user-agents and lists the auth-gated route prefixes (`/login`, `/dashboard`, `/profile`, etc.) under `Disallow:`. Also contains a `Sitemap:` line pointing at `https://example.com/sitemap.xml` — change that host on first deploy of each app forked from this template. **When new auth-gated route prefixes are added, add matching `Disallow:` lines** so they aren't crawled.
+
+**`public/llms.txt`** — a curated, hand-maintained markdown index of public pages, following the [llmstxt.org](https://llmstxt.org) convention. LLM crawlers ingest this directly and prefer it over scraping rendered HTML. **Whenever a public page is added, removed, or significantly retitled, update `public/llms.txt` to match** — slot it into the appropriate section (Main pages / About / Product / Resources) with a one-line description. Keep the entries scoped to publicly viewable pages only.
+
+## Page metadata (every page, no exceptions)
+
+Every page component in `app/javascript/pages/` must set both a descriptive title and a meta description via Inertia's `<Head>`:
+
+```tsx
+import { Head } from "@inertiajs/react"
+
+export default function Pricing() {
+  return (
+    <>
+      <Head title="Pricing">
+        <meta
+          name="description"
+          content="Plans, pricing, and what's included in each tier of <Product Name>."
+        />
+      </Head>
+      {/* ...page content... */}
+    </>
+  )
+}
+```
+
+**Rules.**
+
+- **Title:** specific to the page — not the app name (the app name is appended by `app/javascript/entrypoints/inertia.ts` if a `title` callback is configured there). Keep under ~60 characters so it doesn't get truncated in search results.
+- **Description:** unique per page, written for humans, 120–160 characters, summarizes what the page is and why someone would land on it. Avoid keyword stuffing.
+- Public marketing pages (home, pricing, about, blog, docs, etc.) are crawled — these descriptions show up directly in search results and AI answers, so they matter most.
+- Authenticated pages still need them — they're disallowed in `robots.txt` but the title/description shows up in browser tabs, history, and link previews.
+- For social sharing on a public page, also add `og:title`, `og:description`, `og:image`, and `twitter:card` meta tags inside the same `<Head>`.
+
+`app/javascript/pages/Home.tsx` is the canonical example to copy from.
 
 ## Conventions
 

@@ -58,3 +58,8 @@ end
 gem "inertia_rails", "~> 3.11"
 
 gem "vite_rails", "~> 3.0"
+
+# Generate sitemap.xml so search engines and LLM crawlers can discover
+# every public page. See config/sitemap.rb. Refresh with:
+#   bin/rails sitemap:refresh:no_ping  (writes to public/sitemap.xml)
+gem "sitemap_generator"

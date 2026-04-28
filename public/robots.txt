@@ -1,1 +1,23 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+# See https://www.robotstxt.org/robotstxt.html for documentation.
+#
+# Default policy: allow every crawler (search engines + LLM/AI crawlers
+# such as GPTBot, ClaudeBot, PerplexityBot, Google-Extended) to read all
+# public pages, and disallow the routes that sit behind authentication
+# or that are operational endpoints not meant for indexing.
+
+User-agent: *
+Allow: /
+Disallow: /login
+Disallow: /signup
+Disallow: /logout
+Disallow: /passwords
+Disallow: /dashboard
+Disallow: /settings
+Disallow: /profile
+Disallow: /letter_opener
+Disallow: /up
+
+# Point crawlers at the sitemap so they can discover every public page.
+# Replace the host below to match the deployed domain (or generate via
+# bin/rails sitemap:refresh, which uses APP_HOST / default_url_options).
+Sitemap: https://example.com/sitemap.xml
