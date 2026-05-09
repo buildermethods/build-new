@@ -11,9 +11,15 @@ Rails.application.routes.draw do
   get "dashboard", to: "dashboard#show", as: :dashboard
   get "settings",  to: "settings#show",  as: :settings
 
-  get   "profile",          to: "profiles#show",             as: :profile
-  patch "profile/email",    to: "profiles#update_email",     as: :profile_email
-  patch "profile/password", to: "profiles#update_password",  as: :profile_password
+  namespace :admin do
+    get "design-system", to: "design_system#show", as: :design_system
+    resources :users, only: %i[ index show ]
+  end
+
+  get   "profile",          to: "profiles#details",          as: :profile
+  get   "profile/password", to: "profiles#password",         as: :profile_password
+  patch "profile/email",    to: "profiles#update_email"
+  patch "profile/password", to: "profiles#update_password"
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 

@@ -1,10 +1,9 @@
 import { FormEvent } from "react"
 import { Head, useForm, usePage } from "@inertiajs/react"
-
-import { AuthCard } from "@/components/auth-card"
+import { AuthShell } from "@/components/AuthShell"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+
 import type { PageProps } from "@/types/inertia"
 
 type Props = { token: string }
@@ -27,10 +26,16 @@ export default function PasswordEdit({ token }: Props) {
         <meta property="og:title" content="Choose a new password" />
         <meta property="og:description" content="Set a new password for your account." />
       </Head>
-      <AuthCard title="Choose a new password">
-        <form onSubmit={submit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="password">New password</Label>
+      <AuthShell>
+        <h1>Choose a new password</h1>
+        <form onSubmit={submit} className="mt-6 space-y-4">
+          <div className="space-y-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-ink-display"
+            >
+              New password
+            </label>
             <Input
               id="password"
               type="password"
@@ -41,14 +46,14 @@ export default function PasswordEdit({ token }: Props) {
               onChange={(e) => form.setData("password", e.target.value)}
             />
             {errors.password && (
-              <p className="text-xs text-destructive">{errors.password}</p>
+              <p className="text-xs text-signal">{errors.password}</p>
             )}
           </div>
-          <Button type="submit" disabled={form.processing} className="w-full">
+          <Button type="submit" disabled={form.processing}>
             Update password
           </Button>
         </form>
-      </AuthCard>
+      </AuthShell>
     </>
   )
 }

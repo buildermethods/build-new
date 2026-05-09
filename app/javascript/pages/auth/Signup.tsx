@@ -1,10 +1,9 @@
 import { FormEvent, useEffect } from "react"
 import { Head, Link, useForm, usePage } from "@inertiajs/react"
-
-import { AuthCard } from "@/components/auth-card"
+import { AuthShell } from "@/components/AuthShell"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+
 import type { PageProps } from "@/types/inertia"
 
 export default function Signup() {
@@ -31,20 +30,22 @@ export default function Signup() {
         <meta property="og:title" content="Sign up" />
         <meta property="og:description" content="Create a new account to get started." />
       </Head>
-      <AuthCard
-        title="Create your account"
-        subtitle={
-          <>
-            Already have an account?{" "}
-            <Link href="/login" className="font-medium underline underline-offset-4">
-              Log in
-            </Link>
-          </>
-        }
-      >
-        <form onSubmit={submit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="email">Email</Label>
+      <AuthShell>
+        <div className="text-center">
+          <h1>Create your account</h1>
+          <p className="mt-2">
+            Already have an account? <Link href="/login">Log in</Link>
+          </p>
+        </div>
+
+        <form onSubmit={submit} className="mt-6 space-y-4">
+          <div className="space-y-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-ink-display"
+            >
+              Email
+            </label>
             <Input
               id="email"
               type="email"
@@ -55,11 +56,16 @@ export default function Signup() {
               onChange={(e) => form.setData("email", e.target.value)}
             />
             {errors.email && (
-              <p className="text-xs text-destructive">{errors.email}</p>
+              <p className="text-xs text-signal">{errors.email}</p>
             )}
           </div>
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="password">Password</Label>
+          <div className="space-y-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-ink-display"
+            >
+              Password
+            </label>
             <Input
               id="password"
               type="password"
@@ -70,14 +76,14 @@ export default function Signup() {
               onChange={(e) => form.setData("password", e.target.value)}
             />
             {errors.password && (
-              <p className="text-xs text-destructive">{errors.password}</p>
+              <p className="text-xs text-signal">{errors.password}</p>
             )}
           </div>
-          <Button type="submit" disabled={form.processing} className="w-full">
+          <Button type="submit" disabled={form.processing}>
             Create account
           </Button>
         </form>
-      </AuthCard>
+      </AuthShell>
     </>
   )
 }

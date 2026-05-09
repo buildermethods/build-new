@@ -1,5 +1,4 @@
 import { Link, Head } from "@inertiajs/react"
-
 import { Button } from "@/components/ui/button"
 
 export default function Home() {
@@ -16,19 +15,18 @@ export default function Home() {
           content="Starter landing page for the Build New Rails + Inertia template — replace this copy with the real product pitch."
         />
       </Head>
-      <main className="flex min-h-svh items-center justify-center px-6">
-        <div className="flex flex-col items-center gap-8 text-center">
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-            Hello world.
-          </h1>
-          <div className="flex flex-col items-center gap-3 sm:flex-row">
-            <Button asChild size="lg">
-              <Link href="/login">Log in</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link href="/signup">Sign up</Link>
-            </Button>
-          </div>
+      <main className="mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center px-4 py-16 text-center">
+        <h1>Hello world.</h1>
+        <p className="mt-2 max-w-md text-ink-muted">
+          Starter landing page for the Build New Rails + Inertia template.
+        </p>
+        <div className="mt-6 flex items-center gap-3">
+          <Button asChild>
+            <Link href="/signup">Sign up</Link>
+          </Button>
+          <Button asChild variant="secondary">
+            <Link href="/login">Log in</Link>
+          </Button>
         </div>
       </main>
     </>

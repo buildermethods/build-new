@@ -1,10 +1,9 @@
 import { FormEvent } from "react"
 import { Head, Link, useForm, usePage } from "@inertiajs/react"
-
-import { AuthCard } from "@/components/auth-card"
+import { AuthShell } from "@/components/AuthShell"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+
 import type { PageProps } from "@/types/inertia"
 
 export default function Login() {
@@ -25,30 +24,31 @@ export default function Login() {
         <meta property="og:title" content="Log in" />
         <meta property="og:description" content="Log in to your account." />
       </Head>
-      <AuthCard
-        title="Log in"
-        subtitle={
-          <>
-            Don&apos;t have an account?{" "}
-            <Link href="/signup" className="font-medium underline underline-offset-4">
-              Sign up
-            </Link>
-          </>
-        }
-      >
+      <AuthShell>
+        <div className="text-center">
+          <h1>Log in</h1>
+          <p className="mt-2">
+            Don&apos;t have an account? <Link href="/signup">Sign up</Link>
+          </p>
+        </div>
+
         {props.flash?.notice && (
-          <p className="rounded-md border border-border bg-muted px-3 py-2 text-sm text-muted-foreground">
+          <p className="mt-4 text-center text-sm text-accent">
             {props.flash.notice}
           </p>
         )}
         {baseError && (
-          <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-            {baseError}
-          </p>
+          <p className="mt-4 text-center text-sm text-signal">{baseError}</p>
         )}
-        <form onSubmit={submit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="email">Email</Label>
+
+        <form onSubmit={submit} className="mt-6 space-y-4">
+          <div className="space-y-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-ink-display"
+            >
+              Email
+            </label>
             <Input
               id="email"
               type="email"
@@ -58,16 +58,13 @@ export default function Login() {
               onChange={(e) => form.setData("email", e.target.value)}
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
-              <Link
-                href="/passwords/new"
-                className="text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground"
-              >
-                Forgot password?
-              </Link>
-            </div>
+          <div className="space-y-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-ink-display"
+            >
+              Password
+            </label>
             <Input
               id="password"
               type="password"
@@ -77,11 +74,16 @@ export default function Login() {
               onChange={(e) => form.setData("password", e.target.value)}
             />
           </div>
-          <Button type="submit" disabled={form.processing} className="w-full">
-            Log in
-          </Button>
+          <div className="flex flex-col items-center gap-3 pt-2 sm:flex-row sm:justify-between">
+            <Button type="submit" disabled={form.processing}>
+              Log in
+            </Button>
+            <Link href="/passwords/new" className="text-sm">
+              Forgot password?
+            </Link>
+          </div>
         </form>
-      </AuthCard>
+      </AuthShell>
     </>
   )
 }

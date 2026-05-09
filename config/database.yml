@@ -1,48 +1,41 @@
-# PostgreSQL. Versions 9.3 and up are supported.
+# PostgreSQL. Versions 10 and up are supported.
 #
 # Install the pg driver:
 #   gem install pg
 # On macOS with Homebrew:
-#   brew install postgresql
-# On Debian/Ubuntu:
-#   apt-get install libpq-dev
+#   brew install postgresql@14
 #
-<%
-  # Derive the database name from the project directory so each template clone
-  # gets its own Postgres database instead of colliding on a shared name.
-  app_db_name = Rails.root.basename.to_s.downcase.gsub(/[^a-z0-9_]/, "_")
-%>
+# A single PostgreSQL database is shared by Active Record AND the Solid trifecta
+# (Solid Queue, Solid Cache, Solid Cable). No separate cache/cable databases.
 
 default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
-  username: <%= ENV.fetch("DATABASE_USERNAME", ENV["USER"]) %>
-  password: <%= ENV.fetch("DATABASE_PASSWORD", "") %>
-  # Disable GSSAPI/Kerberos negotiation in libpq. Apple's Kerberos plugins
-  # segfault in forked children (Solid Queue workers) on macOS.
-  gssencmode: disable
+  username: <%= ENV.fetch("DATABASE_USER") { ENV["USER"] } %>
+  password: <%= ENV["DATABASE_PASSWORD"] %>
+  host: <%= ENV.fetch("DATABASE_HOST") { "localhost" } %>
+  port: <%= ENV.fetch("DATABASE_PORT") { 5432 } %>
 
 development:
   <<: *default
-  database: <%= app_db_name %>_development
+  database: build_new_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: <%= app_db_name %>_test
+  database: build_new_test
 
 # Solid Queue, Solid Cache, and Solid Cable all share this single primary database.
+# In production, set DATABASE_URL or override the connection settings via env vars.
 staging:
   <<: *default
-  database: <%= app_db_name %>_staging
+  database: build_new_staging
   url: <%= ENV["DATABASE_URL"] %>
 
 production:
   <<: *default
-  database: <%= app_db_name %>_production
+  database: build_new_production
   url: <%= ENV["DATABASE_URL"] %>
-

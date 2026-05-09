@@ -4,6 +4,7 @@ export type CurrentUser = {
   id: number
   email: string
   timezone: string | null
+  admin: boolean
 } | null
 
 export type SharedProps = {

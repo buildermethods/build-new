@@ -1,8 +1,12 @@
-import { Head } from "@inertiajs/react"
+import { Head, usePage } from "@inertiajs/react"
+import { AppShell } from "@/components/AppShell"
 
-import { AppShell } from "@/components/app-shell"
+import type { PageProps } from "@/types/inertia"
 
 export default function Dashboard() {
+  const { props } = usePage<PageProps>()
+  const user = props.current_user
+
   return (
     <>
       <Head title="Home">
@@ -10,8 +14,11 @@ export default function Dashboard() {
         <meta property="og:title" content="Home" />
         <meta property="og:description" content="Your account home." />
       </Head>
-      <AppShell title="Home">
-        <p className="text-base">Welcome to your account.</p>
+      <AppShell>
+        <h1>Home</h1>
+        <p className="mt-2">
+          Welcome to your account{user?.email ? `, ${user.email}` : ""}.
+        </p>
       </AppShell>
     </>
   )

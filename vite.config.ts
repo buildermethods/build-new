@@ -35,10 +35,10 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./app/frontend', import.meta.url)),
     },
   },
-  // SSR bundle is built from app/javascript/entrypoints/ssr.tsx via
-  // `vite build --ssr` (see package.json `build:ssr`). noExternal: true
-  // bundles every dependency into the SSR output so the Node process
-  // can boot without resolving anything from node_modules at runtime.
+  // SSR. `bin/vite build --ssr` bundles app/javascript/ssr/ssr.tsx (the
+  // vite-plugin-ruby default `ssrEntrypoint`) into public/vite-ssr/ssr.js.
+  // noExternal: true bundles every dependency into the output so the Node
+  // process can boot without resolving anything from node_modules.
   ssr: {
     noExternal: true,
   },

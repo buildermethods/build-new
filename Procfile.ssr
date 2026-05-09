@@ -1,0 +1,5 @@
+web: bin/rails s
+vite: bin/vite dev
+jobs: bin/jobs
+ssr_build: bin/vite build --ssr --watch
+ssr: bin/vite ssr

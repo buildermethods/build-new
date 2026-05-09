@@ -15,7 +15,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_23_000005) do
   enable_extension "pg_catalog.plpgsql"
 
   create_table "sessions", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.string "ip_address"
     t.string "user_agent"
     t.datetime "created_at", null: false
@@ -169,6 +169,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_23_000005) do
     t.string "email", null: false
     t.string "password_digest", null: false
     t.string "timezone"
+    t.boolean "admin", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true

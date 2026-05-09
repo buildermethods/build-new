@@ -1,10 +1,9 @@
 import { FormEvent } from "react"
 import { Head, Link, useForm, usePage } from "@inertiajs/react"
-
-import { AuthCard } from "@/components/auth-card"
+import { AuthShell } from "@/components/AuthShell"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+
 import type { PageProps } from "@/types/inertia"
 
 export default function PasswordNew() {
@@ -23,18 +22,22 @@ export default function PasswordNew() {
         <meta property="og:title" content="Reset your password" />
         <meta property="og:description" content="Request a password reset link by email." />
       </Head>
-      <AuthCard
-        title="Reset your password"
-        subtitle="We'll email you a link to set a new password."
-      >
+      <AuthShell>
+        <h1>Reset your password</h1>
+        <p className="mt-2">We&apos;ll email you a link to set a new password.</p>
+
         {props.flash?.notice && (
-          <p className="rounded-md border border-border bg-muted px-3 py-2 text-sm text-muted-foreground">
-            {props.flash.notice}
-          </p>
+          <p className="mt-4 text-sm text-accent">{props.flash.notice}</p>
         )}
-        <form onSubmit={submit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="email">Email</Label>
+
+        <form onSubmit={submit} className="mt-6 space-y-4">
+          <div className="space-y-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-ink-display"
+            >
+              Email
+            </label>
             <Input
               id="email"
               type="email"
@@ -44,16 +47,15 @@ export default function PasswordNew() {
               onChange={(e) => form.setData("email", e.target.value)}
             />
           </div>
-          <Button type="submit" disabled={form.processing} className="w-full">
+          <Button type="submit" disabled={form.processing}>
             Send reset instructions
           </Button>
-          <p className="text-center text-sm text-muted-foreground">
-            <Link href="/login" className="underline underline-offset-4">
-              Back to log in
-            </Link>
-          </p>
         </form>
-      </AuthCard>
+
+        <p className="mt-6">
+          <Link href="/login">Back to log in</Link>
+        </p>
+      </AuthShell>
     </>
   )
 }

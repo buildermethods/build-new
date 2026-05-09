@@ -1,11 +1,3 @@
-
 web: bin/rails s
 vite: bin/vite dev
 jobs: bin/jobs
-
-# To verify SSR locally (renders pages the same way crawlers will see them
-# in production), uncomment the two lines below and start dev with
-# INERTIA_SSR=1 bin/dev. The first line keeps the SSR bundle current; the
-# second runs the Node SSR server that Inertia talks to on port 13714.
-# ssr_build: bin/vite build --ssr app/javascript/entrypoints/ssr.tsx --outDir public/vite-ssr --emptyOutDir --watch
-# ssr: node public/vite-ssr/ssr.js

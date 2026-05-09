@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+
+export PORT="${PORT:-3000}"
+export INERTIA_SSR=1
+
+# Build the SSR bundle once before starting the process group, so the
+# Node SSR server has something to load on first start. The watcher in
+# Procfile.ssr keeps it fresh after that.
+echo "Building SSR bundle..."
+bin/vite build --ssr || exit 1
+
+if command -v overmind 1> /dev/null 2>&1
+then
+  overmind start -f Procfile.ssr "$@"
+  exit $?
+fi
+
+if command -v hivemind 1> /dev/null 2>&1
+then
+  echo "Hivemind is installed. Running the application with Hivemind..."
+  exec hivemind Procfile.ssr "$@"
+  exit $?
+fi
+
+if gem list --no-installed --exact --silent foreman; then
+  echo "Installing foreman..."
+  gem install foreman
+fi
+
+foreman start -f Procfile.ssr "$@"

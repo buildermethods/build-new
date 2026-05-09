@@ -1,0 +1,234 @@
+/* Web fonts are loaded via <link> tags in the app's HTML head, not via
+   @import here. Bundler/PostCSS inlines this file mid-bundle, after
+   Tailwind's rules, which violates CSS spec (@import must come before any
+   other rules), so browsers silently drop the @import and the fonts never
+   load. See `references/styles/font-link-tags.html` for the link-tag
+   template the skill installs into the app's HTML layout. */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+
+  --color-page: #ffffff;
+  --color-surface: #f8fafc;
+  --color-hairline: #e2e8f0;
+  --color-ink-body: #334155;
+  --color-ink-display: #0f172a;
+  --color-ink-muted: #64748b;
+  --color-accent: #0891b2;
+  --color-accent-faded: #e1f2f6;
+  --color-accent-darker: #0e7490;
+  --color-signal: #fcd34d;
+  --color-signal-faded: #fffaea;
+  --color-signal-darker: #b45309;
+}
+
+.dark {
+  --color-page: #020617;
+  --color-surface: #0f172a;
+  --color-hairline: #1e293b;
+  --color-ink-body: #e2e8f0;
+  --color-ink-display: #f8fafc;
+  --color-ink-muted: #94a3b8;
+  --color-accent: #0891b2;
+  --color-accent-faded: #031f33;
+  --color-accent-darker: #0e7490;
+  --color-signal: #fcd34d;
+  --color-signal-faded: #2f2b21;
+  --color-signal-darker: #b45309;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-page);
+    color: var(--color-ink-body);
+    font-family: var(--font-sans);
+    font-size: 106.25%; /* 17px base — scales every rem-based size */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-page);
+    color: var(--color-ink-body);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-ink-display);
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  h1 { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.03em; }
+  h2 { font-size: 1.7rem;  letter-spacing: -0.03em; }
+  h3 { font-size: 1.3rem; }
+  h4 { font-size: 1.1rem; }
+  h5 { font-size: 1rem; }
+  h6 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-ink-muted); }
+
+  a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+  a:hover { color: color-mix(in oklab, var(--color-accent), black 15%); }
+
+  p { color: var(--color-ink-body); }
+
+  strong { color: var(--color-ink-display); font-weight: 600; }
+
+  ul, ol {
+    color: var(--color-ink-body);
+    list-style: none;
+    padding-left: 0;
+  }
+
+  li { padding-left: 0; }
+  li + li { margin-top: 0; }
+
+  blockquote {
+    border-left: 3px solid var(--color-accent);
+    padding-left: 1rem;
+    color: var(--color-ink-muted);
+    font-style: italic;
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid var(--color-hairline);
+    margin: 2rem 0;
+  }
+
+  code, pre, kbd, samp {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+}
+
+.body-content > * + * {
+  margin-top: 1.5rem;
+}
+
+.body-content > h2:not(:first-child),
+.body-content > h3:not(:first-child),
+.body-content > h4:not(:first-child) {
+  padding-top: 1rem;
+}
+
+.body-content ul,
+.body-content ol {
+  padding-left: 1.5rem;
+}
+.body-content ul { list-style: disc; }
+.body-content ol { list-style: decimal; }
+.body-content li { padding-left: 0.25rem; }
+.body-content li + li { margin-top: 0.25rem; }
+
+.callout {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Rich text (Milkdown Crepe) — match app fonts, tighter padding.
+   Selectors are scoped under `.bm-rich-text .milkdown ...` so they win
+   specificity ties against Crepe's own `.milkdown ...` rules (which load
+   after design-system.css in the bundle). The `--crepe-font-*` variables
+   are also redefined on `.milkdown` itself so any of Crepe's internal
+   `var(--crepe-font-*)` lookups resolve to our app fonts. */
+.bm-rich-text .milkdown {
+  --crepe-font-default: var(--font-sans);
+  --crepe-font-title: var(--font-display);
+  font-family: var(--font-sans);
+  color: var(--color-ink-body);
+  background: transparent;
+}
+
+.bm-rich-text .milkdown .ProseMirror {
+  font-family: var(--font-sans);
+  color: var(--color-ink-body);
+  padding: 0.5rem 1.25rem;
+  outline: none;
+  min-height: 8rem;
+  max-width: none;
+}
+
+.bm-rich-text .milkdown .ProseMirror > * {
+  margin-left: 0;
+  margin-right: 0;
+  max-width: none;
+}
+
+.bm-rich-text .milkdown .ProseMirror > * + * {
+  margin-top: 0.75rem;
+}
+
+.bm-rich-text .milkdown .ProseMirror h1,
+.bm-rich-text .milkdown .ProseMirror h2,
+.bm-rich-text .milkdown .ProseMirror h3,
+.bm-rich-text .milkdown .ProseMirror h4,
+.bm-rich-text .milkdown .ProseMirror h5,
+.bm-rich-text .milkdown .ProseMirror h6 {
+  font-family: var(--font-display);
+  color: var(--color-ink-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-align: left;
+  padding: 0;
+}
+
+.bm-rich-text .milkdown .ProseMirror h1 { font-size: 1.75rem; letter-spacing: -0.02em; }
+.bm-rich-text .milkdown .ProseMirror h2 { font-size: 1.5rem; letter-spacing: -0.02em; }
+.bm-rich-text .milkdown .ProseMirror h3 { font-size: 1.25rem; }
+.bm-rich-text .milkdown .ProseMirror h4 { font-size: 1.125rem; }
+.bm-rich-text .milkdown .ProseMirror h5 { font-size: 1rem; }
+.bm-rich-text .milkdown .ProseMirror h6 {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-ink-muted);
+}
+
+.bm-rich-text .milkdown .ProseMirror p {
+  font-family: var(--font-sans);
+  color: var(--color-ink-body);
+  line-height: 1.6;
+}
+
+.bm-rich-text .milkdown .ProseMirror ul,
+.bm-rich-text .milkdown .ProseMirror ol {
+  padding-left: 1.5rem;
+}
+.bm-rich-text .milkdown .ProseMirror ul { list-style: disc; }
+.bm-rich-text .milkdown .ProseMirror ol { list-style: decimal; }
+.bm-rich-text .milkdown .ProseMirror li + li { margin-top: 0.25rem; }
+
+.bm-rich-text .milkdown .ProseMirror blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1rem;
+  color: var(--color-ink-muted);
+  font-style: italic;
+}
+
+.bm-rich-text .milkdown .ProseMirror code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background: var(--color-surface);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}

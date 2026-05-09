@@ -3,22 +3,10 @@
   <head>
     <title inertia><%= content_for(:title) || "Build New" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="color-scheme" content="light dark">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <script>
-      // Apply system color scheme to <html> before first paint to avoid FOUC.
-      (function () {
-        var root = document.documentElement;
-        var mq = window.matchMedia('(prefers-color-scheme: dark)');
-        var apply = function (dark) { root.classList.toggle('dark', dark); };
-        apply(mq.matches);
-        mq.addEventListener('change', function (e) { apply(e.matches); });
-      })();
-    </script>
 
     <%= yield :head %>
 
@@ -29,8 +17,27 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
+    <%# bm-design-system:start %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('bm-ds-theme');
+          var theme = stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
+          var resolved = theme === 'system'
+            ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+            : theme;
+          if (resolved === 'dark') document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+    </script>
+    <%# bm-design-system:end %>
+
     <%= vite_react_refresh_tag %>
     <%= vite_client_tag %>
+    <%= vite_stylesheet_tag "application" %>
     <%= vite_typescript_tag "inertia" %>
     <%= inertia_ssr_head %>
 

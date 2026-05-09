@@ -1,6 +1,10 @@
 class ProfilesController < ApplicationController
-  def show
-    render inertia: "Profile"
+  def details
+    render inertia: "profile/Details"
+  end
+
+  def password
+    render inertia: "profile/Password"
   end
 
   def update_email
@@ -16,14 +20,14 @@ class ProfilesController < ApplicationController
     user = Current.user
 
     unless user.authenticate(params[:current_password])
-      return redirect_to profile_path,
+      return redirect_to profile_password_path,
                          inertia: { errors: { current_password: "is incorrect" } }
     end
 
     if user.update(params.permit(:password))
-      redirect_to profile_path, notice: "Password updated."
+      redirect_to profile_password_path, notice: "Password updated."
     else
-      redirect_to profile_path,
+      redirect_to profile_password_path,
                   inertia: { errors: user.errors.to_hash(true).transform_values(&:first) }
     end
   end

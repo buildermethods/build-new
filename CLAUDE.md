@@ -4,9 +4,11 @@ Guidance for Claude Code (claude.ai/code) working in this repo.
 
 ## Tech Stack
 
-Rails 8 + React 19 + PostgreSQL, bridged by **Inertia.js** (no separate API layer). TypeScript, Tailwind CSS 4, shadcn/ui (new-york), Vite 7, Propshaft. Ruby 3.2.0.
+Rails 8 + React 19 + PostgreSQL, bridged by **Inertia.js** (no separate API layer). TypeScript, Vite 7, Propshaft. Ruby 3.3.6.
 
-Background jobs, caching, and WebSockets use the Rails 8 "Solid" trifecta (Solid Queue, Solid Cache, Solid Cable), all database-backed. **All three share the single primary PostgreSQL database** — there are no separate cache/cable databases, no `db/cache_schema.rb` or `db/cable_schema.rb`, and `config/cache.yml` / `config/cable.yml` have no separate connection blocks.
+**Tailwind CSS v4** is wired up via `@tailwindcss/vite`. The app has a complete design system (tokens, primitives, dark-mode theming, the `cn()` utility, shared components under `app/frontend/components/`) — see the "Design system" section below and the live reference at `/admin/design-system`.
+
+Background jobs, caching, and WebSockets use the Rails 8 "Solid" trifecta (Solid Queue, Solid Cache, Solid Cable), all database-backed. **All four share the single PostgreSQL database** (`build_new_<env>` by default) — there are no separate cache/cable/queue databases, no `db/cache_schema.rb` / `db/cable_schema.rb` / `db/queue_schema.rb`, and `config/cache.yml` / `config/cable.yml` / `config/queue.yml` have no separate connection blocks. Override the connection via `DATABASE_URL` or the `DATABASE_USER` / `DATABASE_PASSWORD` / `DATABASE_HOST` / `DATABASE_PORT` env vars (see `config/database.yml`).
 
 ## Commands
 
@@ -35,47 +37,27 @@ The page name resolves to a React component in `app/javascript/pages/` via `app/
 ### Frontend directory layout
 
 - **`app/javascript/`** — Vite source: `entrypoints/`, page components in `pages/`
-- **`app/frontend/`** — Shared React code: shadcn/ui in `components/ui/`, app shell in `components/app-shell.tsx`, auth card in `components/auth-card.tsx`, utilities in `lib/`, shared Inertia types in `types/inertia.ts`
+- **`app/frontend/`** — Shared React code: `types/inertia.ts`, the design system under `components/design-system/` and `components/ui/`, helpers under `lib/`, and the design-system stylesheet under `styles/`.
 
-The `@` path alias resolves to `app/frontend/` in both Vite and TypeScript configs. Import shared code as `@/components/ui/button`, `@/lib/utils`, `@/types/inertia`.
+The `@` path alias resolves to `app/frontend/` in both Vite and TypeScript configs. Import shared code as `@/types/inertia`, `@/components/ui/button`, `@/lib/utils`, etc.
 
 ### Adding a new page
 
 1. Add a route in `config/routes.rb`
 2. Controller action calls `render inertia: "PageName", props: { ... }`
 3. Create `app/javascript/pages/PageName.tsx`
-4. Wrap authenticated pages in `<AppShell title="...">` from `@/components/app-shell`
-5. Set `<Head title>`, `<meta name="description">`, `<meta property="og:title">`, and `<meta property="og:description">` on the page (see "Page metadata" below) — required for every page, no exceptions
-6. If the page is **publicly viewable** (no `require_authentication`), also:
+4. Set `<Head title>`, `<meta name="description">`, `<meta property="og:title">`, and `<meta property="og:description">` on the page (see "Page metadata" below) — required for every page, no exceptions
+5. If the page is **publicly viewable** (no `require_authentication`), also:
    - Add it to `config/sitemap.rb` so crawlers discover it
    - Add it to `public/llms.txt` under the right section
    - Make sure it is not blocked in `public/robots.txt`
 
-### Auth
-
-Generated with `bin/rails g authentication` and customized for Inertia:
-
-- Routes: `/login`, `/signup`, `/logout`, `/passwords/new`, `/passwords/:token/edit`
-- `User` fields: `email`, `password_digest`, `timezone`
-- `SessionsController`, `RegistrationsController`, `PasswordsController` render Inertia pages for `new`/`edit` and redirect on mutations
-- `ApplicationController` uses `inertia_share` to expose `current_user`, `flash`, and `errors` on every page
-- `Current.user` (`app/models/current.rb`) delegates to `session.user`
-- Signup captures the browser's IANA timezone via `Intl.DateTimeFormat().resolvedOptions().timeZone` and stores it on the user
-
-### Mail
-
-`config/environments/development.rb` sets `config.action_mailer.delivery_method = :letter_opener`. The `letter_opener_web` engine is mounted at `/letter_opener` in development only (see `config/routes.rb`). Production mail is not configured — wire up SMTP in `config/environments/production.rb`.
-
-### Dark mode
-
-System preference, via an inline script in `app/views/layouts/application.html.erb` that toggles `.dark` on `<html>` based on `prefers-color-scheme` before first paint. CSS variables in `app/javascript/entrypoints/application.css` define both themes.
-
 ### Key files
 
 - `app/javascript/entrypoints/inertia.ts` — React mount point, page resolution
-- `app/javascript/entrypoints/ssr.tsx` — SSR mount point (mirrors `inertia.ts` but renders to string)
-- `app/javascript/entrypoints/application.css` — Tailwind 4 theme (light/dark CSS variables)
-- `app/views/layouts/application.html.erb` — Vite client, Inertia entrypoint, dark-mode bootstrap, `inertia_ssr_head`
+- `app/javascript/ssr/ssr.tsx` — SSR mount point (mirrors `inertia.ts` but renders to string); auto-detected by vite-plugin-ruby
+- `app/javascript/entrypoints/application.css` — Tailwind import, `@source` directive, and the design-system stylesheet import
+- `app/views/layouts/application.html.erb` — Vite client, Inertia entrypoint, `inertia_ssr_head`
 - `app/controllers/application_controller.rb` — `inertia_share` for shared props
 - `app/controllers/concerns/authentication.rb` — session helpers, `require_authentication`
 - `config/initializers/inertia_rails.rb` — Inertia config (encrypted history, auto-included errors hash, SSR)
@@ -83,7 +65,6 @@ System preference, via an inline script in `app/views/layouts/application.html.e
 - `config/sitemap.rb` — sitemap_generator config; lists every public URL
 - `public/robots.txt` — crawler allow/deny rules + sitemap pointer
 - `public/llms.txt` — curated, plain-text site map for LLM crawlers
-- `components.json` — shadcn/ui config
 
 ## Inertia controller response rules (common LLM footgun)
 
@@ -123,34 +104,26 @@ end
 
 Inertia SSR is wired up so search engines and LLM crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.) receive fully rendered HTML instead of an empty `<div id="app">` populated only by client-side JavaScript. Without SSR, public pages are effectively invisible to non-JS crawlers.
 
-**How it works.** When SSR is enabled, the Rails request handler POSTs the page name + props to a long-running Node process (default `http://localhost:13714`). That process runs `app/javascript/entrypoints/ssr.tsx`, renders the React tree with `ReactDOMServer.renderToString`, and returns the HTML + `<head>` tags. Rails inlines them via `<%= inertia_ssr_head %>` and the rendered markup in `app/views/layouts/application.html.erb`. The client-side bundle then hydrates on top of that markup.
+**How it works.** When SSR is enabled, the Rails request handler POSTs the page name + props to a long-running Node process (default `http://localhost:13714`). That process runs the SSR bundle built from `app/javascript/ssr/ssr.tsx`, renders the React tree with `ReactDOMServer.renderToString`, and returns the HTML + `<head>` tags. Rails inlines them via `<%= inertia_ssr_head %>` and the rendered markup in `app/views/layouts/application.html.erb`. The client-side bundle then hydrates on top of that markup.
 
 **Configuration.**
 
 - `config/initializers/inertia_rails.rb` — `ssr_enabled` is on in production by default, off in development. Override with `INERTIA_SSR=1` (force on) or `INERTIA_SSR=0` (force off).
 - `vite.config.ts` — `ssr: { noExternal: true }` bundles all dependencies into the SSR output so the Node process boots without needing `node_modules` resolution at runtime.
-- `package.json` — `npm run build:ssr` produces `public/vite-ssr/ssr.js`; `npm run ssr` runs it.
+- `bin/vite build --ssr` produces `public/vite-ssr/ssr.js` (vite-plugin-ruby's default SSR output path); `bin/vite ssr` runs it.
 
-**Local SSR testing (recommended after touching pages, the layout, or shared components).**
+**Local SSR testing.** Run `bin/dev-ssr` instead of `bin/dev`. It builds the SSR bundle, sets `INERTIA_SSR=1`, and runs Rails + Vite + Solid Queue + an SSR build watcher + the Node SSR server together via `Procfile.ssr`. View source on a page — the `<div id="app">` should contain real markup, not an empty container.
 
-1. `npm run build:ssr`
-2. In a second terminal: `npm run ssr`
-3. Start Rails with `INERTIA_SSR=1 bin/dev`
-4. Load a page and view source — the `<div id="app">` should contain real markup, not an empty container.
+**SSR smoke test.** `bin/rails test test/integration/ssr_smoke_test.rb` builds the SSR bundle, boots the Node server, hits `/render`, and asserts non-empty markup. It also runs as part of `bin/rails test`. Use it to catch breakage from changes to entrypoints, shared providers, or anything imported during SSR.
 
-A commented `ssr_build` + `ssr` block in `Procfile.dev` automates steps 1–2 if uncommented.
-
-**Production checklist.** The deploy pipeline must:
-
-1. Run `npm run build` (client bundle) **and** `npm run build:ssr` (SSR bundle).
-2. Start the Node SSR process (`node public/vite-ssr/ssr.js`) alongside Rails — typically as a separate Procfile entry, container sidecar, or systemd unit. If the SSR process is unreachable, Inertia falls back to an empty `<div id="app">` and crawlers see nothing.
+Production deployment is host-specific (Render, Fly, Heroku, container, bare metal, etc.) and not prescribed here. The Inertia Rails renderer silently falls back to a client-only render if the SSR Node process is unreachable, so the smoke test is your guardrail — keep it green and the SSR pipeline works.
 
 **Keeping SSR working.**
 
 - Anything imported by a page component runs in Node during SSR. **Never reference `window`, `document`, `localStorage`, or other browser-only globals at module top-level or during render.** Guard with `typeof window !== "undefined"` or move the access into a `useEffect`.
 - Don't add code paths in `inertia.ts` (client) without mirroring them in `ssr.tsx` if they affect rendered output (e.g. shared providers, default layouts). The two entrypoints must produce the same component tree.
 - Avoid randomness, `Date.now()`, and other non-deterministic values during render — they cause hydration mismatches.
-- After adding heavy native deps, re-run `npm run build:ssr` locally; if it fails because of an ESM/CJS issue, add the offending package to `ssr.noExternal` exceptions in `vite.config.ts` (or leave `noExternal: true` and pin the package version that works).
+- After adding heavy native deps, re-run `bin/vite build --ssr` locally; if it fails because of an ESM/CJS issue, add the offending package to `ssr.noExternal` exceptions in `vite.config.ts` (or leave `noExternal: true` and pin the package version that works).
 
 ## Crawler discovery: sitemap.xml, robots.txt, llms.txt
 
@@ -203,7 +176,37 @@ export default function Pricing() {
 ## Conventions
 
 - Ruby: `rubocop-rails-omakase` style, `frozen_string_literal: true`
-- Tailwind 4 `@theme inline` with CSS custom properties for theming
+- Tailwind CSS v4 + a complete design system (tokens, primitives, dark mode) — see the "Design system" section below and `/admin/design-system`
 - `ApplicationController` restricts to modern browsers
 - Inertia shared props: `current_user`, `flash`, `errors` on every page (see `@/types/inertia`)
-- PostgreSQL is required locally for development and tests
+- PostgreSQL (database `build_new_<env>` by default) is the only database — Active Record + Solid Queue/Cache/Cable all share it
+
+<!-- bm-design-system:start -->
+## Design system
+
+This codebase has a design system documented at [`/admin/design-system`](/admin/design-system). The page previews and explains every primitive — colors, typography, structure, base styles, and elements — and shows the exact markup to use.
+
+When implementing UI:
+
+1. **Always check the design system first.** Before writing any frontend markup or styles, refer to `/admin/design-system` and the components under `components/ui/` and `components/design-system/sections/`. Use the existing tokens (`bg-page`, `bg-surface`, `text-ink-body`, etc.) and the existing primitives (`<Button>`, `<Input>`, `<Badge>`, `<Select>`, `<Checkbox>`, `<Radio>`, `<RichTextField>`, `<Dialog>`, `<ThemeToggle>` and friends).
+
+2. **Do not invent ad-hoc styles.** Don't reach for raw hex values, raw font sizes, or one-off Tailwind utilities when a token or primitive exists. Don't introduce new variant systems alongside the existing `cva`-based ones.
+
+3. **Use bare semantic HTML for text elements.** Headings (`<h1>`–`<h6>`), paragraphs (`<p>`), anchors (`<a>`), `<strong>`, `<blockquote>`, `<ul>` / `<ol>` / `<li>`, and `<hr>` already have their size, color, weight, font, letter-spacing, and line-height defined in the base layer of `design-system.css`. **Do not apply Tailwind utilities like `text-xl`, `text-2xl`, `text-sm`, `font-semibold`, `font-medium`, `text-ink-display`, `text-ink-muted`, `tracking-tight`, `leading-tight` to these elements** — write `<h1>Projects</h1>`, not `<h1 className="text-2xl font-semibold text-ink-display">Projects</h1>`. Page headers in particular use `<h1>` (not `<h2>`) at the design system's base h1 size. Layout utilities (`mt-1`, `mb-4`, `max-w-md`, `flex`, etc.) are fine. If a usage genuinely needs different text styling, propose adding it to the design system as a class or element variant rather than overriding inline.
+
+4. **If a needed UI element is missing, propose it as a design-system addition** before building a one-off. Ask the user something like: "There's no existing primitive for X. Want me to add it to the design system (`components/ui/x.tsx` + a new section on `/admin/design-system`) so it stays consistent, or do a one-off here?" Default to proposing the system addition.
+
+5. **Re-running the `bm-design-system` skill** is the supported way to add new sections or update tokens. It detects existing setup and merges non-destructively.
+
+### Styling pipeline
+
+**Tailwind CSS v4** is wired up via `@tailwindcss/vite` in `vite.config.ts`. `app/javascript/entrypoints/application.css` imports the framework and then imports the design-system stylesheet (`app/frontend/styles/design-system.css`), which defines the `@theme` block (color + font tokens) and the base layer. The layout loads the bundle with `vite_stylesheet_tag "application"`.
+
+Source files are declared explicitly via an `@source` directive in `application.css` (Tailwind v4 has auto-detection, but it doesn't reliably pick up the split between `app/javascript/` and `app/frontend/` in this setup, so we declare them explicitly). Don't remove the `@source` line — classes used only inside `app/frontend/components/**` will silently fail to emit if you do.
+<!-- bm-design-system:end -->
+
+## Testing and verification
+
+- **After implementing a significant feature, ensure we have test coverage for that feature** and that the full test suite still passes 100%. Run `bin/rails test` (and `bin/rails test:system` for system tests) before reporting the task as complete.
+- **When making any front-end UI changes or features, verify with the `agent-browser` skill** that all user paths and flows actually work end-to-end and remain accessible.
+- **For new pages, new layouts, or significant UI changes, take a screenshot and evaluate your own work** — confirm styling, design, visual balance, and responsiveness (desktop + mobile widths) are executed correctly. Store these verification screenshots in `tmp/screenshots/` so they're easy to find and don't pollute the repo.
