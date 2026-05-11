@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "setup": "# bundle, create db, migrate, run seeds\nbin/setup\n\n# install frontend deps\nnpm install",
+    "setup": "# Copy Rails encrypted credentials keys from the main repo (gitignored, not in worktree)\nMAIN_REPO=\"$(dirname \"$(git rev-parse --git-common-dir)\")\"\nmkdir -p config/credentials\nfor key in development.key staging.key production.key test.key; do\n  if [ -f \"$MAIN_REPO/config/credentials/$key\" ]; then\n    cp \"$MAIN_REPO/config/credentials/$key\" \"config/credentials/$key\"\n    echo \"Copied config/credentials/$key from $MAIN_REPO\"\n  fi\ndone\n\n# bundle, create db, migrate, run seeds\nbin/setup\n\n# install frontend deps\nnpm install",
     "run": "# Kill whatever is running on port 3000\nlsof -ti :3000 | xargs kill -9\nbin/dev",
     "archive": "# Frontend deps\nrm -rf node_modules\n\n# Vite build output\nrm -rf public/vite public/vite-ssr public/vite-dev\n\n# Rails tmp + logs\nrm -rf tmp/cache tmp/pids tmp/sockets tmp/storage\nrm -f log/*.log"
   }
