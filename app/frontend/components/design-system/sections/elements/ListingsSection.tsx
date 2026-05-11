@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronRight, Ellipsis, Folder } from "lucide-react";
+import { Ellipsis, Folder } from "lucide-react";
 
 const code = `<ul className="divide-y divide-hairline overflow-hidden rounded-md border border-hairline bg-page">
   {items.map((item) => (
