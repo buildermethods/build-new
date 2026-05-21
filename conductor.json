@@ -1,7 +1,7 @@
 {
   "scripts": {
     "setup": "# bundle, create db, migrate, run seeds\nbin/setup\n\n# install frontend deps\nnpm install",
-    "run": "# Kill whatever is running on port 3000\nlsof -ti :3000 | xargs kill -9\nbin/dev",
+    "run": "# Free ports (Rails 3000, Vite 3036, SSR 13714) and clear stale pidfile\nlsof -ti :3000 -ti :3036 -ti :13714 2>/dev/null | xargs kill -9 2>/dev/null || true\nrm -f tmp/pids/server.pid\nbin/dev",
     "archive": "# Frontend deps\nrm -rf node_modules\n\n# Vite build output\nrm -rf public/vite public/vite-ssr public/vite-dev\n\n# Rails tmp + logs\nrm -rf tmp/cache tmp/pids tmp/sockets tmp/storage\nrm -f log/*.log"
   }
 }
