@@ -45,6 +45,7 @@ export default function Signup() {
               id="email"
               type="email"
               autoComplete="email"
+              autoFocus
               required
               aria-invalid={!!errors.email}
               value={form.data.email}

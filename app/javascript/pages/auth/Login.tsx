@@ -48,6 +48,7 @@ export default function Login() {
               id="email"
               type="email"
               autoComplete="email"
+              autoFocus
               required
               value={form.data.email}
               onChange={(e) => form.setData("email", e.target.value)}
