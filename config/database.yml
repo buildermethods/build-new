@@ -21,39 +21,70 @@ default: &default
   port: <%= ENV.fetch("DATABASE_PORT") { 5432 } %>
 
 <%
-  # Per-worktree dev DB isolation. The main checkout (.git is a directory)
-  # keeps using build_new_development; each git worktree (.git is a pointer
-  # file written by `git worktree add`) gets its own DB suffixed with the
-  # worktree directory name, so parallel Conductor worktrees never share or
-  # clobber each other's schemas. Override with DATABASE_NAME to force a name.
+  # ---------------------------------------------------------------------------
+  # Per-app, per-worktree database naming
+  # ---------------------------------------------------------------------------
+  # Database names are derived automatically so that an app forked from this
+  # template gets its OWN databases with no edits to this file:
+  #
+  #   app_name        - this repository's folder name, sanitized to a legal
+  #                     Postgres identifier ("coolapp"; "build-new" -> "build_new").
+  #   worktree_suffix - "" in the main checkout; "_<worktree-folder>" inside a
+  #                     git worktree (e.g. a Conductor workspace), so parallel
+  #                     worktrees get fully isolated development AND test DBs and
+  #                     never clobber each other's schema.
+  #
+  #   main checkout of "coolapp"      -> coolapp_development         / coolapp_test
+  #   worktree "newyork" of "coolapp" -> coolapp_development_newyork / coolapp_test_newyork
+  #
+  # Finding app_name:
+  #   * main checkout - ".git" is a directory, so app_name is this folder's name.
+  #   * worktree      - ".git" is a pointer file holding
+  #                     "gitdir: <repo>/.git/worktrees/<wt>"; we read it, walk up
+  #                     to the MAIN repo root, use ITS folder name, and append the
+  #                     worktree folder name as the suffix.
+  #
+  # Override the development name entirely with DATABASE_NAME. Staging/production
+  # are named the same way but are overridden by DATABASE_URL on real deploys, so
+  # the derived name there is only a local fallback.
+  # ---------------------------------------------------------------------------
   app_root = Dir.pwd
-  worktree_db_suffix =
-    if File.file?(File.join(app_root, ".git"))
-      "_#{File.basename(app_root).gsub(/[^a-z0-9_]/i, "_").downcase}"
-    else
-      ""
-    end
+  sanitize = ->(value) { value.to_s.gsub(/[^a-z0-9_]/i, "_").downcase }
+  git_path = File.join(app_root, ".git")
+
+  if File.file?(git_path)
+    raw_gitdir      = File.read(git_path)[/gitdir:\s*(.+)/, 1].to_s.strip
+    gitdir          = File.expand_path(raw_gitdir, app_root)
+    main_repo_root  = File.expand_path("../../..", gitdir) # <repo>/.git/worktrees/<wt> -> <repo>
+    app_name        = sanitize.call(File.basename(main_repo_root))
+    worktree_suffix = "_#{sanitize.call(File.basename(app_root))}"
+  else
+    app_name        = sanitize.call(File.basename(app_root))
+    worktree_suffix = ""
+  end
+
+  app_name = "app" if app_name.empty?
 %>
 
 development:
   <<: *default
-  database: <%= ENV.fetch("DATABASE_NAME") { "build_new_development#{worktree_db_suffix}" } %>
+  database: <%= ENV.fetch("DATABASE_NAME") { "#{app_name}_development#{worktree_suffix}" } %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: build_new_test
+  database: <%= "#{app_name}_test#{worktree_suffix}" %>
 
 # Solid Queue, Solid Cache, and Solid Cable all share this single primary database.
 # In production, set DATABASE_URL or override the connection settings via env vars.
 staging:
   <<: *default
-  database: build_new_staging
+  database: <%= "#{app_name}_staging" %>
   url: <%= ENV["DATABASE_URL"] %>
 
 production:
   <<: *default
-  database: build_new_production
+  database: <%= "#{app_name}_production" %>
   url: <%= ENV["DATABASE_URL"] %>
