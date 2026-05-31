@@ -2,7 +2,11 @@
 
 InertiaRails.configure do |config|
   config.version = ViteRuby.digest
-  config.encrypt_history = true
+  # Encrypting full page props into history.state on every navigation accumulates
+  # memory + Web Crypto work that pushes iOS standalone (Home Screen PWA) sessions
+  # toward WebKit's tighter memory ceiling, causing mid-session freezes. Leave off
+  # unless an app genuinely needs encrypted history for a security reason.
+  config.encrypt_history = false
   config.always_include_errors_hash = true
 
   # Server-side rendering. Inertia POSTs the page name + props to the SSR

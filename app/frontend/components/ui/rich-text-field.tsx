@@ -16,6 +16,7 @@ import { toggleLinkCommand } from "@milkdown/kit/component/link-tooltip";
 import "@milkdown/crepe/theme/common/style.css";
 import "@milkdown/crepe/theme/frame.css";
 import { cn } from "@/lib/utils";
+import { useBlockAutoReload } from "@/hooks/use-block-auto-reload";
 
 export interface RichTextFieldProps {
   defaultValue?: string;
@@ -181,9 +182,18 @@ const RichTextField = React.forwardRef<HTMLDivElement, RichTextFieldProps>(
       onChangeRef.current = onChange;
     }, [onChange]);
 
+    // Hold a standalone-recovery block while the editor has unsaved edits so the
+    // iOS PWA recovery guard never reloads away typed-but-unsaved content. Goes
+    // dirty on the first real edit; resets when the parent passes a new
+    // `defaultValue` (i.e. a save landed) and the editor re-initializes.
+    const [dirty, setDirty] = React.useState(false);
+    useBlockAutoReload(dirty);
+
     React.useEffect(() => {
       const root = localRef.current;
       if (!root) return;
+
+      setDirty(false);
 
       const crepe = new Crepe({
         root,
@@ -260,6 +270,7 @@ const RichTextField = React.forwardRef<HTMLDivElement, RichTextFieldProps>(
       crepe.create().then(() => {
         crepe.on((listener) => {
           listener.markdownUpdated((_, markdown) => {
+            if (markdown !== defaultValue) setDirty(true);
             onChangeRef.current?.(markdown);
           });
         });
