@@ -1,5 +1,6 @@
 {
   "setup": [
+    "SRC=\"$(cd \"$(dirname \"$(git rev-parse --git-common-dir)\")\" && pwd)\"; if [ \"$SRC\" != \"$PWD\" ]; then mkdir -p config/credentials; for f in master.key credentials/development.key credentials/production.key; do [ -f \"$SRC/config/$f\" ] && cp -f \"$SRC/config/$f\" \"config/$f\"; done; fi; true",
     "bin/setup",
     "npm install"
   ],
