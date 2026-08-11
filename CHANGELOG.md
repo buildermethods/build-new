@@ -2,6 +2,10 @@
 
 Versions are numbered using the release date in `YYYY.MM.DD` format.
 
+## 2026.8.10
+
+- Adopted the [agentcanon](https://github.com/buildermethods/agentcanon) convention: `AGENTS.md` and `.agents/skills/` are now the canonical locations for agent instructions and skills, with `CLAUDE.md` and `.claude/skills` as committed symlinks pointing to them. Works across Claude Code, Codex, and any agent tool that reads the open `.agents` standard. Instructions content is unchanged.
+
 ## 2026.5.9
 
 - Switched the database from SQLite back to PostgreSQL. Single database at `build_new_<env>` is shared by Active Record and the Solid trifecta (Queue, Cache, Cable). Connection is configurable via `DATABASE_URL` or the `DATABASE_USER` / `DATABASE_PASSWORD` / `DATABASE_HOST` / `DATABASE_PORT` env vars.
