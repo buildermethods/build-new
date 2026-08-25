@@ -1,17 +1,7 @@
 {
-  "version": "1",
   "name": "Build New",
-  "install": "bash ../agents-folder/scripts/install-skills.sh",
-  "repos": [
-    {
-      "url": "https://github.com/buildermethods/build-new",
-      "branch": "main",
-      "path": "build-new"
-    },
-    {
-      "url": "https://github.com/buildermethods/agents-folder",
-      "branch": "main",
-      "path": "agents-folder"
-    }
+  "install": "gh api repos/buildermethods/agents-folder/contents/scripts/install-agent-skills.sh -H 'Accept: application/vnd.github.raw' | bash",
+  "repositoryDependencies": [
+    "github.com/buildermethods/agents-folder"
   ]
 }
