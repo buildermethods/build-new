@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+rails_root="$(git rev-parse --show-toplevel)"
+installer="$(mktemp)"
+trap 'rm -f "$installer"' EXIT
+
+timeout 8s gh api --method GET \
+  -H 'Accept: application/vnd.github.raw+json' \
+  'repos/buildermethods/hq-operations/contents/amp/scripts/stacks/rails/install-environment-keys?ref=main' \
+  > "$installer"
+
+bash "$installer" "$rails_root"

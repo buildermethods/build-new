@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "$repo_root"
+
+step() {
+  printf '\n==> %s\n' "$1"
+}
+
+step "Installing system dependencies"
+packages=(
+  build-essential
+  ca-certificates
+  curl
+  git
+  libffi-dev
+  libgmp-dev
+  libpq-dev
+  libreadline-dev
+  libssl-dev
+  libyaml-dev
+  pkg-config
+  postgresql
+  postgresql-client
+  zlib1g-dev
+)
+missing_packages=()
+for package in "${packages[@]}"; do
+  if ! dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -Fq "install ok installed"; then
+    missing_packages+=("$package")
+  fi
+done
+
+if ((${#missing_packages[@]})); then
+  sudo apt-get update
+  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${missing_packages[@]}"
+fi
+
+step "Installing pinned Ruby and Node.js"
+mise_bin="$HOME/.local/bin/mise"
+if [[ ! -x "$mise_bin" ]]; then
+  curl -fsSL https://mise.run | MISE_INSTALL_PATH="$mise_bin" sh
+fi
+
+export PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH"
+export MISE_YES=1
+ruby_version="$(tr -d '[:space:]' < .ruby-version)"
+node_version="$(tr -d '[:space:]' < .nvmrc)"
+"$mise_bin" use --global "ruby@$ruby_version" "node@$node_version"
+
+profile_marker="# build-new mise activation"
+if ! grep -Fqx "$profile_marker" "$HOME/.bash_profile" 2>/dev/null; then
+  cat >> "$HOME/.bash_profile" <<'EOF'
+
+# build-new mise activation
+export PATH="$HOME/.local/bin:$PATH"
+eval "$(mise activate bash)"
+EOF
+fi
+
+step "Installing Ruby dependencies"
+bundler_version="$(awk '/^BUNDLED WITH$/ { getline; gsub(/^[[:space:]]+/, ""); print; exit }' Gemfile.lock)"
+if ! gem list --installed --exact bundler --version "$bundler_version" >/dev/null; then
+  gem install bundler --version "$bundler_version" --no-document
+fi
+bundle "_$bundler_version_" install --jobs "$(nproc)" --retry 3
+
+step "Installing JavaScript dependencies"
+npm ci
+
+step "Starting PostgreSQL"
+while read -r version cluster _; do
+  [[ -n "${version:-}" ]] || continue
+  sudo pg_ctlcluster "$version" "$cluster" start || true
+done < <(pg_lsclusters --no-header 2>/dev/null || true)
+
+if ! pg_isready -h localhost >/dev/null; then
+  echo "PostgreSQL did not become ready" >&2
+  exit 1
+fi
+
+while read -r hba_file; do
+  [[ -n "$hba_file" ]] || continue
+  sudo sed -E -i \
+    '/^host[[:space:]]+all[[:space:]]+all[[:space:]]+/ s/(scram-sha-256|md5)$/trust/' \
+    "$hba_file"
+done < <(find /etc/postgresql -name pg_hba.conf -type f 2>/dev/null)
+
+sudo -u postgres psql -v ON_ERROR_STOP=1 <<'SQL'
+ALTER SYSTEM SET fsync = off;
+ALTER SYSTEM SET synchronous_commit = off;
+SQL
+
+while read -r version cluster _; do
+  [[ -n "${version:-}" ]] || continue
+  sudo pg_ctlcluster "$version" "$cluster" restart
+done < <(pg_lsclusters --no-header)
+
+if ! sudo -u postgres psql --set=username="$USER" -tAc \
+  "SELECT 1 FROM pg_roles WHERE rolname = :'username'" | grep -Fq 1; then
+  sudo -u postgres createuser --superuser --createdb --createrole "$USER"
+fi
+
+step "Preparing the development database"
+bin/rails db:prepare
+
+step "Orb setup complete"
