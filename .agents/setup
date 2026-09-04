@@ -8,33 +8,10 @@ step() {
   printf '\n==> %s\n' "$1"
 }
 
-step "Installing system dependencies"
-packages=(
-  build-essential
-  ca-certificates
-  curl
-  git
-  libffi-dev
-  libgmp-dev
-  libpq-dev
-  libreadline-dev
-  libssl-dev
-  libyaml-dev
-  pkg-config
-  postgresql
-  postgresql-client
-  zlib1g-dev
-)
-missing_packages=()
-for package in "${packages[@]}"; do
-  if ! dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -Fq "install ok installed"; then
-    missing_packages+=("$package")
-  fi
-done
-
-if ((${#missing_packages[@]})); then
+step "Installing PostgreSQL"
+if ! dpkg-query -W -f='${Status}' postgresql 2>/dev/null | grep -Fq "install ok installed"; then
   sudo apt-get update
-  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${missing_packages[@]}"
+  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends postgresql
 fi
 
 step "Installing pinned Ruby and Node.js"
@@ -64,43 +41,37 @@ bundler_version="$(awk '/^BUNDLED WITH$/ { getline; gsub(/^[[:space:]]+/, ""); p
 if ! gem list --installed --exact bundler --version "$bundler_version" >/dev/null; then
   gem install bundler --version "$bundler_version" --no-document
 fi
-bundle "_$bundler_version_" install --jobs "$(nproc)" --retry 3
+bundle "_${bundler_version}_" install --jobs "$(nproc)" --retry 3
 
 step "Installing JavaScript dependencies"
 npm ci
 
-step "Starting PostgreSQL"
-while read -r version cluster _; do
-  [[ -n "${version:-}" ]] || continue
-  sudo pg_ctlcluster "$version" "$cluster" start || true
-done < <(pg_lsclusters --no-header 2>/dev/null || true)
+step "Configuring PostgreSQL"
+postgresql_version="$(pg_config --version | awk '{ print $2 }' | cut -d. -f1)"
+postgresql_config="/etc/postgresql/$postgresql_version/main/postgresql.conf"
+hba_config="/etc/postgresql/$postgresql_version/main/pg_hba.conf"
+
+sudo sed -E -i \
+  '/^host[[:space:]]+all[[:space:]]+all[[:space:]]+(127\.0\.0\.1\/32|::1\/128)/ s/(scram-sha-256|md5)$/trust/' \
+  "$hba_config"
+
+sudo sed -E -i \
+  -e 's/^#?fsync[[:space:]]*=.*/fsync = off/' \
+  -e 's/^#?synchronous_commit[[:space:]]*=.*/synchronous_commit = off/' \
+  "$postgresql_config"
+
+sudo systemctl enable --now postgresql
+sudo systemctl restart postgresql
 
 if ! pg_isready -h localhost >/dev/null; then
   echo "PostgreSQL did not become ready" >&2
   exit 1
 fi
 
-while read -r hba_file; do
-  [[ -n "$hba_file" ]] || continue
-  sudo sed -E -i \
-    '/^host[[:space:]]+all[[:space:]]+all[[:space:]]+/ s/(scram-sha-256|md5)$/trust/' \
-    "$hba_file"
-done < <(find /etc/postgresql -name pg_hba.conf -type f 2>/dev/null)
-
-sudo -u postgres psql -v ON_ERROR_STOP=1 <<'SQL'
-ALTER SYSTEM SET fsync = off;
-ALTER SYSTEM SET synchronous_commit = off;
+sudo -u postgres psql --set=role_name="$USER" --no-psqlrc --quiet <<'SQL'
+SELECT format('CREATE ROLE %I LOGIN SUPERUSER CREATEDB CREATEROLE', :'role_name')
+WHERE NOT EXISTS (SELECT FROM pg_roles WHERE rolname = :'role_name') \gexec
 SQL
-
-while read -r version cluster _; do
-  [[ -n "${version:-}" ]] || continue
-  sudo pg_ctlcluster "$version" "$cluster" restart
-done < <(pg_lsclusters --no-header)
-
-if ! sudo -u postgres psql --set=username="$USER" -tAc \
-  "SELECT 1 FROM pg_roles WHERE rolname = :'username'" | grep -Fq 1; then
-  sudo -u postgres createuser --superuser --createdb --createrole "$USER"
-fi
 
 step "Preparing the development database"
 bin/rails db:prepare
