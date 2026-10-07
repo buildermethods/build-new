@@ -76,4 +76,4 @@ SQL
 step "Preparing the development database"
 bin/rails db:prepare
 
-step "Orb setup complete"
+step "Setup complete"

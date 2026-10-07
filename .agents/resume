@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-# This template has no environment-specific credentials or connections to restore.
-:
