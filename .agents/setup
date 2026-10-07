@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Cloud session containers don't set USER.
+: "${USER:=$(id -un)}"
+
 repo_root="$(git rev-parse --show-toplevel)"
 cd "$repo_root"
 
@@ -60,8 +63,10 @@ sudo sed -E -i \
   -e 's/^#?synchronous_commit[[:space:]]*=.*/synchronous_commit = off/' \
   "$postgresql_config"
 
-sudo systemctl enable --now postgresql
-sudo systemctl restart postgresql
+if [[ "$(systemctl is-system-running 2>/dev/null || true)" =~ ^(running|degraded|starting)$ ]]; then
+  sudo systemctl enable --now postgresql
+fi
+sudo pg_ctlcluster "$postgresql_version" main restart
 
 if ! pg_isready -h localhost >/dev/null; then
   echo "PostgreSQL did not become ready" >&2
