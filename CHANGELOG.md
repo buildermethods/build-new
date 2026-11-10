@@ -2,6 +2,10 @@
 
 Versions are numbered using the release date in `YYYY.MM.DD` format.
 
+## 2026.11.10
+
+- Security: `db/seeds.rb` now creates the `user@test.com` and `admin@test.com` logins only in development. They used to be created in every environment, including production on the first `db:prepare` deploy. Apps built on an earlier version should delete both accounts from staging and production.
+
 ## 2026.8.10
 
 - Adopted the [agentcanon](https://github.com/buildermethods/agentcanon) convention: `AGENTS.md` and `.agents/skills/` are now the canonical locations for agent instructions and skills, with `CLAUDE.md` and `.claude/skills` as committed symlinks pointing to them. Works across Claude Code, Codex, and any agent tool that reads the open `.agents` standard. Instructions content is unchanged.
