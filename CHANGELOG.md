@@ -5,6 +5,8 @@ Versions are numbered using the release date in `YYYY.MM.DD` format.
 ## 2026.11.10
 
 - Security: `db/seeds.rb` now creates the `user@test.com` and `admin@test.com` logins only in development. They used to be created in every environment, including production on the first `db:prepare` deploy. Apps built on an earlier version should delete both accounts from staging and production.
+- Upgraded Rails from 8.0 to 8.1 (8.0 reached end of life on 2026-11-07) and Brakeman to 8.1.0. `config.load_defaults` stays at 8.0.
+- CI now runs on `ubuntu-24.04`, because Ruby 3.3.6 isn't available on GitHub's newer `ubuntu-latest` image.
 
 ## 2026.8.10
 
