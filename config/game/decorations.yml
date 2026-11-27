@@ -1,0 +1,17 @@
+# The cottage has four fixed slots. Prices are coins; decorations are purely
+# cosmetic and never give a gameplay advantage.
+slots: [rug, plant, lamp, wall]
+
+items:
+  woven_rug:       { name: Woven Rug,             slot: rug,   price: 75 }
+  moss_rug:        { name: Mossy Meadow Rug,      slot: rug,   price: 90 }
+  starry_rug:      { name: Starry Night Rug,      slot: rug,   price: 120 }
+  fern_pot:        { name: Fern in a Pot,         slot: plant, price: 20 }
+  sunny_succulent: { name: Sunny Succulent,       slot: plant, price: 30 }
+  lemon_tree:      { name: Little Lemon Tree,     slot: plant, price: 60 }
+  table_lamp:      { name: Cosy Table Lamp,       slot: lamp,  price: 45 }
+  lantern:         { name: Enchanted Lantern,     slot: lamp,  price: 80 }
+  firefly_lamp:    { name: Firefly Jar Lamp,      slot: lamp,  price: 110 }
+  meadow_frame:    { name: Framed Meadow,         slot: wall,  price: 40 }
+  moon_tapestry:   { name: Moonlit Tapestry,      slot: wall,  price: 70 }
+  curio_shelf:     { name: Shelf of Curios,       slot: wall,  price: 95 }

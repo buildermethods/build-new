@@ -21,6 +21,10 @@ Rails.application.routes.draw do
   get "routines",  to: "routines#index",    as: :routines
   get "sanctuary", to: "sanctuaries#show",  as: :sanctuary
 
+  post "sanctuary/purchase/:key", to: "decorations#purchase", as: :purchase_decoration
+  post "sanctuary/equip/:key",    to: "decorations#equip",    as: :equip_decoration
+  post "sanctuary/unequip/:slot", to: "decorations#unequip",  as: :unequip_decoration
+
   get "dashboard", to: "dashboard#show", as: :dashboard
   get "settings",  to: "settings#show",  as: :settings
 

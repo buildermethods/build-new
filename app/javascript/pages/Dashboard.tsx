@@ -3,11 +3,12 @@ import { Head, Link, router, usePage } from "@inertiajs/react"
 import { AppShell } from "@/components/AppShell"
 import { FocusMode } from "@/components/quest/FocusMode"
 import { PlanView } from "@/components/quest/PlanView"
+import { Cottage } from "@/components/sanctuary/Cottage"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { QuestCard } from "@/components/ui/quest-card"
 
-import type { EnergyMode, FocusTarget, PageProps, Quest, QuestPlan } from "@/types/inertia"
+import type { EnergyMode, FocusTarget, PageProps, Quest, QuestPlan, SanctuaryData } from "@/types/inertia"
 
 const DESCRIPTION =
   "Tell Nest Quest how much time and energy you have and get a realistic quest plan from your own tasks, or let it pick one thing for you."
@@ -21,11 +22,12 @@ type DashboardProps = {
   suggestions: Quest[]
   plan: QuestPlan | null
   single: { quest: Quest | null; energy: string } | null
+  sanctuary: SanctuaryData
 }
 
 export default function Dashboard() {
   const { props } = usePage<PageProps<DashboardProps>>()
-  const { greeting, available_count, energy_modes, time_options, suggestions, plan, single } = props
+  const { greeting, available_count, energy_modes, time_options, suggestions, plan, single, sanctuary } = props
 
   const [minutes, setMinutes] = useState(props.checkin.minutes)
   const [energy, setEnergy] = useState(props.checkin.energy)
@@ -199,6 +201,29 @@ export default function Dashboard() {
             </section>
           )}
         </div>
+
+        <section className="mt-12" aria-label="Your cottage">
+          <h2>Your cottage</h2>
+          <div className="mt-4 grid items-center gap-6 sm:grid-cols-2">
+            <Cottage
+              placements={sanctuary.placements}
+              names={Object.fromEntries(sanctuary.items.map((i) => [i.key, i.name]))}
+            />
+            <div className="space-y-3">
+              {sanctuary.teaser && (
+                <p>
+                  Next up: <strong>{sanctuary.teaser.name}</strong> for {sanctuary.teaser.price} coins
+                  {sanctuary.teaser.coins_needed > 0
+                    ? ` (${sanctuary.teaser.coins_needed} to go).`
+                    : ". You can buy it now!"}
+                </p>
+              )}
+              <Button asChild variant="secondary">
+                <Link href="/sanctuary">Visit the sanctuary</Link>
+              </Button>
+            </div>
+          </div>
+        </section>
 
         {focus && <FocusMode target={focus} onClose={() => setFocus(null)} />}
       </AppShell>

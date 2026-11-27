@@ -59,4 +59,18 @@ class QuestsTest < ApplicationSystemTestCase
     assert_selector "section[aria-label='Your plan']"
     assert_text "free as a buffer"
   end
+
+  test "buy and equip a decoration" do
+    users(:one).progress.update!(coins: 50)
+    visit sanctuary_path
+    assert_text "You have 50 coins."
+    within(find("li", text: "Fern in a Pot")) { click_button "Preview" }
+    assert_text "Previewing Fern in a Pot"
+    within(find("li", text: "Fern in a Pot")) { click_button "Buy" }
+    assert_text "Fern in a Pot is yours"
+    assert_text "You have 30 coins."
+    within(find("li", text: "Fern in a Pot")) { click_button "Equip" }
+    assert_selector "svg[aria-label*='Fern in a Pot']"
+    assert_text(/Plant:\s+Fern in a Pot/)
+  end
 end

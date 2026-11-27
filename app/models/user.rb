@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :completions, dependent: :destroy
   has_one :player_progress, dependent: :destroy
   has_many :reward_transactions, dependent: :destroy
+  has_many :owned_decorations, dependent: :destroy
+  has_many :sanctuary_placements, dependent: :destroy
 
   normalizes :email, with: ->(e) { e.strip.downcase }
 

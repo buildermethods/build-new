@@ -27,7 +27,8 @@ module Quests
         checkin: { minutes: @minutes || DEFAULT_MINUTES, energy: @energy || DEFAULT_ENERGY, context: @context.first(Planner::MAX_CONTEXT) },
         suggestions: suggestions,
         plan: (plan_requested? ? plan.as_json : nil),
-        single: (@params[:just].present? ? single : nil)
+        single: (@params[:just].present? ? single : nil),
+        sanctuary: SanctuaryPresenter.new(@user).as_json
       }
     end
 

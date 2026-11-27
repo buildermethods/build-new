@@ -27,12 +27,30 @@ module Game
         energy_modes[key.to_s] || energy_modes.fetch("ready")
       end
 
+      def decoration_slots
+        decoration_config.fetch("slots")
+      end
+
+      # key => { "name", "slot", "price" }
+      def decorations
+        decoration_config.fetch("items")
+      end
+
+      def decoration(key)
+        decorations[key.to_s]
+      end
+
       def reset!
+        @decoration_config = nil
         @monsters = nil
         @energy_modes = nil
       end
 
       private
+        def decoration_config
+          @decoration_config ||= load_yaml("decorations.yml")
+        end
+
         def load_yaml(name)
           YAML.load_file(Rails.root.join("config/game", name))
         end

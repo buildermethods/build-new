@@ -65,6 +65,22 @@ export type FocusTarget = {
   steps: string[]
 }
 
+export type Decoration = {
+  key: string
+  name: string
+  slot: "rug" | "plant" | "lamp" | "wall"
+  price: number
+  owned: boolean
+  equipped: boolean
+}
+
+export type SanctuaryData = {
+  slots: string[]
+  placements: Record<string, string>
+  items: Decoration[]
+  teaser: { key: string; name: string; price: number; coins_needed: number } | null
+}
+
 export type QuestHistoryItem = {
   id: number
   task_id: number
