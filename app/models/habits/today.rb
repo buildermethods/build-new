@@ -27,6 +27,7 @@ module Habits
         anchors: Onboarding::Complete::ANCHORS,
         default_anchor: @user.anchor,
         treat: @user.treat,
+        challenges: Challenges::Current.call(@user),
         boss: active_boss,
         todos: @user.todos.open.newest_first.limit(3).map { |t| { id: t.id, title: t.title } },
         todo_open_count: @user.todos.open.count,

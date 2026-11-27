@@ -34,7 +34,6 @@ export default function SanctuaryShow() {
       <AppShell>
         <PageHeader title="Sanctuary" description="Your cosy cottage. Coins from finished quests buy decorations." />
 
-        {props.flash?.notice && <p className="mt-4 text-sm text-accent-display" role="status">{props.flash.notice}</p>}
         {props.flash?.alert && <p className="mt-4 text-sm text-danger-display" role="alert">{props.flash.alert}</p>}
 
         <section className="mt-8 grid gap-8 lg:grid-cols-2" aria-label="Cottage">

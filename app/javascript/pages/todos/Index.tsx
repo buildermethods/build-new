@@ -97,8 +97,6 @@ export default function Todos() {
       <AppShell>
         <PageHeader title="To-dos" description="Quick one-off things, separate from your chores." />
 
-        {props.flash?.notice && <p className="mt-4 text-sm text-accent-display" role="status">{props.flash.notice}</p>}
-
         <form onSubmit={submit} className="mt-8 flex max-w-xl flex-wrap items-end gap-2">
           <div className="min-w-0 flex-1 space-y-2">
             <label htmlFor="new-todo">New to-do</label>

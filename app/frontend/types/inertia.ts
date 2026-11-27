@@ -123,6 +123,19 @@ export type Player = {
   xp_for_next_level: number
 }
 
+export type Challenge = {
+  period: "daily" | "weekly"
+  key: string
+  name: string
+  description: string
+  current: number
+  target: number
+  xp: number
+  coins: number
+  complete: boolean
+  claimed: boolean
+}
+
 export type Badge = { key: string; name: string; description: string }
 
 export type Victory = {

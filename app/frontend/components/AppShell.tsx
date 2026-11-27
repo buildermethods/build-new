@@ -28,6 +28,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <MainNav />
       <main id="main" tabIndex={-1} className="min-w-0 flex-1 px-6 pb-8 pt-16 focus:outline-none sm:px-10 lg:pt-8">
         <div className="mx-auto max-w-4xl">
+          {props.flash?.notice && (
+            <p className="mb-4 rounded-lg bg-accent-faded px-4 py-2 text-sm text-accent-display" role="status">
+              {props.flash.notice}
+            </p>
+          )}
+          {props.flash?.alert && (
+            <p className="mb-4 rounded-lg bg-danger-faded px-4 py-2 text-sm text-danger-display" role="alert">
+              {props.flash.alert}
+            </p>
+          )}
           {player && (
             <XpBar
               className="mb-6"

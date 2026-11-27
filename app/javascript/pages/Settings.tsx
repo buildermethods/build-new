@@ -50,8 +50,6 @@ export default function Settings() {
       <AppShell>
         <PageHeader title="Settings" description="Make Nest Quest fit you." />
 
-        {props.flash?.notice && <p className="mt-4 text-sm text-accent-display" role="status">{props.flash.notice}</p>}
-
         <form onSubmit={submit} className="mt-8 max-w-md space-y-6">
           <div className="space-y-2">
             <label htmlFor="display-name">Display name</label>

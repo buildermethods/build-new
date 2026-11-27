@@ -69,6 +69,7 @@ Rails.application.routes.draw do
   end
 
   get "codex", to: "codex#index", as: :codex
+  post "challenges/:period/claim", to: "challenges#claim", as: :claim_challenge
   get "achievements", to: "achievements#index", as: :achievements
   get "plan", to: "plans#show", as: :plan
   post "intentions", to: "intentions#create", as: :intentions

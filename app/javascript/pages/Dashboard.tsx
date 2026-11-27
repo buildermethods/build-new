@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input"
 import { MonsterArt } from "@/components/ui/monster-art"
 import { ProgressRing } from "@/components/ui/progress-ring"
 
-import type { Badge as BadgeType, FocusTarget, PageProps, Quest, SanctuaryData } from "@/types/inertia"
+import type { Badge as BadgeType, Challenge, FocusTarget, PageProps, Quest, SanctuaryData } from "@/types/inertia"
 
 const DESCRIPTION =
   "Your Nest Quest day: one clear thing to do, your progress this week, and your cottage. Small steps, no pressure."
@@ -27,6 +27,7 @@ type TodayProps = {
   anchors: string[]
   default_anchor: string | null
   treat: string | null
+  challenges: Challenge[]
   boss: { id: number; title: string; monster_key: string; health_remaining: number; health_total: number } | null
   todos: { id: number; title: string }[]
   todo_open_count: number
@@ -36,7 +37,7 @@ type TodayProps = {
 
 export default function Today() {
   const { props } = usePage<PageProps<TodayProps>>()
-  const { greeting, prompt, one_thing, week, today, identity, anchors, default_anchor, treat, achievements, sanctuary, todos, todo_open_count, boss } = props
+  const { greeting, prompt, one_thing, week, today, identity, anchors, default_anchor, treat, achievements, sanctuary, todos, todo_open_count, boss, challenges } = props
   const [newTodo, setNewTodo] = useState("")
   const [excluded, setExcluded] = useState<number[]>([])
   const [focus, setFocus] = useState<FocusTarget | null>(null)
@@ -144,6 +145,47 @@ export default function Today() {
               <Link href="/quests">Quest Board ({props.available_count})</Link>
             </Button>
           </div>
+        </section>
+
+        <section className="mt-10" aria-label="Challenges">
+          <h2>Challenges</h2>
+          <p className="mt-1 text-sm text-ink-muted">Optional extras. No timers, and nothing is lost if you skip one.</p>
+          <ul className="mt-4 grid list-none gap-4 p-0 sm:grid-cols-2">
+            {challenges.map((c) => (
+              <li key={c.key} className="rounded-2xl border border-hairline bg-surface p-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="text-lg">{c.name}</h3>
+                  <Badge tone="muted">{c.period === "daily" ? "Today" : "This week"}</Badge>
+                </div>
+                <p className="mt-1">{c.description}</p>
+                <div
+                  className="mt-3 h-2 overflow-hidden rounded-full bg-hairline"
+                  role="progressbar"
+                  aria-label={`${c.name} progress`}
+                  aria-valuemin={0}
+                  aria-valuemax={c.target}
+                  aria-valuenow={c.current}
+                >
+                  <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${Math.round((c.current / c.target) * 100)}%` }} />
+                </div>
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-sm text-ink-muted">{c.current} of {c.target} · +{c.xp} XP, +{c.coins} coins</p>
+                  {c.claimed ? (
+                    <Badge tone="accent">Claimed</Badge>
+                  ) : (
+                    <Button
+                      size="sm"
+                      disabled={!c.complete}
+                      aria-label={`Claim reward for ${c.name}`}
+                      onClick={() => router.post(`/challenges/${c.period}/claim`, {}, { preserveScroll: true })}
+                    >
+                      {c.complete ? "Claim reward" : "In progress"}
+                    </Button>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {boss && (

@@ -42,8 +42,6 @@ export default function ShowBattle() {
       <AppShell>
         <PageHeader title={battle.title} description={`${battle.monster} · ${battle.stages_done} of ${battle.stages_total} stages cleared`} />
 
-        {props.flash?.notice && <p className="mt-4 text-sm text-accent-display" role="status">{props.flash.notice}</p>}
-
         <section className="mt-6 flex max-w-xl items-center gap-5" aria-label="Boss health">
           <MonsterArt monster={battle.monster_key} className="h-24 w-24" />
           <div className="flex-1">
