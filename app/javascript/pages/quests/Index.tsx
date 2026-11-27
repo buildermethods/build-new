@@ -95,26 +95,27 @@ export default function QuestsIndex() {
   const actions = (q: Quest) => (
     <>
       {q.available && (
-        <Button size="sm" onClick={() => post(`/tasks/${q.id}/complete`)}>
+        <Button size="sm" aria-label={`Complete ${q.title}`} onClick={() => post(`/tasks/${q.id}/complete`)}>
           Complete
         </Button>
       )}
       {q.available && (
-        <Button size="sm" variant="secondary" onClick={() => post(`/tasks/${q.id}/skip`)}>
+        <Button size="sm" variant="secondary" aria-label={`Skip ${q.title}`} onClick={() => post(`/tasks/${q.id}/skip`)}>
           Skip
         </Button>
       )}
       {q.available && (
-        <Button size="sm" variant="secondary" onClick={() => post(`/tasks/${q.id}/defer`, { days: 1 })}>
+        <Button size="sm" variant="secondary" aria-label={`Postpone ${q.title} until tomorrow`} onClick={() => post(`/tasks/${q.id}/defer`, { days: 1 })}>
           Tomorrow
         </Button>
       )}
-      <Button size="sm" variant="ghost" onClick={() => openForm(q)}>
+      <Button size="sm" variant="ghost" aria-label={`Edit ${q.title}`} onClick={() => openForm(q)}>
         Edit
       </Button>
       <Button
         size="sm"
         variant="ghost"
+        aria-label={`Remove ${q.title}`}
         onClick={() => router.delete(`/tasks/${q.id}`, { preserveScroll: true })}
       >
         Remove
@@ -225,7 +226,7 @@ export default function QuestsIndex() {
                       ({new Date(h.completed_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })})
                     </span>
                   </p>
-                  <Button size="sm" variant="ghost" onClick={() => post(`/tasks/${h.task_id}/uncomplete`)}>
+                  <Button size="sm" variant="ghost" aria-label={`Undo ${h.title}`} onClick={() => post(`/tasks/${h.task_id}/uncomplete`)}>
                     Undo
                   </Button>
                 </li>

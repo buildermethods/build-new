@@ -4,6 +4,8 @@ export type CurrentUser = {
   id: number
   email: string
   timezone: string | null
+  display_name: string | null
+  reduced_motion: boolean
   admin: boolean
 } | null
 
@@ -79,6 +81,26 @@ export type SanctuaryData = {
   placements: Record<string, string>
   items: Decoration[]
   teaser: { key: string; name: string; price: number; coins_needed: number } | null
+}
+
+export type RoutineStep = { id: number; title: string; task_id: number | null; done_today: boolean }
+
+export type Routine = {
+  id: number
+  name: string
+  weekdays: number[]
+  scheduled_today: boolean
+  steps: RoutineStep[]
+  done_count: number
+  total: number
+}
+
+export type StarterTask = {
+  key: string
+  title: string
+  room: string
+  duration_minutes: number
+  effort: string
 }
 
 export type QuestHistoryItem = {

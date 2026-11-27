@@ -471,3 +471,12 @@ html {
     100% { transform: translateY(0) scale(1); opacity: 0.9; }
   }
 }
+
+/* In-app "Reduce motion" setting: stops every animation and transition. */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}

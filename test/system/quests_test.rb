@@ -73,4 +73,35 @@ class QuestsTest < ApplicationSystemTestCase
     assert_selector "svg[aria-label*='Fern in a Pot']"
     assert_text(/Plant:\s+Fern in a Pot/)
   end
+
+  test "create a routine and complete it for a bonus" do
+    visit routines_path
+    click_button "New routine"
+    within("[role=dialog]") do
+      fill_in "Name", with: "Evening reset"
+      fill_in "Step 1 title", with: "Dishes"
+      click_button "Add step"
+      fill_in "Step 2 title", with: "Lights off"
+      click_button "Create routine"
+    end
+    assert_text "0 of 2 done"
+    check "Dishes"
+    assert_text "1 of 2 done"
+    check "Lights off"
+    assert_text "defeated!"
+    assert_text "+20 XP"
+  end
+
+  test "settings: reduce motion and reset" do
+    visit settings_path
+    fill_in "Display name", with: "Gemma"
+    check "Reduce motion"
+    click_button "Save settings"
+    assert_text "Settings saved."
+    assert_selector "html.reduce-motion"
+
+    click_button "Reset my game data"
+    within("[role=dialog]") { click_button "Yes, reset" }
+    assert_text "Welcome to Nest Quest"
+  end
 end

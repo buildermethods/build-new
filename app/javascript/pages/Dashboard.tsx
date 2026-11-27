@@ -15,6 +15,7 @@ const DESCRIPTION =
 
 type DashboardProps = {
   greeting: string
+  welcome_back: boolean
   available_count: number
   energy_modes: EnergyMode[]
   time_options: number[]
@@ -27,7 +28,7 @@ type DashboardProps = {
 
 export default function Dashboard() {
   const { props } = usePage<PageProps<DashboardProps>>()
-  const { greeting, available_count, energy_modes, time_options, suggestions, plan, single, sanctuary } = props
+  const { greeting, welcome_back, available_count, energy_modes, time_options, suggestions, plan, single, sanctuary } = props
 
   const [minutes, setMinutes] = useState(props.checkin.minutes)
   const [energy, setEnergy] = useState(props.checkin.energy)
@@ -61,6 +62,15 @@ export default function Dashboard() {
             ? "No quests are waiting. Add a task on the Quest Board to begin."
             : `${available_count} ${available_count === 1 ? "quest is" : "quests are"} ready for you.`}
         </p>
+
+        {welcome_back && (
+          <div className="callout callout-accent mt-4" role="status">
+            <p className="text-ink-body">
+              Welcome back! Everything you earned is safe, and nothing has piled up. Start with something small whenever
+              you like.
+            </p>
+          </div>
+        )}
 
         <section className="mt-8 space-y-6" aria-label="Check in">
           <div className="space-y-2">
@@ -188,10 +198,16 @@ export default function Dashboard() {
                       coins={q.coins}
                       actions={
                         <>
-                          <Button size="sm" onClick={() => router.post(`/tasks/${q.id}/complete`, {}, { preserveScroll: true })}>
+                          <Button
+                            size="sm"
+                            aria-label={`Complete ${q.title}`}
+                            onClick={() => router.post(`/tasks/${q.id}/complete`, {}, { preserveScroll: true })}
+                          >
                             Complete
                           </Button>
-                          <Button size="sm" variant="secondary" onClick={() => startFocus(q)}>Focus</Button>
+                          <Button size="sm" variant="secondary" aria-label={`Focus on ${q.title}`} onClick={() => startFocus(q)}>
+                            Focus
+                          </Button>
                         </>
                       }
                     />

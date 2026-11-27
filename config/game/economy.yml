@@ -11,3 +11,8 @@ coins_per_xp: 0.5
 # Cumulative XP needed to reach level L is level_base * L * (L - 1) / 2,
 # so level 2 = 100, level 3 = 300, level 4 = 600 with the default base.
 level_base: 100
+
+# Finishing every step of a routine on a day pays this once, on top of any
+# XP earned by tasks linked to its steps.
+routine_bonus_xp: 20
+routine_bonus_coins: 10

@@ -13,6 +13,10 @@ module Game
         (xp_for(effort) * config.fetch("coins_per_xp")).round
       end
 
+      def routine_bonus
+        { xp: config.fetch("routine_bonus_xp"), coins: config.fetch("routine_bonus_coins") }
+      end
+
       # Cumulative XP needed to reach `level` (level 1 needs none).
       def xp_to_reach(level)
         config.fetch("level_base") * level * (level - 1) / 2

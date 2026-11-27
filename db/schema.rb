@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_23_000009) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_23_000010) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -56,7 +56,36 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000009) do
     t.index ["completion_id", "kind"], name: "index_reward_transactions_once_per_completion", unique: true, where: "(completion_id IS NOT NULL)"
     t.index ["completion_id"], name: "index_reward_transactions_on_completion_id"
     t.index ["user_id", "reference"], name: "index_reward_transactions_once_per_purchase", unique: true, where: "((kind)::text = 'purchase'::text)"
+    t.index ["user_id", "reference"], name: "index_reward_transactions_once_per_routine_day", unique: true, where: "((kind)::text = 'routine_bonus'::text)"
     t.index ["user_id"], name: "index_reward_transactions_on_user_id"
+  end
+
+  create_table "routine_step_completions", force: :cascade do |t|
+    t.bigint "routine_step_id", null: false
+    t.date "on_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["routine_step_id", "on_date"], name: "index_routine_step_completions_on_routine_step_id_and_on_date", unique: true
+  end
+
+  create_table "routine_steps", force: :cascade do |t|
+    t.bigint "routine_id", null: false
+    t.bigint "task_id"
+    t.string "title", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["routine_id"], name: "index_routine_steps_on_routine_id"
+    t.index ["task_id"], name: "index_routine_steps_on_task_id"
+  end
+
+  create_table "routines", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.integer "weekdays", default: [], null: false, array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_routines_on_user_id"
   end
 
   create_table "sanctuary_placements", force: :cascade do |t|
@@ -251,6 +280,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000009) do
     t.boolean "admin", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "display_name"
+    t.boolean "reduced_motion", default: false, null: false
+    t.datetime "onboarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -260,6 +292,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000009) do
   add_foreign_key "player_progresses", "users"
   add_foreign_key "reward_transactions", "completions"
   add_foreign_key "reward_transactions", "users"
+  add_foreign_key "routine_step_completions", "routine_steps"
+  add_foreign_key "routine_steps", "routines"
+  add_foreign_key "routine_steps", "tasks", on_delete: :nullify
+  add_foreign_key "routines", "users"
   add_foreign_key "sanctuary_placements", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

@@ -5,6 +5,7 @@ class PagesController < ApplicationController
 
   def home
     return render inertia: "Home" unless authenticated?
+    return redirect_to(welcome_path) unless Current.user.onboarded?
 
     render inertia: "Dashboard", props: Quests::Dashboard.new(user: Current.user, params: params).props
   end

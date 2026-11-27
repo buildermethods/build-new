@@ -18,15 +18,30 @@ Rails.application.routes.draw do
   end
 
   get "quests",    to: "quests#index",      as: :quests
-  get "routines",  to: "routines#index",    as: :routines
   get "sanctuary", to: "sanctuaries#show",  as: :sanctuary
 
   post "sanctuary/purchase/:key", to: "decorations#purchase", as: :purchase_decoration
   post "sanctuary/equip/:key",    to: "decorations#equip",    as: :equip_decoration
   post "sanctuary/unequip/:slot", to: "decorations#unequip",  as: :unequip_decoration
 
+  get  "welcome",      to: "onboarding#show",   as: :welcome
+  post "welcome",      to: "onboarding#create"
+  post "welcome/skip", to: "onboarding#skip",   as: :skip_welcome
+
+  resources :routines, only: %i[ index create update destroy ] do
+    member { post :complete_all }
+    resources :steps, only: [], controller: "routine_steps" do
+      member do
+        post :complete
+        delete :uncomplete
+      end
+    end
+  end
+
   get "dashboard", to: "dashboard#show", as: :dashboard
-  get "settings",  to: "settings#show",  as: :settings
+  get   "settings",       to: "settings#show",   as: :settings
+  patch "settings",       to: "settings#update"
+  post  "settings/reset", to: "settings#reset",  as: :reset_settings
 
   namespace :admin do
     root to: redirect("/admin/users")

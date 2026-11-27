@@ -16,6 +16,7 @@ Disallow: /tasks
 Disallow: /quests
 Disallow: /routines
 Disallow: /sanctuary
+Disallow: /welcome
 Disallow: /settings
 Disallow: /profile
 Disallow: /letter_opener

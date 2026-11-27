@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
         id: Current.user.id,
         email: Current.user.email,
         timezone: Current.user.timezone,
+        display_name: Current.user.display_name,
+        reduced_motion: Current.user.reduced_motion,
         admin: Current.user.admin?
       },
       flash: {

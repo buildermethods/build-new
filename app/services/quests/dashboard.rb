@@ -21,6 +21,7 @@ module Quests
     def props
       {
         greeting: greeting,
+        welcome_back: welcome_back?,
         available_count: @user.tasks.available_on(@today).count,
         energy_modes: Game::Catalog.energy_modes.map { |key, m| { key: key, label: m["label"], description: m["description"] } },
         time_options: TIME_OPTIONS,
@@ -67,10 +68,17 @@ module Quests
         { quest: TaskPresenter.new(task, today: @today).as_json, energy: level }
       end
 
+      # True after a long break so the dashboard can offer a fresh start rather
+      # than any sense of a backlog.
+      def welcome_back?
+        last = @user.completions.active.maximum(:completed_at)
+        last.present? && last < 7.days.ago
+      end
+
       def greeting
         hour = Time.current.in_time_zone(ActiveSupport::TimeZone[@user.timezone.to_s] || "UTC").hour
         part = hour < 12 ? "morning" : (hour < 18 ? "afternoon" : "evening")
-        "Good #{part}, adventurer!"
+        "Good #{part}, #{@user.greeting_name}!"
       end
   end
 end

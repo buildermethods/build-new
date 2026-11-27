@@ -27,6 +27,10 @@ module Game
         energy_modes[key.to_s] || energy_modes.fetch("ready")
       end
 
+      def starter_tasks
+        @starter_tasks ||= YAML.load_file(Rails.root.join("config/game/starter_tasks.yml"))
+      end
+
       def decoration_slots
         decoration_config.fetch("slots")
       end
@@ -42,6 +46,7 @@ module Game
 
       def reset!
         @decoration_config = nil
+        @starter_tasks = nil
         @monsters = nil
         @energy_modes = nil
       end

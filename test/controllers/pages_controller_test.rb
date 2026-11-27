@@ -54,4 +54,26 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     get root_path, params: { minutes: "-5", energy: "nonsense", plan: 1, context: "x" * 5000 }
     assert_response :success
   end
+
+  test "dashboard greets by display name" do
+    users(:one).update!(display_name: "Gemma")
+    log_in_as(users(:one))
+    get root_path
+    assert_includes response.body, "Gemma!"
+  end
+
+  test "after a long break the dashboard offers a fresh start" do
+    task = tasks(:wipe_counters)
+    task.complete!(today: users(:one).today, at: 10.days.ago)
+    log_in_as(users(:one))
+    get root_path
+    assert_includes response.body, "&quot;welcome_back&quot;:true"
+  end
+
+  test "recent activity does not show the welcome-back message" do
+    tasks(:wipe_counters).complete!(today: users(:one).today)
+    log_in_as(users(:one))
+    get root_path
+    assert_includes response.body, "&quot;welcome_back&quot;:false"
+  end
 end

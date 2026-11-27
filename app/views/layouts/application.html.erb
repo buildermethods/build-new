@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="<%= "reduce-motion" if Current.user&.reduced_motion? %>">
   <head>
-    <title inertia><%= content_for(:title) || "Build New" %></title>
+    <title inertia><%= content_for(:title) || "Nest Quest" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Build New">
+    <meta name="apple-mobile-web-app-title" content="Nest Quest">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 

@@ -15,11 +15,13 @@ if Rails.env.development?
     user.password = "test123"
     user.timezone = "America/New_York"
     user.admin = false
+    user.onboarded_at = Time.current
   end
 
   User.find_or_create_by!(email: "admin@test.com") do |user|
     user.password = "test123"
     user.timezone = "America/New_York"
     user.admin = true
+    user.onboarded_at = Time.current
   end
 end
