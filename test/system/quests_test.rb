@@ -35,4 +35,28 @@ class QuestsTest < ApplicationSystemTestCase
     click_button "Boss"
     assert_text "No quests match these filters."
   end
+
+  test "check in, ask what to do, focus and finish" do
+    visit root_path
+    click_button "15 min"
+    click_button "Gentle Adventure"
+    click_button "Just tell me what to do"
+    assert_text "Your next quest"
+    assert_text "To do:"
+
+    click_button "Start"
+    within("[role=dialog]") do
+      assert_selector "[role=timer]"
+      click_button "Complete"
+    end
+    assert_text "defeated!"
+  end
+
+  test "plan my quests shows a plan with a buffer" do
+    visit root_path
+    click_button "30 min"
+    click_button "Plan my quests"
+    assert_selector "section[aria-label='Your plan']"
+    assert_text "free as a buffer"
+  end
 end

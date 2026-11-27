@@ -31,6 +31,40 @@ export type Quest = {
   coins: number
 }
 
+export type PlanQuest = {
+  task_id: number
+  quest_title: string
+  real_task: string
+  steps: string[]
+  estimated_minutes: number
+  difficulty: string
+  monster: string
+  xp: number
+  coins: number
+}
+
+export type QuestPlan = {
+  title: string
+  intro: string
+  encouragement: string
+  source: "ai" | "rules"
+  total_minutes: number
+  buffer_minutes: number
+  minutes: number
+  energy: string
+  quests: PlanQuest[]
+}
+
+export type EnergyMode = { key: string; label: string; description: string }
+
+export type FocusTarget = {
+  task_id: number
+  title: string
+  quest_title: string
+  minutes: number
+  steps: string[]
+}
+
 export type QuestHistoryItem = {
   id: number
   task_id: number

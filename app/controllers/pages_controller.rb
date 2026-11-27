@@ -6,8 +6,6 @@ class PagesController < ApplicationController
   def home
     return render inertia: "Home" unless authenticated?
 
-    render inertia: "Dashboard", props: {
-      available_count: Current.user.tasks.available_on(Current.user.today).count
-    }
+    render inertia: "Dashboard", props: Quests::Dashboard.new(user: Current.user, params: params).props
   end
 end

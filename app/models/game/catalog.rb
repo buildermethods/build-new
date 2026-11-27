@@ -19,8 +19,17 @@ module Game
         found ? found.first : FALLBACK_MONSTER
       end
 
+      def energy_modes
+        @energy_modes ||= load_yaml("energy_modes.yml")
+      end
+
+      def energy_mode(key)
+        energy_modes[key.to_s] || energy_modes.fetch("ready")
+      end
+
       def reset!
         @monsters = nil
+        @energy_modes = nil
       end
 
       private
