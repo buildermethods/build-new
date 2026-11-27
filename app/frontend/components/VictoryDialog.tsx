@@ -33,7 +33,7 @@ export function VictoryDialog() {
         <DialogHeader>
           <div className="flex justify-center">
             {victory.monster_key ? (
-              <MonsterArt monster={victory.monster_key} className="h-24 w-24" />
+              <MonsterArt monster={victory.monster_key} mood="sleepy" className="h-24 w-24" />
             ) : (
               <div className="victory-poof" aria-hidden="true">
                 <span />

@@ -3,6 +3,7 @@ import { Head, Link, router, usePage } from "@inertiajs/react"
 import { AppShell } from "@/components/AppShell"
 import { PageHeader } from "@/components/PageHeader"
 import { Button } from "@/components/ui/button"
+import { EmptyState } from "@/components/ui/empty-state"
 import { QuestCard } from "@/components/ui/quest-card"
 import { TaskForm } from "./TaskForm"
 
@@ -170,11 +171,22 @@ export default function QuestsIndex() {
 
         <section className="mt-8" aria-label="Available quests">
           {visible.length === 0 ? (
-            <p>
-              {quests.length === 0
-                ? "No quests are waiting. Add your first one to begin."
-                : "No quests match these filters."}
-            </p>
+            quests.length === 0 ? (
+              <EmptyState
+                monster="counter_goblins"
+                title="No quests are waiting"
+                action={
+                  <>
+                    <Button onClick={() => openForm(null)}>Add a quest</Button>
+                    <Button asChild variant="secondary"><Link href="/add-chores/rooms">Add suggested chores</Link></Button>
+                  </>
+                }
+              >
+                Add a chore and meet the monster that goes with it.
+              </EmptyState>
+            ) : (
+              <p>No quests match these filters.</p>
+            )
           ) : (
             <ul className="grid list-none gap-4 p-0 sm:grid-cols-2">
               {visible.map((q) => (

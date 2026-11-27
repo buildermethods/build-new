@@ -24,6 +24,7 @@ import { CottageSection } from "@/components/design-system/sections/elements/Cot
 import { RoomIconSection } from "@/components/design-system/sections/elements/RoomIconSection";
 import { MonsterArtSection } from "@/components/design-system/sections/elements/MonsterArtSection";
 import { ProgressRingSection } from "@/components/design-system/sections/elements/ProgressRingSection";
+import { EmptyStateSection } from "@/components/design-system/sections/elements/EmptyStateSection";
 import { ToggleButtonsSection } from "@/components/design-system/sections/elements/ToggleButtonsSection";
 import { ListingsSection } from "@/components/design-system/sections/elements/ListingsSection";
 import { DataTableSection } from "@/components/design-system/sections/elements/DataTableSection";
@@ -129,6 +130,7 @@ export function DesignSystem() {
           <CottageSection />
           <RoomIconSection />
           <MonsterArtSection />
+          <EmptyStateSection />
           <ProgressRingSection />
           <ListingsSection />
           <DataTableSection />

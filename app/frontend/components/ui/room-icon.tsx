@@ -32,8 +32,8 @@ const ART: Record<string, React.ReactNode> = {
   ),
   bathroom: (
     <g>
-      <rect x="6" y="22" width="36" height="14" rx="6" className="fill-lilac-faded" />
-      <rect x="8" y="18" width="10" height="6" rx="3" className="fill-surface" />
+      <rect x="6" y="22" width="36" height="14" rx="6" className="fill-lilac" />
+      <rect x="8" y="18" width="10" height="6" rx="3" className="fill-lilac-faded stroke-lilac" strokeWidth="1.5" />
       <circle cx="34" cy="14" r="2" className="fill-signal" />
       <circle cx="38" cy="10" r="1.5" className="fill-signal" />
       <rect x="10" y="36" width="4" height="4" className="fill-forest" />

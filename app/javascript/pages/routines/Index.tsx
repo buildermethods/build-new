@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/PageHeader"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
+import { EmptyState } from "@/components/ui/empty-state"
 import { RoutineForm } from "./RoutineForm"
 
 import type { PageProps, Routine } from "@/types/inertia"
@@ -96,9 +97,18 @@ export default function RoutinesIndex() {
         <section className="mt-8" aria-label="Today's routines">
           <h2>Today</h2>
           {today.length === 0 ? (
-            <p className="mt-2">
-              {routines.length === 0 ? "No routines yet. Create your first one to begin." : "No routines are scheduled for today."}
-            </p>
+            routines.length === 0 ? (
+              <EmptyState
+                className="mt-3"
+                monster="backpack_bandits"
+                title="No routines yet"
+                action={<Button onClick={() => open(null)}>Create my first routine</Button>}
+              >
+                A routine is an ordered list of steps, like the school morning launch.
+              </EmptyState>
+            ) : (
+              <p className="mt-2">No routines are scheduled for today.</p>
+            )
           ) : (
             <ul className="mt-4 grid list-none gap-4 p-0 sm:grid-cols-2">
               {today.map((r) => (

@@ -4,6 +4,7 @@ import { AppShell } from "@/components/AppShell"
 import { PageHeader } from "@/components/PageHeader"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
+import { EmptyState } from "@/components/ui/empty-state"
 import { Input } from "@/components/ui/input"
 
 import type { PageProps } from "@/types/inertia"
@@ -115,7 +116,7 @@ export default function Todos() {
         <section className="mt-8 max-w-xl" aria-label="To do">
           <h2>To do</h2>
           {open.length === 0 ? (
-            <p className="mt-2">Nothing here. Add something above, or enjoy the calm.</p>
+            <EmptyState className="mt-3" title="Nothing to do">Add something above, or enjoy the calm.</EmptyState>
           ) : (
             <ul className="mt-2 divide-y divide-hairline list-none p-0">
               {open.map((t) => <Row key={t.id} todo={t} />)}

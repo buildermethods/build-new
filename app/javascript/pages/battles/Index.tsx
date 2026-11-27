@@ -3,6 +3,7 @@ import { AppShell } from "@/components/AppShell"
 import { PageHeader } from "@/components/PageHeader"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { EmptyState } from "@/components/ui/empty-state"
 import { MonsterArt } from "@/components/ui/monster-art"
 
 import type { PageProps } from "@/types/inertia"
@@ -84,7 +85,14 @@ export default function BattlesIndex() {
         <section className="mt-8" aria-label="Active battles">
           <h2>In progress</h2>
           {active.length === 0 ? (
-            <p className="mt-2">No battle underway. Pick a daunting job and split it into stages.</p>
+            <EmptyState
+              className="mt-3"
+              monster="doom_pile_dragon"
+              title="No battle underway"
+              action={<Button asChild><Link href="/battles/new">Start a boss battle</Link></Button>}
+            >
+              Pick a daunting job and split it into stages.
+            </EmptyState>
           ) : (
             <ul className="mt-4 grid list-none gap-4 p-0 sm:grid-cols-2">
               {active.map((b) => <li key={b.id}><BattleCard b={b} /></li>)}
