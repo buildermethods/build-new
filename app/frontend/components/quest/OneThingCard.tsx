@@ -54,7 +54,7 @@ export function OneThingCard({
         <Button
           size="lg"
           variant="secondary"
-          aria-label={`Complete ${quest.title}`}
+          aria-label={`I've done it: ${quest.title}`}
           onClick={() => router.post(`/tasks/${quest.id}/complete`, {}, { preserveScroll: true })}
         >
           I've done it
@@ -85,7 +85,7 @@ export function OneThingCard({
         <Button
           size="sm"
           variant="ghost"
-          aria-label={`Postpone ${quest.title} until tomorrow`}
+          aria-label={`Not today: ${quest.title}`}
           onClick={() => router.post(`/tasks/${quest.id}/defer`, { days: 1 }, { preserveScroll: true })}
         >
           Not today

@@ -179,7 +179,7 @@ export default function Today() {
                     <Button
                       size="sm"
                       disabled={!c.complete}
-                      aria-label={`Claim reward for ${c.name}`}
+                      aria-label={`${c.complete ? "Claim reward" : "In progress"}: ${c.name}`}
                       onClick={() => router.post(`/challenges/${c.period}/claim`, {}, { preserveScroll: true })}
                     >
                       {c.complete ? "Claim reward" : "In progress"}

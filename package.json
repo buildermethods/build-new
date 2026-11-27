@@ -4,6 +4,7 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^25.6.0",
+    "axe-core": "^4.14.1",
     "vite": "^7.2.0",
     "vite-plugin-ruby": "^5.1.1"
   },

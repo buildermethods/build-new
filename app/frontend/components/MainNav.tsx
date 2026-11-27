@@ -201,9 +201,12 @@ function RailBody({
         <Link
           href={brandHref}
           className="flex min-w-0 items-center gap-2 text-ink-display no-underline"
-          aria-label={BRAND}
+          aria-label={open ? undefined : BRAND}
         >
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent-faded font-display text-sm font-semibold text-accent">
+          <span
+            aria-hidden="true"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent-faded font-display text-sm font-semibold text-accent"
+          >
             {BRAND.charAt(0)}
           </span>
           {open && (
