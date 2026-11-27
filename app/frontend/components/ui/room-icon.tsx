@@ -16,8 +16,8 @@ const ART: Record<string, React.ReactNode> = {
   ),
   living_room: (
     <g>
-      <rect x="6" y="20" width="36" height="16" rx="5" className="fill-lilac" />
-      <rect x="10" y="14" width="28" height="12" rx="4" className="fill-lilac-faded" />
+      <rect x="6" y="20" width="36" height="16" rx="5" className="fill-coral" />
+      <rect x="10" y="14" width="28" height="12" rx="4" className="fill-coral-faded" />
       <rect x="8" y="36" width="4" height="4" className="fill-forest" />
       <rect x="36" y="36" width="4" height="4" className="fill-forest" />
     </g>
@@ -32,8 +32,8 @@ const ART: Record<string, React.ReactNode> = {
   ),
   bathroom: (
     <g>
-      <rect x="6" y="22" width="36" height="14" rx="6" className="fill-lilac" />
-      <rect x="8" y="18" width="10" height="6" rx="3" className="fill-lilac-faded stroke-lilac" strokeWidth="1.5" />
+      <rect x="6" y="22" width="36" height="14" rx="6" className="fill-accent" />
+      <rect x="8" y="18" width="10" height="6" rx="3" className="fill-accent-faded stroke-accent-strong" strokeWidth="1.5" />
       <circle cx="34" cy="14" r="2" className="fill-signal" />
       <circle cx="38" cy="10" r="1.5" className="fill-signal" />
       <rect x="10" y="36" width="4" height="4" className="fill-forest" />
@@ -50,14 +50,14 @@ const ART: Record<string, React.ReactNode> = {
   kids_room: (
     <g>
       <rect x="8" y="26" width="14" height="14" rx="2" className="fill-signal" />
-      <rect x="26" y="20" width="14" height="20" rx="2" className="fill-lilac" />
+      <rect x="26" y="20" width="14" height="20" rx="2" className="fill-coral" />
       <rect x="14" y="14" width="12" height="12" rx="2" className="fill-accent" />
     </g>
   ),
   utility: (
     <g>
       <rect x="10" y="8" width="28" height="32" rx="4" className="fill-surface stroke-forest" strokeWidth="2" />
-      <circle cx="24" cy="26" r="9" className="fill-lilac-faded stroke-forest" strokeWidth="2" />
+      <circle cx="24" cy="26" r="9" className="fill-accent-faded stroke-forest" strokeWidth="2" />
       <circle cx="16" cy="14" r="2" className="fill-accent" />
     </g>
   ),
@@ -65,17 +65,17 @@ const ART: Record<string, React.ReactNode> = {
     <g>
       <rect x="6" y="30" width="36" height="5" rx="2" className="fill-peach-display" />
       <rect x="14" y="12" width="20" height="14" rx="2" className="fill-forest" />
-      <rect x="16" y="14" width="16" height="10" className="fill-lilac-faded" />
+      <rect x="16" y="14" width="16" height="10" className="fill-accent-faded" />
       <rect x="22" y="26" width="4" height="4" className="fill-forest" />
     </g>
   ),
   garden: (
     <g>
-      <rect x="20" y="22" width="4" height="18" className="fill-accent-display" />
+      <rect x="20" y="22" width="4" height="18" className="fill-leaf-strong" />
       <circle cx="22" cy="16" r="7" className="fill-peach" />
       <circle cx="22" cy="16" r="3" className="fill-signal" />
-      <path d="M24 32 q10 -2 12 -10 q-10 0 -12 10 Z" className="fill-accent" />
-      <rect x="6" y="38" width="36" height="3" rx="1.5" className="fill-accent-faded" />
+      <path d="M24 32 q10 -2 12 -10 q-10 0 -12 10 Z" className="fill-leaf" />
+      <rect x="6" y="38" width="36" height="3" rx="1.5" className="fill-leaf-faded" />
     </g>
   ),
   home: (

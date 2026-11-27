@@ -205,7 +205,7 @@ function RailBody({
         >
           <span
             aria-hidden="true"
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent-faded font-display text-sm font-semibold text-accent"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent-faded font-display text-sm font-semibold text-accent-display"
           >
             {BRAND.charAt(0)}
           </span>
@@ -338,11 +338,11 @@ function UserMenu({ open }: { open: boolean }) {
           type="button"
           aria-label={open ? undefined : email || "Account"}
           className={cn(
-            "group/user relative flex w-full cursor-pointer items-center gap-3 rounded-md text-left text-ink-body hover:bg-surface hover:text-ink-display focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+            "group/user relative flex w-full cursor-pointer items-center gap-3 rounded-md text-left text-ink-body hover:bg-surface hover:text-ink-display focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong",
             open ? "px-2 py-2" : "h-10 justify-center",
           )}
         >
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-faded text-xs font-semibold text-accent">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-faded text-xs font-semibold text-accent-display">
             {initial}
           </span>
           {open ? (

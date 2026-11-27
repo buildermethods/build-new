@@ -46,7 +46,7 @@ export default function Achievements() {
           ) : (
             <ul className="mt-4 grid list-none gap-4 p-0 sm:grid-cols-2">
               {earned.map((b) => (
-                <li key={b.key} className="rounded-xl border border-accent bg-accent-faded p-4">
+                <li key={b.key} className="rounded-xl border border-accent-strong bg-accent-faded p-4">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <h3>{b.name}</h3>
                     <Badge tone="accent">Earned</Badge>
@@ -77,7 +77,7 @@ export default function Achievements() {
                       aria-valuemax={b.threshold}
                       aria-valuenow={b.current}
                     >
-                      <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${percent}%` }} />
+                      <div className="h-full rounded-full bg-accent-strong transition-all" style={{ width: `${percent}%` }} />
                     </div>
                     <p className="mt-1 caption">{b.current} of {b.threshold}</p>
                   </li>

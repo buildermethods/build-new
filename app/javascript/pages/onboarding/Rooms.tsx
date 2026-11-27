@@ -45,7 +45,7 @@ export default function Rooms() {
             return (
               <li
                 key={room.key}
-                className={`rounded-xl border p-4 ${on ? "border-accent bg-accent-faded" : "border-hairline bg-surface"}`}
+                className={`rounded-xl border p-4 ${on ? "border-accent-strong bg-accent-faded" : "border-hairline bg-surface"}`}
               >
                 <div className="flex items-center gap-3">
                   <RoomIcon room={room.key} />

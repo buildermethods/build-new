@@ -13,19 +13,32 @@
   --font-display: 'Fraunces', ui-serif, Georgia, serif;
   --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif;
 
-  /* Nest Quest palette: bright but calm. Sky blue is the main accent, sunny
-     yellow marks rewards, and the "peach" tokens are a soft rose pink (the
-     name is kept so existing art and components pick it up). Deeper -display
-     shades keep text readable (WCAG AA) on the bright fills. */
+  /* Nest Quest palette: fresh and bright, never heavy. Turquoise is the main
+     accent and is paired with coral, leaf green, sunny yellow and soft pink so
+     no single hue dominates. For every colour, "-display" is a deep shade for
+     text, "-strong" is a mid shade that keeps 3:1 contrast for meters,
+     borders and focus rings, and the plain shade is bright and decorative
+     (buttons use it with dark "on-accent" text). The "peach" tokens are a soft
+     rose pink (the name is kept so existing art picks it up). */
   --color-page: #fffaf7;
   --color-surface: #fff0f2;
   --color-hairline: #f3d6dc;
-  --color-ink-body: #3b4262;
-  --color-ink-display: #232a4d;
-  --color-ink-muted: #5a6285;
-  --color-accent: #2a70b3;
-  --color-accent-faded: #e1effb;
-  --color-accent-display: #1d5a98;
+  --color-ink-body: #2c4a4c;
+  --color-ink-display: #163a3c;
+  --color-ink-muted: #55706f;
+  --color-on-accent: #0b2e2c;
+  --color-accent: #19c3b3;
+  --color-accent-strong: #0d9488;
+  --color-accent-faded: #d9f6f2;
+  --color-accent-display: #0b6e66;
+  --color-coral: #ff7f6e;
+  --color-coral-strong: #d9533f;
+  --color-coral-faded: #ffe6e0;
+  --color-coral-display: #a63a28;
+  --color-leaf: #6fcf7a;
+  --color-leaf-strong: #3f9d48;
+  --color-leaf-faded: #e3f6e3;
+  --color-leaf-display: #276a2f;
   --color-signal: #ffd54a;
   --color-signal-faded: #fff4cc;
   --color-signal-display: #7a5300;
@@ -35,22 +48,32 @@
   --color-lilac: #b9a6f2;
   --color-lilac-faded: #efe9ff;
   --color-lilac-display: #5a44b0;
-  --color-forest: #2a3358;
+  --color-forest: #1d3b3d;
   --color-danger: oklch(64% 0.22 25);
   --color-danger-faded: oklch(96% 0.025 25);
   --color-danger-display: oklch(55% 0.20 25);
 }
 
 .dark {
-  --color-page: #161a2e;
-  --color-surface: #202544;
-  --color-hairline: #343b66;
-  --color-ink-body: #e6e9fa;
-  --color-ink-display: #fff6f9;
-  --color-ink-muted: #aab2d6;
-  --color-accent: #7db7f2;
-  --color-accent-faded: #1f3558;
-  --color-accent-display: #a7d2f8;
+  --color-page: #11201f;
+  --color-surface: #1a2f2d;
+  --color-hairline: #2b4744;
+  --color-ink-body: #e4f3f0;
+  --color-ink-display: #f5fffd;
+  --color-ink-muted: #a3c5c0;
+  --color-on-accent: #0b2e2c;
+  --color-accent: #3fe0d0;
+  --color-accent-strong: #3fe0d0;
+  --color-accent-faded: #14403c;
+  --color-accent-display: #8ff0e6;
+  --color-coral: #ff9283;
+  --color-coral-strong: #ff9283;
+  --color-coral-faded: #45221e;
+  --color-coral-display: #ffc1b6;
+  --color-leaf: #8fe48f;
+  --color-leaf-strong: #8fe48f;
+  --color-leaf-faded: #1b3a1f;
+  --color-leaf-display: #bff2bf;
   --color-signal: #ffd54a;
   --color-signal-faded: #3d3818;
   --color-signal-display: #ffe48a;
@@ -60,7 +83,7 @@
   --color-lilac: #b9a6f2;
   --color-lilac-faded: #2e2a56;
   --color-lilac-display: #d5c9fa;
-  --color-forest: #2a3358;
+  --color-forest: #0f2f2e;
   --color-danger: oklch(72% 0.20 22);
   --color-danger-faded: oklch(22% 0.05 22);
   --color-danger-display: oklch(82% 0.18 22);
@@ -131,7 +154,7 @@
   li + li { margin-top: 0; }
 
   blockquote {
-    border-left: 3px solid var(--color-accent);
+    border-left: 3px solid var(--color-accent-strong);
     padding-left: 1rem;
     color: var(--color-ink-muted);
     font-style: italic;
@@ -171,7 +194,7 @@
   /* Buttons */
   .btn {
     @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium cursor-pointer transition-colors;
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-page;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-page;
     @apply disabled:pointer-events-none disabled:opacity-50;
     @apply h-10 px-4 text-sm;
   }
@@ -179,7 +202,7 @@
   .btn-large { @apply h-11 px-5 text-base; }
   .btn-icon  { @apply h-10 w-10 px-0; }
 
-  .btn-primary   { @apply bg-accent text-page hover:bg-accent/90; }
+  .btn-primary   { @apply bg-accent text-on-accent hover:bg-accent/90; }
   .btn-secondary { @apply bg-surface text-ink-display border border-hairline hover:bg-hairline/40; }
   .btn-ghost     { @apply text-ink-body hover:bg-surface; }
   .btn-soft      { @apply bg-accent-faded text-accent-display hover:bg-accent-faded/80; }
@@ -207,7 +230,7 @@
   .form-control {
     @apply flex h-10 w-full rounded-md border border-hairline bg-page px-3 py-2 text-sm text-ink-body;
     @apply placeholder:text-ink-muted;
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-page focus-visible:border-accent focus-visible:bg-accent-faded/50;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-page focus-visible:border-accent-strong focus-visible:bg-accent-faded/50;
     @apply disabled:cursor-not-allowed disabled:opacity-50;
   }
   .form-control-select { @apply appearance-none pr-9; }
@@ -226,18 +249,18 @@
   .heading-sm { font-size: 1.125rem; }
 
   .badge-muted   { @apply bg-transparent text-ink-muted border border-hairline; }
-  .badge-solid   { @apply bg-accent text-page; }
+  .badge-solid   { @apply bg-accent text-on-accent; }
 
   /* Toggle buttons (pill-shaped on/off) */
   .toggle-button {
     @apply inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-hairline bg-page px-3 py-1 text-xs font-medium text-ink-body transition-colors;
     @apply hover:bg-surface;
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-page;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-page;
     @apply disabled:pointer-events-none disabled:opacity-50;
   }
   .toggle-button-on,
   .toggle-button[aria-pressed="true"] {
-    @apply border-accent bg-accent-faded text-accent-display hover:bg-accent-faded;
+    @apply border-accent-strong bg-accent-faded text-accent-display hover:bg-accent-faded;
   }
 
   /* Modal (dialog) */
@@ -260,7 +283,7 @@
   .modal-description { @apply text-sm text-ink-muted; }
   .modal-close {
     @apply absolute right-4 top-4 cursor-pointer rounded-sm text-ink-muted hover:text-ink-display;
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-accent;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong;
   }
 
   /* Callouts */
@@ -367,7 +390,7 @@ html {
 .bm-rich-text .milkdown .ProseMirror li + li { margin-top: 0.25rem; }
 
 .bm-rich-text .milkdown .ProseMirror blockquote {
-  border-left: 3px solid var(--color-accent);
+  border-left: 3px solid var(--color-accent-strong);
   padding-left: 1rem;
   color: var(--color-ink-muted);
   font-style: italic;
@@ -472,8 +495,8 @@ html {
   .victory-poof span {
     animation: victory-poof 900ms ease-out both;
   }
-  .victory-poof span:nth-child(2) { animation-delay: 120ms; background: var(--color-lilac); }
-  .victory-poof span:nth-child(3) { animation-delay: 240ms; background: var(--color-peach); }
+  .victory-poof span:nth-child(2) { animation-delay: 120ms; background: var(--color-coral); }
+  .victory-poof span:nth-child(3) { animation-delay: 240ms; background: var(--color-accent); }
   @keyframes victory-poof {
     0%   { transform: translateY(1.5rem) scale(0.4); opacity: 0; }
     60%  { transform: translateY(-0.25rem) scale(1.15); opacity: 1; }

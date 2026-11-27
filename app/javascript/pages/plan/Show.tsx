@@ -55,7 +55,7 @@ export default function PlanShow() {
           <ol className="flex items-center gap-2">
             {STEPS.map((s, i) => (
               <li key={s.key} aria-current={i === index ? "step" : undefined} className="flex flex-1 flex-col gap-1">
-                <span className={cn("h-1.5 rounded-full", i <= index ? "bg-accent" : "bg-hairline")} />
+                <span className={cn("h-1.5 rounded-full", i <= index ? "bg-accent-strong" : "bg-hairline")} />
                 <span className={cn("text-xs", i === index ? "font-semibold text-ink-display" : "text-ink-muted")}>
                   <span className="sr-only">Step {i + 1} of {STEPS.length}: </span>
                   {s.label}
@@ -94,7 +94,7 @@ export default function PlanShow() {
                     onClick={() => setEnergy(m.key)}
                     className={cn(
                       "w-full rounded-xl border p-4 text-left",
-                      energy === m.key ? "border-accent bg-accent-faded" : "border-hairline bg-surface",
+                      energy === m.key ? "border-accent-strong bg-accent-faded" : "border-hairline bg-surface",
                     )}
                   >
                     <strong>{m.label}</strong>

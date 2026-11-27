@@ -30,7 +30,7 @@ const XpBar = React.forwardRef<HTMLDivElement, XpBarProps>(
           aria-valuemax={xpForNextLevel}
           aria-valuenow={xpIntoLevel}
         >
-          <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${percent}%` }} />
+          <div className="h-full rounded-full bg-accent-strong transition-all" style={{ width: `${percent}%` }} />
         </div>
         <p className="mt-1 caption">
           {xpIntoLevel} / {xpForNextLevel} XP to level {level + 1}

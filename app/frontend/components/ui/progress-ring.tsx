@@ -41,7 +41,7 @@ export function ProgressRing({ value, max, center, label, size = 96, className, 
           strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={circumference * (1 - ratio)}
-          className="stroke-accent transition-[stroke-dashoffset] duration-700"
+          className="stroke-accent-strong transition-[stroke-dashoffset] duration-700"
         />
       </svg>
       <span className="absolute text-center font-semibold leading-tight text-ink-display">{center}</span>

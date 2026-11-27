@@ -45,7 +45,7 @@ export function WizardShell({
               <span
                 className={cn(
                   "h-1.5 rounded-full",
-                  i <= index ? "bg-accent" : "bg-hairline",
+                  i <= index ? "bg-accent-strong" : "bg-hairline",
                 )}
               />
               <span className={cn("text-xs", i === index ? "font-semibold text-ink-display" : "text-ink-muted")}>

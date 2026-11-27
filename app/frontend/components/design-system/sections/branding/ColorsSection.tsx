@@ -6,7 +6,7 @@ const code = `<div className="bg-page text-ink-body">
   <div className="bg-surface border border-hairline">
     <h2 className="text-ink-display">Headline</h2>
     <p className="text-ink-muted">Quiet supporting copy.</p>
-    <button className="bg-accent text-page">Primary action</button>
+    <button className="bg-accent-strong text-page">Primary action</button>
   </div>
 </div>`;
 
@@ -17,7 +17,7 @@ export function ColorsSection() {
       title="Colors"
       description={
         <>
-          Semantic tokens (including the Nest Quest peach, lilac and forest accents), each defined for light and dark mode. Use the
+          Semantic tokens (turquoise accent, plus coral, leaf green, sunny yellow, rose pink and lilac), each defined for light and dark mode. Use the
           token names — never raw hex. Each swatch shows the value for the
           mode you're currently viewing; both hex codes are listed below the
           swatch and click-to-copy.

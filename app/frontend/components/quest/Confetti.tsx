@@ -1,4 +1,4 @@
-const COLORS = ["bg-signal", "bg-lilac", "bg-peach", "bg-accent"]
+const COLORS = ["bg-signal", "bg-coral", "bg-peach", "bg-accent", "bg-leaf"]
 
 // A short burst of sparkles for big moments. Fixed positions (no randomness, so
 // server and client render the same markup); CSS-only and disabled for people

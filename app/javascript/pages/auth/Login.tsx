@@ -33,7 +33,7 @@ export default function Login() {
         </div>
 
         {props.flash?.notice && (
-          <p className="mt-4 text-center text-sm text-accent">
+          <p className="mt-4 text-center text-sm text-accent-display">
             {props.flash.notice}
           </p>
         )}

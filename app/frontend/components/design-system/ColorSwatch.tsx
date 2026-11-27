@@ -57,7 +57,7 @@ function CopyableHex({ label, hex, isActive }: CopyableHexProps) {
       <span className="flex items-center gap-1.5">
         <span>{hex}</span>
         {copied ? (
-          <Check className="h-3 w-3 text-accent" aria-hidden />
+          <Check className="h-3 w-3 text-accent-display" aria-hidden />
         ) : (
           <Copy
             className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100"

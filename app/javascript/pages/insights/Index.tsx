@@ -77,7 +77,7 @@ export default function InsightsPage() {
               <li key={x.label} className="flex flex-1 flex-col items-center gap-2">
                 <div className="flex h-32 w-full items-end rounded-lg bg-surface p-1">
                   <div
-                    className="w-full rounded-md bg-accent"
+                    className="w-full rounded-md bg-accent-strong"
                     style={{ height: `${Math.max(4, Math.round((x.quests / max) * 100))}%` }}
                     role="img"
                     aria-label={`${x.label}: ${x.quests} ${x.quests === 1 ? "quest" : "quests"}, ${x.active_days} active ${x.active_days === 1 ? "day" : "days"}`}

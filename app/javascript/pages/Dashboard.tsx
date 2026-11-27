@@ -99,7 +99,7 @@ export default function Today() {
                     key={d.date}
                     title={d.label}
                     className={`flex h-6 w-6 items-center justify-center rounded-full text-[10px] ${
-                      d.active ? "bg-accent text-page" : d.today ? "border border-accent text-ink-body" : "border border-hairline text-ink-muted"
+                      d.active ? "border border-accent-strong bg-accent text-on-accent" : d.today ? "border border-accent-strong text-ink-body" : "border border-hairline text-ink-muted"
                     }`}
                   >
                     <span aria-hidden="true">{d.label[0]}</span>
@@ -169,7 +169,7 @@ export default function Today() {
                   aria-valuemax={c.target}
                   aria-valuenow={c.current}
                 >
-                  <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${Math.round((c.current / c.target) * 100)}%` }} />
+                  <div className="h-full rounded-full bg-accent-strong transition-all" style={{ width: `${Math.round((c.current / c.target) * 100)}%` }} />
                 </div>
                 <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
                   <p className="caption">{c.current} of {c.target} · +{c.xp} XP, +{c.coins} coins</p>
