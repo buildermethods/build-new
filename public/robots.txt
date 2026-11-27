@@ -16,6 +16,8 @@ Disallow: /tasks
 Disallow: /quests
 Disallow: /routines
 Disallow: /sanctuary
+Disallow: /plan
+Disallow: /intentions
 Disallow: /welcome
 Disallow: /add-chores
 Disallow: /settings

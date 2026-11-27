@@ -115,6 +115,7 @@ module Quests
           estimated_minutes: task.duration_minutes,
           difficulty: TaskPresenter::DIFFICULTY.fetch(task.effort),
           monster: Game::Catalog.monster(task.monster_key_or_default)["name"],
+          monster_key: task.monster_key_or_default,
           xp: task.xp,
           coins: task.coins
         }

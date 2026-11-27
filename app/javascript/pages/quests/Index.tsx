@@ -183,6 +183,7 @@ export default function QuestsIndex() {
                     fantasyTitle={q.fantasy_title}
                     title={q.title}
                     monsterName={q.monster.name}
+                    monsterKey={q.monster.key}
                     minutes={q.duration_minutes}
                     difficulty={q.difficulty}
                     xp={q.xp}
@@ -206,6 +207,7 @@ export default function QuestsIndex() {
                     fantasyTitle={q.fantasy_title}
                     title={q.title}
                     monsterName={q.monster.name}
+                    monsterKey={q.monster.key}
                     minutes={q.duration_minutes}
                     difficulty={q.difficulty}
                     xp={q.xp}

@@ -77,7 +77,7 @@ class OnboardingControllerTest < ActionDispatch::IntegrationTest
     assert_difference -> { @user.tasks.count }, 4 do # sides, oven, bed x2
       post "/welcome/finish", params: { display_name: "Gemma", anchor: "after dinner", treat: "A podcast" }
     end
-    assert_match(/just=1/, response.location)
+    assert_match(/energy=gentle/, response.location)
     assert_equal 90, @user.tasks.find_by!(source_key: "kitchen:1:oven").recurrence_interval_days
     assert @user.reload.onboarded?
     follow_redirect!

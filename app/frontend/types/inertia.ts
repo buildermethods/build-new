@@ -42,6 +42,7 @@ export type PlanQuest = {
   estimated_minutes: number
   difficulty: string
   monster: string
+  monster_key: string
   xp: number
   coins: number
 }
@@ -62,6 +63,7 @@ export type EnergyMode = { key: string; label: string; description: string }
 
 export type FocusTarget = {
   task_id: number
+  monster_key?: string
   title: string
   quest_title: string
   minutes: number
@@ -121,9 +123,14 @@ export type Player = {
   xp_for_next_level: number
 }
 
+export type Badge = { key: string; name: string; description: string }
+
 export type Victory = {
   id: number
   monster: string
+  monster_key: string | null
+  message: string
+  badges: Badge[]
   quest_title: string
   task_title: string
   xp: number

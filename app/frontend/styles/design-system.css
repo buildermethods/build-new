@@ -480,3 +480,29 @@ html {
   transition: none !important;
   scroll-behavior: auto !important;
 }
+
+/* Confetti for victories and level-ups. Falls from the top of its container;
+   hidden entirely when motion is reduced (OS setting or the in-app setting). */
+.confetti {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.confetti span {
+  position: absolute;
+  top: -12px;
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .confetti span { animation: confetti-fall 1400ms ease-in both; }
+  @keyframes confetti-fall {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(340px) rotate(300deg); opacity: 0; }
+  }
+}
+.reduce-motion .confetti { display: none; }

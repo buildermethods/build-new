@@ -22,7 +22,12 @@ module RoutineVictory
         monster: bonus ? routine.name : Game::Catalog.monster(task_completion.task.monster_key_or_default)["name"],
         quest_title: bonus ? "Routine complete" : task_completion.task.fantasy_title_or_default,
         task_title: bonus ? "Every step of #{routine.name}" : task_completion.task.title,
-        xp: xp, coins: coins, level: level, leveled_up: level > level_before
+        xp: xp, coins: coins, level: level, leveled_up: level > level_before,
+        monster_key: bonus ? nil : task_completion.task.monster_key_or_default,
+        message: bonus ? "Every step done! A whole routine, finished." : Habits::Messages.victory(
+          task: task_completion.task, completion: task_completion, first: false, leveled_up: level > level_before
+        ),
+        badges: Achievements::Evaluator.call(Current.user)
       }
     end
 end

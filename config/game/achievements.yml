@@ -1,0 +1,43 @@
+# Milestones are deterministic: reach the threshold, earn the badge. No chance,
+# no timers, nothing that can be lost. `metric` is computed by
+# Achievements::Evaluator.
+first_victory:
+  name: First Victory
+  description: Finish your very first quest.
+  metric: completions
+  threshold: 1
+five_minute_hero:
+  name: Five-Minute Hero
+  description: Finish 10 quick quests (5 minutes or less).
+  metric: quick
+  threshold: 10
+goblin_slayer:
+  name: Goblin Slayer
+  description: Finish 10 cleaning quests.
+  metric: "category:cleaning"
+  threshold: 10
+laundry_legend:
+  name: Laundry Legend
+  description: Finish 20 laundry quests.
+  metric: "category:laundry"
+  threshold: 20
+kitchen_calm:
+  name: Kitchen Calm
+  description: Finish 15 kitchen quests.
+  metric: "room:kitchen"
+  threshold: 15
+steady_week:
+  name: Steady Week
+  description: Be active on 4 different days in one week.
+  metric: week_days
+  threshold: 4
+comeback_kid:
+  name: Comeback Kid
+  description: Finish a quest after a week away. Welcome back!
+  metric: comeback
+  threshold: 1
+cosy_collector:
+  name: Cosy Collector
+  description: Own 5 cottage decorations.
+  metric: decorations
+  threshold: 5

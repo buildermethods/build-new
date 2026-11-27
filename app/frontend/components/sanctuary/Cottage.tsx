@@ -32,6 +32,9 @@ export function Cottage({ placements, names = {}, className }: CottageProps) {
       <rect x="280" y="50" width="80" height="90" rx="6" className="fill-lilac-faded stroke-peach-display" strokeWidth="4" />
       <path d="M320 50 V140 M280 95 H360" className="stroke-peach-display" strokeWidth="3" />
       <circle cx="342" cy="72" r="7" className="fill-signal" />
+      {/* soft light from the window, plus curtains */}
+      <path d="M280 140 L360 140 L392 214 L248 214 Z" className="fill-signal opacity-15" />
+      <path d="M272 46 q12 30 6 100 h-10 Z M368 46 q-12 30 -6 100 h10 Z" className="fill-lilac opacity-70" />
       {SLOT_ORDER.map((slot) => {
         const key = placements[slot]
         return key ? <g key={slot} data-slot={slot}>{DECORATION_ART[key]}</g> : null

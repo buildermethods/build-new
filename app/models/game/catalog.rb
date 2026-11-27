@@ -45,6 +45,10 @@ module Game
         chore_rooms.dig(room_key.to_s, "chores")&.find { |c| c["key"] == chore_key.to_s }
       end
 
+      def achievements
+        @achievements ||= load_yaml("achievements.yml")
+      end
+
       def decoration_slots
         decoration_config.fetch("slots")
       end
@@ -61,6 +65,7 @@ module Game
       def reset!
         @decoration_config = nil
         @chore_catalog = nil
+        @achievements = nil
         @monsters = nil
         @energy_modes = nil
       end

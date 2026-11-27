@@ -22,6 +22,8 @@ import { QuestCardSection } from "@/components/design-system/sections/elements/Q
 import { XpBarSection } from "@/components/design-system/sections/elements/XpBarSection";
 import { CottageSection } from "@/components/design-system/sections/elements/CottageSection";
 import { RoomIconSection } from "@/components/design-system/sections/elements/RoomIconSection";
+import { MonsterArtSection } from "@/components/design-system/sections/elements/MonsterArtSection";
+import { ProgressRingSection } from "@/components/design-system/sections/elements/ProgressRingSection";
 import { ToggleButtonsSection } from "@/components/design-system/sections/elements/ToggleButtonsSection";
 import { ListingsSection } from "@/components/design-system/sections/elements/ListingsSection";
 import { DataTableSection } from "@/components/design-system/sections/elements/DataTableSection";
@@ -126,6 +128,8 @@ export function DesignSystem() {
           <XpBarSection />
           <CottageSection />
           <RoomIconSection />
+          <MonsterArtSection />
+          <ProgressRingSection />
           <ListingsSection />
           <DataTableSection />
           <ModalSection />

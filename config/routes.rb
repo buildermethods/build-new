@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       post :complete
       post :uncomplete
       post :skip
+      post :start
       post :defer
     end
   end
@@ -49,6 +50,10 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get "plan", to: "plans#show", as: :plan
+  post "intentions", to: "intentions#create", as: :intentions
+  delete "intentions", to: "intentions#destroy"
 
   get "dashboard", to: "dashboard#show", as: :dashboard
   get   "settings",       to: "settings#show",   as: :settings

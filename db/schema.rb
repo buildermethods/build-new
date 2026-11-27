@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_23_000011) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_23_000012) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -25,6 +25,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000011) do
     t.index ["task_id"], name: "index_completions_on_task_id"
     t.index ["user_id", "completed_at"], name: "index_completions_on_user_id_and_completed_at"
     t.index ["user_id"], name: "index_completions_on_user_id"
+  end
+
+  create_table "daily_intentions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "task_id", null: false
+    t.date "on_date", null: false
+    t.string "anchor"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_daily_intentions_on_task_id"
+    t.index ["user_id", "on_date"], name: "index_daily_intentions_on_user_id_and_on_date", unique: true
   end
 
   create_table "owned_decorations", force: :cascade do |t|
@@ -55,6 +66,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000011) do
     t.string "reference"
     t.index ["completion_id", "kind"], name: "index_reward_transactions_once_per_completion", unique: true, where: "(completion_id IS NOT NULL)"
     t.index ["completion_id"], name: "index_reward_transactions_on_completion_id"
+    t.index ["user_id", "reference"], name: "index_reward_transactions_once_per_one_off", unique: true, where: "((kind)::text = ANY ((ARRAY['start'::character varying, 'welcome'::character varying])::text[]))"
     t.index ["user_id", "reference"], name: "index_reward_transactions_once_per_purchase", unique: true, where: "((kind)::text = 'purchase'::text)"
     t.index ["user_id", "reference"], name: "index_reward_transactions_once_per_routine_day", unique: true, where: "((kind)::text = 'routine_bonus'::text)"
     t.index ["user_id"], name: "index_reward_transactions_on_user_id"
@@ -276,6 +288,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000011) do
     t.index ["user_id", "status"], name: "index_tasks_on_user_id_and_status"
   end
 
+  create_table "user_achievements", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "key", null: false
+    t.datetime "earned_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "key"], name: "index_user_achievements_on_user_id_and_key", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
@@ -294,6 +315,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000011) do
 
   add_foreign_key "completions", "tasks"
   add_foreign_key "completions", "users"
+  add_foreign_key "daily_intentions", "tasks", on_delete: :cascade
+  add_foreign_key "daily_intentions", "users"
   add_foreign_key "owned_decorations", "users"
   add_foreign_key "player_progresses", "users"
   add_foreign_key "reward_transactions", "completions"
@@ -311,4 +334,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000011) do
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "tasks", "users"
+  add_foreign_key "user_achievements", "users"
 end

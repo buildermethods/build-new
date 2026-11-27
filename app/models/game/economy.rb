@@ -13,6 +13,14 @@ module Game
         (xp_for(effort) * config.fetch("coins_per_xp")).round
       end
 
+      def start_xp
+        config.fetch("start_xp")
+      end
+
+      def welcome_xp
+        config.fetch("welcome_xp")
+      end
+
       def routine_bonus
         { xp: config.fetch("routine_bonus_xp"), coins: config.fetch("routine_bonus_coins") }
       end

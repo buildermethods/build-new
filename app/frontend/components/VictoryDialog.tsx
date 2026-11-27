@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { MonsterArt } from "@/components/ui/monster-art"
+import { Confetti } from "@/components/quest/Confetti"
 
 import type { PageProps } from "@/types/inertia"
 
@@ -22,22 +24,33 @@ export function VictoryDialog() {
   const open = victory !== null && shownId !== victory.id
 
   if (!victory) return null
+  const big = victory.leveled_up || victory.badges.length > 0
 
   return (
     <Dialog open={open} onOpenChange={(next) => !next && setShownId(victory.id)}>
       <DialogContent size="sm">
+        {big && <Confetti />}
         <DialogHeader>
-          <div className="victory-poof" aria-hidden="true">
-            <span />
-            <span />
-            <span />
+          <div className="flex justify-center">
+            {victory.monster_key ? (
+              <MonsterArt monster={victory.monster_key} className="h-24 w-24" />
+            ) : (
+              <div className="victory-poof" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
+            )}
           </div>
           <DialogTitle>{victory.monster} defeated!</DialogTitle>
           <DialogDescription>
-            {victory.quest_title}: you finished "{victory.task_title}".
+            {victory.message}
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-wrap gap-2">
+        <p className="text-sm text-ink-muted">
+          {victory.quest_title}: "{victory.task_title}"
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
           <Badge tone="signal">+{victory.xp} XP</Badge>
           <Badge tone="signal">+{victory.coins} coins</Badge>
         </div>
@@ -46,6 +59,11 @@ export function VictoryDialog() {
             <strong>Level up!</strong> You reached level {victory.level}.
           </p>
         )}
+        {victory.badges.map((b) => (
+          <p key={b.key} className="mt-3">
+            <strong>New badge: {b.name}.</strong> {b.description}
+          </p>
+        ))}
         <DialogFooter>
           <Button onClick={() => setShownId(victory.id)}>Lovely</Button>
         </DialogFooter>

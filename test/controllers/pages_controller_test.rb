@@ -6,74 +6,72 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "logged-in users see their dashboard at root without a redirect" do
+  test "logged-in users see Today at root without a redirect" do
     log_in_as(users(:one))
     get root_path
     assert_response :success
-    assert_includes response.body, "available_count"
+    assert_includes response.body, "&quot;component&quot;:&quot;Dashboard&quot;"
+    assert_includes response.body, "one_thing"
   end
 
-  test "dashboard offers rule-based suggestions from the user's tasks" do
+  test "Today offers exactly one thing, from the user's own tasks" do
     log_in_as(users(:one))
     get root_path
-    assert_includes response.body, "Banish the Counter Goblins"
+    assert_match(/Banish the Counter Goblins|Tame the Laundry Troll/, response.body)
     assert_not_includes response.body, "Not yours"
-  end
-
-  test "planning with time and energy returns a plan without an AI key" do
-    log_in_as(users(:one))
-    get root_path, params: { minutes: 20, energy: "gentle", plan: 1, context: "my back hurts" }
-    assert_response :success
-    assert_includes response.body, "&quot;source&quot;:&quot;rules&quot;"
-    assert_includes response.body, "Wipe kitchen countertops"
-  end
-
-  test "survival mode plans never include larger tasks" do
-    users(:one).tasks.create!(title: "Deep clean oven", effort: "large", duration_minutes: 20, room: "kitchen")
-    log_in_as(users(:one))
-    get root_path, params: { minutes: 60, energy: "survival", plan: 1 }
-    assert_not_includes response.body, "Deep clean oven"
-  end
-
-  test "just tell me what to do returns exactly one quest" do
-    log_in_as(users(:one))
-    get root_path, params: { just: 1, minutes: 30, energy: "ready" }
-    assert_response :success
-    assert_equal 1, response.body.scan("&quot;single&quot;:{&quot;quest&quot;:{").size
+    assert_equal 1, response.body.scan("&quot;one_thing&quot;:{&quot;quest&quot;:{").size
   end
 
   test "swapping excludes the previous suggestion" do
     log_in_as(users(:one))
-    first = users(:one).tasks.available_on(users(:one).today).map(&:id)
-    get root_path, params: { just: 1, exclude: first }
-    assert_includes response.body, "&quot;quest&quot;:null"
+    ids = users(:one).tasks.available_on(users(:one).today).map(&:id)
+    get root_path, params: { exclude: ids }
+    assert_includes response.body, "&quot;one_thing&quot;:{&quot;quest&quot;:null"
   end
 
-  test "bad check-in params fall back to safe defaults" do
+  test "something easier never offers a larger task" do
+    users(:one).tasks.destroy_all
+    users(:one).tasks.create!(title: "Deep clean", effort: "large", duration_minutes: 20)
     log_in_as(users(:one))
-    get root_path, params: { minutes: "-5", energy: "nonsense", plan: 1, context: "x" * 5000 }
+    get root_path, params: { easier: 1, energy: "gentle" }
+    assert_not_includes response.body, "Deep clean"
+  end
+
+  test "bad params fall back to safe defaults" do
+    log_in_as(users(:one))
+    get root_path, params: { energy: "nonsense", exclude: [ "x", "-1" ] }
     assert_response :success
   end
 
-  test "dashboard greets by display name" do
+  test "Today greets by display name" do
     users(:one).update!(display_name: "Gemma")
     log_in_as(users(:one))
     get root_path
     assert_includes response.body, "Gemma!"
   end
 
-  test "after a long break the dashboard offers a fresh start" do
-    task = tasks(:wipe_counters)
-    task.complete!(today: users(:one).today, at: 10.days.ago)
+  test "after a long break Today offers a fresh start" do
+    tasks(:wipe_counters).complete!(today: users(:one).today, at: 10.days.ago)
     log_in_as(users(:one))
     get root_path
-    assert_includes response.body, "&quot;welcome_back&quot;:true"
+    assert_includes response.body, "&quot;kind&quot;:&quot;welcome_back&quot;"
   end
 
-  test "recent activity does not show the welcome-back message" do
+  test "Today shows the week and today's wins" do
     tasks(:wipe_counters).complete!(today: users(:one).today)
     log_in_as(users(:one))
     get root_path
-    assert_includes response.body, "&quot;welcome_back&quot;:false"
+    assert_includes response.body, "&quot;today&quot;:{&quot;wins&quot;:1"
+    assert_includes response.body, "&quot;active_days&quot;:1"
+  end
+
+  test "a planned intention is sticky for the day" do
+    user = users(:one)
+    log_in_as(user)
+    laundry = tasks(:laundry_weekly)
+    post intentions_path, params: { task_id: laundry.id, anchor: "after dinner" }
+    get root_path
+    assert_includes response.body, "Put one load of washing on"
+    assert_includes response.body, "after dinner"
   end
 end

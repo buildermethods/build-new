@@ -36,26 +36,29 @@ class QuestsTest < ApplicationSystemTestCase
     assert_text "No quests match these filters."
   end
 
-  test "check in, ask what to do, focus and finish" do
+  test "Today shows one thing; start with two minutes, then finish it" do
     visit root_path
-    click_button "15 min"
-    click_button "Gentle Adventure"
-    click_button "Just tell me what to do"
-    assert_text "Your next quest"
+    assert_text "Your one thing today"
     assert_text "To do:"
+    assert_selector "[role=progressbar][aria-label=\"Today's wins\"]"
 
-    click_button "Start"
+    click_button "Start with 2 minutes"
     within("[role=dialog]") do
+      click_button "Just 2 minutes"
       assert_selector "[role=timer]"
       click_button "Complete"
     end
     assert_text "defeated!"
   end
 
-  test "plan my quests shows a plan with a buffer" do
-    visit root_path
+  test "plan my day is three separate steps ending in a plan with a buffer" do
+    visit plan_path
+    assert_text "How much time do you have?"
     click_button "30 min"
-    click_button "Plan my quests"
+    click_button "Next: your energy"
+    assert_text "How is your energy?"
+    click_button "Ready for Battle"
+    click_button "Make my plan"
     assert_selector "section[aria-label='Your plan']"
     assert_text "free as a buffer"
   end

@@ -85,8 +85,8 @@ class OnboardingController < ApplicationController
   def complete
     Onboarding::Complete.call(user: Current.user, draft: @draft, display_name: params[:display_name],
                               anchor: params[:anchor], treat: params[:treat])
-    redirect_to root_path(just: 1, minutes: 15, energy: "gentle"),
-                notice: "Welcome! A fern now sits in your cottage. Here is a first quest to try."
+    redirect_to root_path(energy: "gentle"),
+                notice: "Welcome! A fern now sits in your cottage, and you start with a little XP. Here is your first quest."
   end
 
   def skip

@@ -2,12 +2,15 @@
 // is always shown beneath the fantasy title so the real action stays clear.
 import * as React from "react"
 import { Badge } from "@/components/ui/badge"
+import { MonsterArt } from "@/components/ui/monster-art"
 import { cn } from "@/lib/utils"
 
 export interface QuestCardProps extends React.HTMLAttributes<HTMLElement> {
   fantasyTitle: string
   title: string
   monsterName: string
+  /** Catalogue key (e.g. "counter_goblins") to show the monster illustration. */
+  monsterKey?: string
   minutes: number
   difficulty: string
   xp: number
@@ -20,7 +23,7 @@ export interface QuestCardProps extends React.HTMLAttributes<HTMLElement> {
 
 const QuestCard = React.forwardRef<HTMLElement, QuestCardProps>(
   (
-    { fantasyTitle, title, monsterName, minutes, difficulty, xp, coins, status, actions, className, ...props },
+    { fantasyTitle, title, monsterName, monsterKey, minutes, difficulty, xp, coins, status, actions, className, ...props },
     ref,
   ) => (
     <article
@@ -28,8 +31,13 @@ const QuestCard = React.forwardRef<HTMLElement, QuestCardProps>(
       className={cn("rounded-xl border border-hairline bg-surface p-4", className)}
       {...props}
     >
-      <p className="text-sm text-ink-muted">{monsterName}</p>
-      <h3 className="mt-1">{fantasyTitle}</h3>
+      <div className="flex items-center gap-3">
+        {monsterKey && <MonsterArt monster={monsterKey} className="h-14 w-14" />}
+        <div>
+          <p className="text-sm text-ink-muted">{monsterName}</p>
+          <h3 className="mt-1">{fantasyTitle}</h3>
+        </div>
+      </div>
       <p className="mt-1">
         <strong>To do:</strong> {title}
       </p>

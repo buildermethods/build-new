@@ -1,6 +1,7 @@
 import { router } from "@inertiajs/react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { MonsterArt } from "@/components/ui/monster-art"
 
 import type { FocusTarget, QuestPlan } from "@/types/inertia"
 
@@ -18,8 +19,13 @@ export function PlanView({ plan, onStart }: { plan: QuestPlan; onStart: (target:
         <ol className="space-y-4">
           {plan.quests.map((q, i) => (
             <li key={q.task_id} className="rounded-xl border border-hairline bg-surface p-4">
-              <p className="text-sm text-ink-muted">Step {i + 1} · {q.monster}</p>
-              <h3 className="mt-1">{q.quest_title}</h3>
+              <div className="flex items-center gap-3">
+                <MonsterArt monster={q.monster_key} className="h-14 w-14" />
+                <div>
+                  <p className="text-sm text-ink-muted">Step {i + 1} · {q.monster}</p>
+                  <h3 className="mt-1">{q.quest_title}</h3>
+                </div>
+              </div>
               <p className="mt-1">
                 <strong>To do:</strong> {q.real_task}
               </p>
@@ -43,6 +49,7 @@ export function PlanView({ plan, onStart }: { plan: QuestPlan; onStart: (target:
                   onClick={() =>
                     onStart({
                       task_id: q.task_id,
+                      monster_key: q.monster_key,
                       title: q.real_task,
                       quest_title: q.quest_title,
                       minutes: q.estimated_minutes,

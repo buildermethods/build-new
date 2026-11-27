@@ -16,3 +16,9 @@ level_base: 100
 # XP earned by tasks linked to its steps.
 routine_bonus_xp: 20
 routine_bonus_coins: 10
+
+# Small one-off rewards that make beginning feel good. Starting a task pays once
+# per task per day; the welcome bonus pays once ever and gives the XP bar a
+# head start.
+start_xp: 3
+welcome_xp: 20

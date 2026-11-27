@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_one :player_progress, dependent: :destroy
   has_many :reward_transactions, dependent: :destroy
   has_many :routines, dependent: :destroy
+  has_many :daily_intentions, dependent: :destroy
+  has_many :user_achievements, dependent: :destroy
   has_many :owned_decorations, dependent: :destroy
   has_many :sanctuary_placements, dependent: :destroy
 
@@ -33,7 +35,10 @@ class User < ApplicationRecord
 
   # The user's current calendar date in their own timezone (falls back to UTC).
   def today
-    zone = ActiveSupport::TimeZone[timezone.to_s] || ActiveSupport::TimeZone["UTC"]
     zone.today
+  end
+
+  def zone
+    ActiveSupport::TimeZone[timezone.to_s] || ActiveSupport::TimeZone["UTC"]
   end
 end

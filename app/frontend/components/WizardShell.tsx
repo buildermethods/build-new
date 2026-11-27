@@ -62,7 +62,7 @@ export function WizardShell({
 
       <div className="mt-8">{children}</div>
 
-      <div className="mt-10 flex flex-wrap items-center gap-3">
+      <div className="sticky bottom-0 -mx-6 mt-10 flex flex-wrap items-center gap-3 border-t border-hairline bg-page/95 px-6 py-4 backdrop-blur">
         {wizard.back_path && (
           <Button asChild variant="ghost">
             <Link href={wizard.back_path}>Back</Link>

@@ -14,11 +14,11 @@ class OnboardingTest < ApplicationSystemTestCase
 
     assert_text "Which rooms do you have?"
     within(find("li", text: "Bedroom")) do
-      click_button "Include"
-      click_button "More Bedroom rooms"
+      js_click find_button("Include")
+      js_click find_button("More Bedroom rooms")
     end
-    within(find("li", text: "Kitchen")) { click_button "Include" }
-    click_button "Next: choose chores"
+    within(find("li", text: "Kitchen")) { js_click find_button("Include") }
+    js_click find_button("Next: choose chores")
 
     assert_text "Which chores do you want?"
     assert_text "Wipe the kitchen sides"
@@ -35,7 +35,7 @@ class OnboardingTest < ApplicationSystemTestCase
 
     assert_text "Good", wait: 5
     assert_text "Gemma!"
-    assert_text "Your next quest"
+    assert_text "Your one thing today"
     assert_selector "svg[aria-label*='Fern in a Pot']"
   end
 

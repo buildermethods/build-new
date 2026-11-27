@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TasksController < ApplicationController
-  before_action :set_task, only: %i[update destroy complete uncomplete skip defer]
+  before_action :set_task, only: %i[update destroy complete uncomplete skip defer start]
 
   def create
     task = Current.user.tasks.build(task_params)
@@ -30,8 +30,19 @@ class TasksController < ApplicationController
 
   def complete
     completion = @task.complete!(today: Current.user.today)
-    flash[:victory] = victory_payload(completion) if completion&.reward&.awarded
+    flash[:victory] = victory_payload(completion, Achievements::Evaluator.call(Current.user)) if completion&.reward&.awarded
     redirect_back fallback_location: quests_path
+  end
+
+  # Beginning counts: a small one-off XP award the first time a task is started
+  # each day (the "just 2 minutes" button). Called with a raw fetch(), not
+  # Inertia's router, so it returns JSON and sets no flash that a following
+  # redirect could swallow.
+  def start
+    user = Current.user
+    result = Game::AwardOneOff.call(user: user, kind: "start", reference: "#{@task.id}:#{user.today.iso8601}",
+                                    xp: Game::Economy.start_xp)
+    render json: { awarded: result.awarded, xp: result.xp }
   end
 
   def uncomplete
@@ -62,17 +73,21 @@ class TasksController < ApplicationController
                     recurrence_weekdays: [])
     end
 
-    def victory_payload(completion)
+    def victory_payload(completion, badges)
       reward = completion.reward
+      first = Current.user.completions.active.count == 1
       {
         id: completion.id,
         monster: Game::Catalog.monster(@task.monster_key_or_default)["name"],
+        monster_key: @task.monster_key_or_default,
         quest_title: @task.fantasy_title_or_default,
         task_title: @task.title,
+        message: Habits::Messages.victory(task: @task, completion: completion, first: first, leveled_up: reward.leveled_up?),
         xp: reward.xp,
         coins: reward.coins,
         level: reward.to_level,
-        leveled_up: reward.leveled_up?
+        leveled_up: reward.leveled_up?,
+        badges: badges
       }
     end
 
