@@ -41,3 +41,8 @@ cosy_collector:
   description: Own 5 cottage decorations.
   metric: decorations
   threshold: 5
+dragon_tamer:
+  name: Dragon Tamer
+  description: Defeat your first boss battle.
+  metric: bosses
+  threshold: 1

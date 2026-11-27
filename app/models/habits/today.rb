@@ -27,6 +27,7 @@ module Habits
         anchors: Onboarding::Complete::ANCHORS,
         default_anchor: @user.anchor,
         treat: @user.treat,
+        boss: active_boss,
         todos: @user.todos.open.newest_first.limit(3).map { |t| { id: t.id, title: t.title } },
         todo_open_count: @user.todos.open.count,
         achievements: achievements,
@@ -43,6 +44,12 @@ module Habits
           energy: pick.energy,
           intention: pick.intention && { anchor: pick.intention.anchor }
         }
+      end
+
+      def active_boss
+        battle = @user.boss_battles.active.includes(:stages).newest_first.first
+        battle && { id: battle.id, title: battle.title, monster_key: battle.monster_key,
+                    health_remaining: battle.health_remaining, health_total: BossBattle::TOTAL_HEALTH }
       end
 
       def achievements

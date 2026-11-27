@@ -10,9 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_23_000013) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_23_000014) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "boss_battles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "title", null: false
+    t.string "monster_key", null: false
+    t.string "status", default: "active", null: false
+    t.datetime "defeated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "status"], name: "index_boss_battles_on_user_id_and_status"
+    t.index ["user_id"], name: "index_boss_battles_on_user_id"
+  end
+
+  create_table "boss_stages", force: :cascade do |t|
+    t.bigint "boss_battle_id", null: false
+    t.string "title", null: false
+    t.integer "position", default: 0, null: false
+    t.integer "damage", default: 0, null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["boss_battle_id"], name: "index_boss_stages_on_boss_battle_id"
+  end
 
   create_table "completions", force: :cascade do |t|
     t.bigint "task_id", null: false
@@ -323,6 +346,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000013) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "boss_battles", "users"
+  add_foreign_key "boss_stages", "boss_battles"
   add_foreign_key "completions", "tasks"
   add_foreign_key "completions", "users"
   add_foreign_key "daily_intentions", "tasks", on_delete: :cascade

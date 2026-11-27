@@ -45,6 +45,10 @@ module Game
         chore_rooms.dig(room_key.to_s, "chores")&.find { |c| c["key"] == chore_key.to_s }
       end
 
+      def boss_templates
+        @boss_templates ||= load_yaml("boss_templates.yml")
+      end
+
       def achievements
         @achievements ||= load_yaml("achievements.yml")
       end
@@ -66,6 +70,7 @@ module Game
         @decoration_config = nil
         @chore_catalog = nil
         @achievements = nil
+        @boss_templates = nil
         @monsters = nil
         @energy_modes = nil
       end

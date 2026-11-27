@@ -27,3 +27,9 @@ welcome_xp: 20
 # adding and ticking lots of throwaway items.
 todo_xp: 2
 todo_daily_cap: 5
+
+# Boss battles: each stage cleared pays a little, and defeating the boss pays
+# the big reward (the spec's 100-200 XP band). All exactly-once via the ledger.
+boss_stage_xp: 10
+boss_defeat_xp: 150
+boss_defeat_coins: 60

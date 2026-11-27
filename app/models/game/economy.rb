@@ -13,6 +13,14 @@ module Game
         (xp_for(effort) * config.fetch("coins_per_xp")).round
       end
 
+      def boss_stage_xp
+        config.fetch("boss_stage_xp")
+      end
+
+      def boss_defeat
+        { xp: config.fetch("boss_defeat_xp"), coins: config.fetch("boss_defeat_coins") }
+      end
+
       def todo_xp
         config.fetch("todo_xp")
       end

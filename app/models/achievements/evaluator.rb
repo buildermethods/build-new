@@ -57,6 +57,7 @@ module Achievements
         when "week_days" then Habits::WeekProgress.new(@user).active_days
         when "comeback" then comeback? ? 1 : 0
         when "decorations" then @user.owned_decorations.count
+        when "bosses" then @user.boss_battles.where(status: "defeated").count
         else 0
         end
       end

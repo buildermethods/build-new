@@ -58,6 +58,16 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :boss_battles, path: "battles", only: %i[ index show new create ] do
+    member { post :abandon }
+    resources :stages, only: [], controller: "boss_stages" do
+      member do
+        post :complete
+        post :uncomplete
+      end
+    end
+  end
+
   get "achievements", to: "achievements#index", as: :achievements
   get "plan", to: "plans#show", as: :plan
   post "intentions", to: "intentions#create", as: :intentions

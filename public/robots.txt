@@ -18,6 +18,7 @@ Disallow: /routines
 Disallow: /sanctuary
 Disallow: /plan
 Disallow: /todos
+Disallow: /battles
 Disallow: /achievements
 Disallow: /intentions
 Disallow: /welcome

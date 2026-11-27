@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
+import { MonsterArt } from "@/components/ui/monster-art"
 import { ProgressRing } from "@/components/ui/progress-ring"
 
 import type { Badge as BadgeType, FocusTarget, PageProps, Quest, SanctuaryData } from "@/types/inertia"
@@ -26,6 +27,7 @@ type TodayProps = {
   anchors: string[]
   default_anchor: string | null
   treat: string | null
+  boss: { id: number; title: string; monster_key: string; health_remaining: number; health_total: number } | null
   todos: { id: number; title: string }[]
   todo_open_count: number
   achievements: BadgeType[]
@@ -34,7 +36,7 @@ type TodayProps = {
 
 export default function Today() {
   const { props } = usePage<PageProps<TodayProps>>()
-  const { greeting, prompt, one_thing, week, today, identity, anchors, default_anchor, treat, achievements, sanctuary, todos, todo_open_count } = props
+  const { greeting, prompt, one_thing, week, today, identity, anchors, default_anchor, treat, achievements, sanctuary, todos, todo_open_count, boss } = props
   const [newTodo, setNewTodo] = useState("")
   const [excluded, setExcluded] = useState<number[]>([])
   const [focus, setFocus] = useState<FocusTarget | null>(null)
@@ -143,6 +145,20 @@ export default function Today() {
             </Button>
           </div>
         </section>
+
+        {boss && (
+          <section className="mt-10" aria-label="Boss battle in progress">
+            <h2>Boss battle in progress</h2>
+            <div className="mt-3 flex max-w-xl items-center gap-4 rounded-2xl border border-hairline bg-surface p-4">
+              <MonsterArt monster={boss.monster_key} className="h-16 w-16" />
+              <div className="flex-1">
+                <p><strong>{boss.title}</strong></p>
+                <p className="text-sm text-ink-muted">{boss.health_remaining} / {boss.health_total} HP left</p>
+              </div>
+              <Button asChild size="sm"><Link href={`/battles/${boss.id}`}>Continue</Link></Button>
+            </div>
+          </section>
+        )}
 
         <section className="mt-10" aria-label="Quick to-dos">
           <div className="flex flex-wrap items-baseline justify-between gap-2">

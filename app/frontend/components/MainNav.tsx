@@ -11,6 +11,7 @@ import {
   LogOut,
   Menu,
   Repeat,
+  Swords,
   Settings,
   Shield,
   User,
@@ -62,6 +63,12 @@ const DEFAULT_NAV_ITEMS: NavItemDef[] = [
     icon: Repeat,
     label: "Routines",
     match: (url) => url.startsWith("/routines"),
+  },
+  {
+    href: "/battles",
+    icon: Swords,
+    label: "Battles",
+    match: (url) => url.startsWith("/battles"),
   },
   {
     href: "/sanctuary",
