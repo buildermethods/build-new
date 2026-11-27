@@ -68,6 +68,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get "insights", to: "insights#index", as: :insights
   get "codex", to: "codex#index", as: :codex
   post "challenges/:period/claim", to: "challenges#claim", as: :claim_challenge
   get "achievements", to: "achievements#index", as: :achievements

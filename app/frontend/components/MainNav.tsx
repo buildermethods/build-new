@@ -5,6 +5,7 @@ import {
   ChevronsRight,
   Home,
   Award,
+  BarChart3,
   BookOpen,
   Flower2 as Cottage,
   ListChecks,
@@ -82,6 +83,12 @@ const DEFAULT_NAV_ITEMS: NavItemDef[] = [
     icon: BookOpen,
     label: "Codex",
     match: (url) => url.startsWith("/codex"),
+  },
+  {
+    href: "/insights",
+    icon: BarChart3,
+    label: "Insights",
+    match: (url) => url.startsWith("/insights"),
   },
   {
     href: "/achievements",

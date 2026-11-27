@@ -18,7 +18,7 @@ const DESCRIPTION =
 
 type TodayProps = {
   greeting: string
-  prompt: { kind: string; message: string } | null
+  prompt: { kind: string; message: string; link?: { href: string; label: string } } | null
   available_count: number
   one_thing: { quest: Quest | null; energy: string; intention: { anchor: string | null } | null }
   week: { days: { label: string; date: string; active: boolean; today: boolean }[]; active_days: number; target: number; met: boolean }
@@ -61,7 +61,10 @@ export default function Today() {
 
         {prompt && (
           <div className="callout callout-accent mt-4" role="status">
-            <p className="text-ink-body">{prompt.message}</p>
+            <p className="text-ink-body">
+              {prompt.message}
+              {prompt.link && <> <Link href={prompt.link.href}>{prompt.link.label}</Link></>}
+            </p>
           </div>
         )}
 

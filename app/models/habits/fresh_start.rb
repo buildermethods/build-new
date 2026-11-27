@@ -9,7 +9,8 @@ module Habits
     def call(user, today:, welcome_back:, wins_today:)
       return { kind: "welcome_back", message: "Welcome back! Everything you earned is safe, and nothing has piled up. Start with something small whenever you like." } if welcome_back
       return { kind: "new_month", message: "A new month, a fresh start. What's one small thing you'd like to tackle first?" } if today.day == 1
-      return { kind: "new_week", message: "A new week, a fresh start. Your week's progress begins again today." } if today.monday?
+      return { kind: "new_week", message: "A new week, a fresh start. Your week's progress begins again today.", link: { href: "/insights", label: "See how last week went" } } if today.monday?
+      return { kind: "week_review", message: "Your week is wrapping up. Take a peek at how it went, then rest.", link: { href: "/insights", label: "See this week" } } if today.sunday?
       return quiet_day(user, today) if wins_today.zero?
 
       nil

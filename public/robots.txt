@@ -20,6 +20,7 @@ Disallow: /plan
 Disallow: /todos
 Disallow: /battles
 Disallow: /codex
+Disallow: /insights
 Disallow: /achievements
 Disallow: /intentions
 Disallow: /welcome
