@@ -27,8 +27,22 @@ module Game
         energy_modes[key.to_s] || energy_modes.fetch("ready")
       end
 
-      def starter_tasks
-        @starter_tasks ||= YAML.load_file(Rails.root.join("config/game/starter_tasks.yml"))
+      # Setup chore catalogue: rooms (with their chores) and the frequency
+      # vocabulary that maps onto Tasks::Recurrence.
+      def chore_rooms
+        chore_catalog.fetch("rooms")
+      end
+
+      def frequencies
+        chore_catalog.fetch("frequencies")
+      end
+
+      def frequency(key)
+        frequencies[key.to_s]
+      end
+
+      def chore(room_key, chore_key)
+        chore_rooms.dig(room_key.to_s, "chores")&.find { |c| c["key"] == chore_key.to_s }
       end
 
       def decoration_slots
@@ -46,12 +60,16 @@ module Game
 
       def reset!
         @decoration_config = nil
-        @starter_tasks = nil
+        @chore_catalog = nil
         @monsters = nil
         @energy_modes = nil
       end
 
       private
+        def chore_catalog
+          @chore_catalog ||= load_yaml("chore_catalog.yml")
+        end
+
         def decoration_config
           @decoration_config ||= load_yaml("decorations.yml")
         end

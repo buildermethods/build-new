@@ -4,7 +4,7 @@
 laundry_troll:
   name: Laundry Troll
   quest_title: Tame the Laundry Troll
-  rooms: [laundry]
+  rooms: [laundry, utility]
   categories: [laundry]
 dust_bunny_horde:
   name: Dust Bunny Horde
@@ -34,7 +34,7 @@ toy_swarm:
 backpack_bandits:
   name: Backpack Bandits
   quest_title: Outwit the Backpack Bandits
-  rooms: []
+  rooms: [hallway]
   categories: [school]
 wardrobe_wraith:
   name: Wardrobe Wraith

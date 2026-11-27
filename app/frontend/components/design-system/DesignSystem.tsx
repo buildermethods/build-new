@@ -21,6 +21,7 @@ import { BadgesSection } from "@/components/design-system/sections/elements/Badg
 import { QuestCardSection } from "@/components/design-system/sections/elements/QuestCardSection";
 import { XpBarSection } from "@/components/design-system/sections/elements/XpBarSection";
 import { CottageSection } from "@/components/design-system/sections/elements/CottageSection";
+import { RoomIconSection } from "@/components/design-system/sections/elements/RoomIconSection";
 import { ToggleButtonsSection } from "@/components/design-system/sections/elements/ToggleButtonsSection";
 import { ListingsSection } from "@/components/design-system/sections/elements/ListingsSection";
 import { DataTableSection } from "@/components/design-system/sections/elements/DataTableSection";
@@ -124,6 +125,7 @@ export function DesignSystem() {
           <QuestCardSection />
           <XpBarSection />
           <CottageSection />
+          <RoomIconSection />
           <ListingsSection />
           <DataTableSection />
           <ModalSection />

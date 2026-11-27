@@ -14,6 +14,7 @@ export type Quest = {
   title: string
   notes: string | null
   room: string
+  room_label: string | null
   category: string
   duration_minutes: number
   effort: "tiny" | "small" | "medium" | "large" | "boss"
@@ -93,14 +94,6 @@ export type Routine = {
   steps: RoutineStep[]
   done_count: number
   total: number
-}
-
-export type StarterTask = {
-  key: string
-  title: string
-  room: string
-  duration_minutes: number
-  effort: string
 }
 
 export type QuestHistoryItem = {

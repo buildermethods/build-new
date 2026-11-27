@@ -17,6 +17,7 @@ Disallow: /quests
 Disallow: /routines
 Disallow: /sanctuary
 Disallow: /welcome
+Disallow: /add-chores
 Disallow: /settings
 Disallow: /profile
 Disallow: /letter_opener

@@ -36,6 +36,7 @@ const NAV: NavGroup[] = [
       { id: "quest-card", label: "Quest card" },
       { id: "xp-bar", label: "XP bar" },
       { id: "cottage", label: "Cottage" },
+      { id: "room-icon", label: "Room icon" },
       { id: "listings", label: "Listings" },
       { id: "data-table", label: "Data table" },
       { id: "modal", label: "Modal" },

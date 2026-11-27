@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Head, router, usePage } from "@inertiajs/react"
+import { Head, Link, router, usePage } from "@inertiajs/react"
 import { AppShell } from "@/components/AppShell"
 import { PageHeader } from "@/components/PageHeader"
 import { Button } from "@/components/ui/button"
@@ -142,7 +142,14 @@ export default function QuestsIndex() {
         <PageHeader
           title="Quest Board"
           description="Your chores, as quests. Skip or postpone any of them with no penalty."
-          actions={<Button onClick={() => openForm(null)}>Add quest</Button>}
+          actions={
+            <>
+              <Button asChild variant="secondary">
+                <Link href="/add-chores/rooms">Add suggested chores</Link>
+              </Button>
+              <Button onClick={() => openForm(null)}>Add quest</Button>
+            </>
+          }
         />
 
         <section className="mt-8 space-y-3" aria-label="Filters">

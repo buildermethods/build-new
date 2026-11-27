@@ -17,6 +17,7 @@ class TaskPresenter
       title: @task.title,
       notes: @task.notes,
       room: @task.room,
+      room_label: @task.room_label,
       category: @task.category,
       duration_minutes: @task.duration_minutes,
       effort: @task.effort,

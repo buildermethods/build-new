@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react"
-import { Head, router, useForm, usePage } from "@inertiajs/react"
+import { Head, Link, router, useForm, usePage } from "@inertiajs/react"
 import { AppShell } from "@/components/AppShell"
 import { PageHeader } from "@/components/PageHeader"
 import { Button } from "@/components/ui/button"
@@ -71,6 +71,14 @@ export default function Settings() {
 
           <Button type="submit" disabled={form.processing}>Save settings</Button>
         </form>
+
+        <section className="mt-12 max-w-md" aria-label="Suggested chores">
+          <h2>Suggested chores</h2>
+          <p className="mt-2">Add more of the usual housework for any room, with sensible frequencies.</p>
+          <Button asChild className="mt-4" variant="secondary">
+            <Link href="/add-chores/rooms">Add suggested chores</Link>
+          </Button>
+        </section>
 
         <section className="mt-12 max-w-md" aria-label="Reset">
           <h2>Reset game data</h2>

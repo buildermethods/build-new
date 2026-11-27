@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_23_000010) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_23_000011) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -269,7 +269,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000010) do
     t.datetime "completed_at"
     t.string "monster_key"
     t.string "fantasy_title"
+    t.string "room_label"
+    t.string "source_key"
     t.index ["user_id", "created_at"], name: "index_tasks_on_user_id_and_created_at"
+    t.index ["user_id", "source_key"], name: "index_tasks_on_user_id_and_source_key", unique: true, where: "(source_key IS NOT NULL)"
     t.index ["user_id", "status"], name: "index_tasks_on_user_id_and_status"
   end
 
@@ -283,6 +286,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000010) do
     t.string "display_name"
     t.boolean "reduced_motion", default: false, null: false
     t.datetime "onboarded_at"
+    t.jsonb "onboarding_draft", default: {}, null: false
+    t.string "anchor"
+    t.string "treat"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

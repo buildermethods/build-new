@@ -24,9 +24,21 @@ Rails.application.routes.draw do
   post "sanctuary/equip/:key",    to: "decorations#equip",    as: :equip_decoration
   post "sanctuary/unequip/:slot", to: "decorations#unequip",  as: :unequip_decoration
 
-  get  "welcome",      to: "onboarding#show",   as: :welcome
-  post "welcome",      to: "onboarding#create"
-  post "welcome/skip", to: "onboarding#skip",   as: :skip_welcome
+  # First-run setup (/welcome/*) and "add more suggested chores"
+  # (/add-chores/*) share one controller; `mode` picks the flow.
+  get "welcome", to: "onboarding#intro", defaults: { mode: "setup" }, as: :welcome
+  { "setup" => "welcome", "add" => "add-chores" }.each do |mode, base|
+    defaults = { mode: mode }
+    get  "#{base}/rooms",     to: "onboarding#rooms",          defaults: defaults, as: :"#{mode}_rooms"
+    post "#{base}/rooms",     to: "onboarding#save_rooms",     defaults: defaults
+    get  "#{base}/chores",    to: "onboarding#chores",         defaults: defaults, as: :"#{mode}_chores"
+    post "#{base}/chores",    to: "onboarding#save_chores",    defaults: defaults
+    get  "#{base}/frequency", to: "onboarding#frequency",      defaults: defaults, as: :"#{mode}_frequency"
+    post "#{base}/frequency", to: "onboarding#save_frequency", defaults: defaults
+  end
+  get  "welcome/finish", to: "onboarding#finish",   defaults: { mode: "setup" }, as: :setup_finish
+  post "welcome/finish", to: "onboarding#complete", defaults: { mode: "setup" }
+  post "welcome/skip",   to: "onboarding#skip",     defaults: { mode: "setup" }, as: :skip_welcome
 
   resources :routines, only: %i[ index create update destroy ] do
     member { post :complete_all }

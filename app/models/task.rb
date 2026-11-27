@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Task < ApplicationRecord
-  ROOMS = %w[kitchen bathroom bedroom living_room laundry kids_room garden office other].freeze
+  ROOMS = %w[kitchen bathroom bedroom living_room hallway utility laundry kids_room garden office other].freeze
   CATEGORIES = %w[cleaning laundry school admin kids wellbeing outdoors other].freeze
   EFFORTS = %w[tiny small medium large boss].freeze
   PRIORITIES = %w[low normal high].freeze
@@ -13,6 +13,7 @@ class Task < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: 200 }
   validates :notes, length: { maximum: 2000 }
+  validates :room_label, length: { maximum: 80 }
   validates :room, inclusion: { in: ROOMS }
   validates :category, inclusion: { in: CATEGORIES }
   validates :effort, inclusion: { in: EFFORTS }
@@ -140,6 +141,9 @@ class Task < ApplicationRecord
 
     def schedule_first_due_date
       return unless new_record? || will_save_change_to_recurrence_kind? || will_save_change_to_recurrence_weekdays?
+
+      # A caller (e.g. onboarding) may pre-set a staggered first date.
+      return if new_record? && next_due_on.present?
 
       self.next_due_on = Tasks::Recurrence.initial_due_on(self, user.today)
     end
