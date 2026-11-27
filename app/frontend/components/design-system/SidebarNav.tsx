@@ -34,6 +34,7 @@ const NAV: NavGroup[] = [
       { id: "badges", label: "Badges" },
       { id: "toggle-buttons", label: "Toggle buttons" },
       { id: "quest-card", label: "Quest card" },
+      { id: "xp-bar", label: "XP bar" },
       { id: "listings", label: "Listings" },
       { id: "data-table", label: "Data table" },
       { id: "modal", label: "Modal" },

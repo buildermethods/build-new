@@ -55,6 +55,7 @@ class Task < ApplicationRecord
       next nil unless available_on?(today)
 
       completion = completions.create!(user: user, completed_at: at, previous_next_due_on: next_due_on)
+      completion.reward = Game::AwardCompletion.call(completion)
       if recurring?
         update!(next_due_on: Tasks::Recurrence.next_due_on(self, today), deferred_until: nil)
       else
@@ -71,6 +72,7 @@ class Task < ApplicationRecord
       next nil unless completion
 
       completion.update!(undone_at: at)
+      Game::UndoCompletion.call(completion)
       if recurring?
         update!(next_due_on: completion.previous_next_due_on)
       else

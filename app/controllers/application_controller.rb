@@ -13,8 +13,10 @@ class ApplicationController < ActionController::Base
       },
       flash: {
         notice: flash.notice,
-        alert: flash.alert
-      }
+        alert: flash.alert,
+        victory: flash[:victory]
+      },
+      player: Current.user && Current.user.progress.as_player_json
     }
   end
 end

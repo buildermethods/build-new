@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_23_000007) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_23_000008) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -25,6 +25,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000007) do
     t.index ["task_id"], name: "index_completions_on_task_id"
     t.index ["user_id", "completed_at"], name: "index_completions_on_user_id_and_completed_at"
     t.index ["user_id"], name: "index_completions_on_user_id"
+  end
+
+  create_table "player_progresses", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "xp", default: 0, null: false
+    t.integer "coins", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_player_progresses_on_user_id", unique: true
+  end
+
+  create_table "reward_transactions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "completion_id"
+    t.string "kind", null: false
+    t.integer "xp_delta", default: 0, null: false
+    t.integer "coin_delta", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["completion_id", "kind"], name: "index_reward_transactions_once_per_completion", unique: true, where: "(completion_id IS NOT NULL)"
+    t.index ["completion_id"], name: "index_reward_transactions_on_completion_id"
+    t.index ["user_id"], name: "index_reward_transactions_on_user_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -215,6 +237,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000007) do
 
   add_foreign_key "completions", "tasks"
   add_foreign_key "completions", "users"
+  add_foreign_key "player_progresses", "users"
+  add_foreign_key "reward_transactions", "completions"
+  add_foreign_key "reward_transactions", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

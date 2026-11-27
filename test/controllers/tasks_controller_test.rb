@@ -98,4 +98,45 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
     assert_equal "Not yours", other.reload.title
   end
+
+  test "completing a quest awards rewards and shows the victory once" do
+    log_in_as(@user)
+    post complete_task_path(@task)
+    assert_equal 15, @user.progress.xp
+    assert_equal 8, @user.progress.coins
+
+    follow_redirect!
+    assert_includes response.body, "Counter Goblins"
+    assert_includes response.body, "victory"
+  end
+
+  test "double-posting a completion awards once" do
+    log_in_as(@user)
+    2.times { post complete_task_path(@task) }
+    assert_equal 15, @user.progress.xp
+    assert_equal 1, RewardTransaction.where(kind: "completion").count
+  end
+
+  test "undoing a completion takes the rewards back" do
+    log_in_as(@user)
+    post complete_task_path(@task)
+    post uncomplete_task_path(@task)
+    assert_equal 0, @user.progress.xp
+    assert_equal 0, @user.progress.coins
+  end
+
+  test "skipping and deferring award nothing" do
+    log_in_as(@user)
+    post skip_task_path(@weekly)
+    post defer_task_path(@task)
+    assert_equal 0, @user.progress.xp
+    assert_equal 0, RewardTransaction.count
+  end
+
+  test "pages include the player's level and coins" do
+    log_in_as(@user)
+    post complete_task_path(@task)
+    get quests_path
+    assert_includes response.body, "xp_into_level"
+  end
 end

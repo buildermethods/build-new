@@ -13,6 +13,17 @@ module Game
         (xp_for(effort) * config.fetch("coins_per_xp")).round
       end
 
+      # Cumulative XP needed to reach `level` (level 1 needs none).
+      def xp_to_reach(level)
+        config.fetch("level_base") * level * (level - 1) / 2
+      end
+
+      def level_for(xp)
+        level = 1
+        level += 1 while xp >= xp_to_reach(level + 1)
+        level
+      end
+
       private
         def config
           @config ||= YAML.load_file(Rails.root.join("config/game/economy.yml"))

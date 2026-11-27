@@ -29,7 +29,8 @@ class TasksController < ApplicationController
   end
 
   def complete
-    @task.complete!(today: Current.user.today)
+    completion = @task.complete!(today: Current.user.today)
+    flash[:victory] = victory_payload(completion) if completion&.reward&.awarded
     redirect_back fallback_location: quests_path
   end
 
@@ -59,6 +60,20 @@ class TasksController < ApplicationController
       params.permit(:title, :notes, :room, :category, :duration_minutes, :effort, :priority,
                     :due_on, :recurrence_kind, :recurrence_interval_days, :monster_key,
                     recurrence_weekdays: [])
+    end
+
+    def victory_payload(completion)
+      reward = completion.reward
+      {
+        id: completion.id,
+        monster: Game::Catalog.monster(@task.monster_key_or_default)["name"],
+        quest_title: @task.fantasy_title_or_default,
+        task_title: @task.title,
+        xp: reward.xp,
+        coins: reward.coins,
+        level: reward.to_level,
+        leveled_up: reward.leveled_up?
+      }
     end
 
     def redirect_back_with_errors(task)

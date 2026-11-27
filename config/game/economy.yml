@@ -7,3 +7,7 @@ xp_by_effort:
   large: 85
   boss: 150
 coins_per_xp: 0.5
+
+# Cumulative XP needed to reach level L is level_base * L * (L - 1) / 2,
+# so level 2 = 100, level 3 = 300, level 4 = 600 with the default base.
+level_base: 100

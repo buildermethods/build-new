@@ -48,11 +48,32 @@ export type QuestOptions = {
   recurrence_kinds: string[]
 }
 
+export type Player = {
+  level: number
+  xp: number
+  coins: number
+  xp_into_level: number
+  xp_for_next_level: number
+}
+
+export type Victory = {
+  id: number
+  monster: string
+  quest_title: string
+  task_title: string
+  xp: number
+  coins: number
+  level: number
+  leveled_up: boolean
+}
+
 export type SharedProps = {
   current_user: CurrentUser
+  player: Player | null
   flash: {
     notice: string | null
     alert: string | null
+    victory: Victory | null
   }
   errors: Record<string, string>
 }
