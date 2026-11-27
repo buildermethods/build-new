@@ -3,6 +3,8 @@
 class PlayerProgress < ApplicationRecord
   belongs_to :user
 
+  before_save { self.peak_level = [ peak_level, level ].max }
+
   validates :xp, :coins, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   def level

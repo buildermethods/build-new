@@ -51,7 +51,7 @@ class SanctuaryControllerTest < ActionDispatch::IntegrationTest
   test "cannot equip an unowned decoration" do
     log_in_as(@user)
     post equip_decoration_path("fern_pot")
-    assert_match(/only place decorations you own/, flash[:alert])
+    assert_match(/can't go there/, flash[:alert])
     assert_empty SanctuaryPlacement.where(user: @user)
   end
 
@@ -68,7 +68,7 @@ class SanctuaryControllerTest < ActionDispatch::IntegrationTest
     post purchase_decoration_path("fern_pot")
     post equip_decoration_path("fern_pot")
     get root_path
-    assert_includes response.body, "&quot;placements&quot;:{&quot;plant&quot;:&quot;fern_pot&quot;}"
+    assert_includes response.body, "&quot;placements&quot;:{&quot;living_room&quot;:{&quot;plant&quot;:&quot;fern_pot&quot;}}"
     assert_includes response.body, "&quot;teaser&quot;"
   end
 end

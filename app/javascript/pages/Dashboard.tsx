@@ -254,7 +254,7 @@ export default function Today() {
           <h2>Your cottage</h2>
           <div className="mt-4 grid items-center gap-6 sm:grid-cols-2">
             <Cottage
-              placements={sanctuary.placements}
+              placements={sanctuary.placements.living_room ?? {}}
               names={Object.fromEntries(sanctuary.items.map((i) => [i.key, i.name]))}
             />
             <div className="space-y-3">

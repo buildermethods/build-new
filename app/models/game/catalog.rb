@@ -66,6 +66,11 @@ module Game
         decoration_config.fetch("items")
       end
 
+      # key => { "name", "unlock_level" }
+      def cottage_rooms
+        decoration_config.fetch("rooms")
+      end
+
       def decoration(key)
         decorations[key.to_s]
       end

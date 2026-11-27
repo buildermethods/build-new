@@ -17,15 +17,15 @@ class DecorationsController < ApplicationController
   end
 
   def equip
-    if Sanctuary::Equip.call(user: Current.user, key: params[:key])
+    if Sanctuary::Equip.call(user: Current.user, key: params[:key], room: params[:room])
       redirect_to sanctuary_path
     else
-      redirect_to sanctuary_path, alert: "You can only place decorations you own."
+      redirect_to sanctuary_path, alert: "That can't go there. It needs to be owned, suit the room, and the room must be unlocked."
     end
   end
 
   def unequip
-    Sanctuary::Equip.clear(user: Current.user, slot: params[:slot])
+    Sanctuary::Equip.clear(user: Current.user, slot: params[:slot], room: params[:room])
     redirect_to sanctuary_path
   end
 end

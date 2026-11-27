@@ -75,15 +75,22 @@ export type Decoration = {
   name: string
   slot: "rug" | "plant" | "lamp" | "wall"
   price: number
+  rooms: string[] | null
   owned: boolean
   equipped: boolean
+  equipped_in: string | null
 }
+
+export type CottageRoom = { key: string; name: string; unlock_level: number; unlocked: boolean }
 
 export type SanctuaryData = {
   slots: string[]
-  placements: Record<string, string>
+  rooms: CottageRoom[]
+  /** room => slot => decoration key */
+  placements: Record<string, Record<string, string>>
   items: Decoration[]
   teaser: { key: string; name: string; price: number; coins_needed: number } | null
+  level: number
 }
 
 export type RoutineStep = { id: number; title: string; task_id: number | null; done_today: boolean }

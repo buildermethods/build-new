@@ -100,4 +100,112 @@ export const DECORATION_ART: Record<string, ReactNode> = {
       <rect x="228" y="72" width="16" height="20" rx="3" className="fill-accent" />
     </g>
   ),
+  checkered_mat: (
+    <g>
+      <rect x="105" y="236" width="190" height="32" rx="4" className="fill-surface stroke-hairline" strokeWidth="2" />
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => (
+        <rect key={i} x={105 + i * 15.8} y={i % 2 ? 236 : 252} width="15.8" height="16" className="fill-accent" />
+      ))}
+    </g>
+  ),
+  herb_pots: (
+    <g>
+      {[44, 66, 88].map((x, i) => (
+        <g key={x}>
+          <path d={`M${x} 244 h16 l-3 16 h-10 z`} className="fill-peach-display" />
+          <path d={`M${x + 8} 244 q${i % 2 ? -8 : 8} -14 0 -26 q${i % 2 ? 8 : -8} 12 0 26`} className="fill-accent" />
+        </g>
+      ))}
+    </g>
+  ),
+  pendant_light: (
+    <g>
+      <path d="M335 0 V150" className="stroke-forest" strokeWidth="2" />
+      <path d="M318 172 q17 -30 34 0 Z" className="fill-peach-display" />
+      <circle cx="335" cy="174" r="6" className="fill-signal" />
+    </g>
+  ),
+  tea_towel_shelf: (
+    <g>
+      <rect x="140" y="92" width="120" height="7" rx="2" className="fill-peach-display" />
+      <rect x="156" y="99" width="22" height="34" className="fill-surface stroke-hairline" strokeWidth="2" />
+      <rect x="156" y="106" width="22" height="5" className="fill-accent" />
+      <rect x="156" y="116" width="22" height="5" className="fill-accent" />
+      <circle cx="214" cy="80" r="11" className="fill-lilac" />
+      <rect x="232" y="64" width="16" height="28" rx="3" className="fill-signal" />
+    </g>
+  ),
+  quilt_rug: (
+    <g>
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <rect
+          key={i}
+          x={110 + (i % 3) * 60}
+          y={238 + Math.floor(i / 3) * 16}
+          width="60"
+          height="16"
+          className={["fill-lilac", "fill-peach", "fill-accent", "fill-signal", "fill-accent", "fill-lilac"][i]}
+        />
+      ))}
+    </g>
+  ),
+  sleepy_cactus: (
+    <g>
+      <path d="M52 238 h36 l-5 22 h-26 z" className="fill-peach-display" />
+      <rect x="62" y="196" width="16" height="44" rx="8" className="fill-accent" />
+      <path d="M62 214 h-6 q-6 0 -6 -8 v-8 h6 v8 h6 z M78 220 h6 q6 0 6 -8 v-8 h-6 v8 h-6 z" className="fill-accent" />
+      <path d="M66 204 q4 3 8 0" className="fill-none stroke-forest" strokeWidth="1.5" />
+    </g>
+  ),
+  bedside_lamp: (
+    <g>
+      <rect x="322" y="214" width="26" height="6" rx="2" className="fill-forest" />
+      <rect x="333" y="200" width="4" height="16" className="fill-forest" />
+      <circle cx="335" cy="186" r="15" className="fill-signal" />
+      <circle cx="341" cy="182" r="13" className="fill-signal-faded" />
+    </g>
+  ),
+  star_poster: (
+    <g>
+      <rect x="160" y="44" width="80" height="76" rx="3" className="fill-forest" />
+      {[[175, 60], [200, 78], [222, 58], [188, 100], [226, 102], [205, 55]].map(([x, y]) => (
+        <circle key={`${x}-${y}`} cx={x} cy={y} r="2.5" className="fill-signal" />
+      ))}
+      <path d="M182 108 q18 -22 40 0" className="fill-none stroke-lilac" strokeWidth="3" strokeLinecap="round" />
+    </g>
+  ),
+  stepping_stones: (
+    <g>
+      {[[120, 252], [160, 244], [204, 254], [250, 246], [292, 254]].map(([x, y]) => (
+        <ellipse key={x} cx={x} cy={y} rx="20" ry="8" className="fill-surface stroke-hairline" strokeWidth="2" />
+      ))}
+    </g>
+  ),
+  flower_boxes: (
+    <g>
+      <rect x="36" y="238" width="70" height="22" rx="3" className="fill-peach-display" />
+      {[48, 66, 84, 98].map((x, i) => (
+        <g key={x}>
+          <rect x={x} y="222" width="3" height="18" className="fill-accent-display" />
+          <circle cx={x + 1.5} cy="218" r="7" className={["fill-lilac", "fill-peach", "fill-signal", "fill-lilac"][i]} />
+        </g>
+      ))}
+    </g>
+  ),
+  fairy_lights: (
+    <g>
+      <path d="M20 60 q90 40 180 0 t180 0" className="fill-none stroke-forest" strokeWidth="2" />
+      {[44, 84, 124, 164, 204, 244, 284, 324, 364].map((x, i) => (
+        <circle key={x} cx={x} cy={i % 2 ? 76 : 70} r="5" className={["fill-signal", "fill-lilac", "fill-peach"][i % 3]} />
+      ))}
+    </g>
+  ),
+  birdhouse: (
+    <g>
+      <rect x="196" y="100" width="8" height="40" className="fill-peach-display" />
+      <rect x="176" y="68" width="48" height="38" rx="3" className="fill-peach" />
+      <path d="M170 70 L200 46 L230 70 Z" className="fill-peach-display" />
+      <circle cx="200" cy="88" r="7" className="fill-forest" />
+    </g>
+  ),
 }
