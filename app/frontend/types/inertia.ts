@@ -7,6 +7,13 @@ export type CurrentUser = {
   admin: boolean
 } | null
 
+export type Todo = {
+  id: number
+  description: string
+  completed: boolean
+  created_at: string
+}
+
 export type SharedProps = {
   current_user: CurrentUser
   flash: {

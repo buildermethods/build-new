@@ -48,9 +48,4 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     get admin_design_system_path
     assert_response :success
   end
-
-  private
-    def log_in_as(user)
-      post login_path, params: { email: user.email, password: @password }
-    end
 end

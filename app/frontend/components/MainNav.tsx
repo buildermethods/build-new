@@ -35,7 +35,7 @@ export type NavItemDef = {
 
 const DEFAULT_NAV_ITEMS: NavItemDef[] = [
   {
-    href: "/dashboard",
+    href: "/",
     icon: Home,
     label: "Home",
     match: (url) => url === "/" || url.startsWith("/dashboard"),
@@ -58,7 +58,7 @@ function useMainNavOpen() {
 
 export function MainNav({
   items = DEFAULT_NAV_ITEMS,
-  brandHref = "/dashboard",
+  brandHref = "/",
 }: {
   items?: NavItemDef[]
   brandHref?: string

@@ -6,7 +6,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "signs up a new user, starts a session, and redirects to the dashboard" do
+  test "signs up a new user, starts a session, and redirects to the root page" do
     assert_difference -> { User.count }, 1 do
       post signup_path, params: {
         email: "new@example.com",
@@ -15,7 +15,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_redirected_to dashboard_path
+    assert_redirected_to root_path
 
     user = User.find_by(email: "new@example.com")
     assert_equal "America/Los_Angeles", user.timezone
@@ -52,7 +52,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_redirected_to dashboard_path
+    assert_redirected_to root_path
   end
 
   test "rejects a duplicate email" do

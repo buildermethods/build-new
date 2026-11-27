@@ -11,7 +11,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "logs in with valid credentials and redirects to the dashboard" do
+  test "logs in with valid credentials and redirects to the root page" do
     assert_difference -> { Session.count }, 1 do
       post login_path, params: {
         email: @user.email,
@@ -19,7 +19,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_redirected_to dashboard_path
+    assert_redirected_to root_path
   end
 
   test "rejects invalid credentials" do
