@@ -8,7 +8,14 @@ Rails.application.routes.draw do
 
   resources :passwords, param: :token, only: %i[ new create edit update ]
 
-  resources :todos, only: %i[ create update destroy ]
+  resources :tasks, only: %i[ create update destroy ] do
+    member do
+      post :complete
+      post :uncomplete
+      post :skip
+      post :defer
+    end
+  end
 
   get "quests",    to: "quests#index",      as: :quests
   get "routines",  to: "routines#index",    as: :routines

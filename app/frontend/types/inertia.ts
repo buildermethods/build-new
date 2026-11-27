@@ -7,11 +7,45 @@ export type CurrentUser = {
   admin: boolean
 } | null
 
-export type Todo = {
+export type Quest = {
   id: number
-  description: string
-  completed: boolean
-  created_at: string
+  title: string
+  notes: string | null
+  room: string
+  category: string
+  duration_minutes: number
+  effort: "tiny" | "small" | "medium" | "large" | "boss"
+  difficulty: "Easy" | "Medium" | "Hard" | "Boss"
+  priority: "low" | "normal" | "high"
+  due_on: string | null
+  next_due_on: string | null
+  deferred_until: string | null
+  recurrence_kind: "none" | "calendar" | "completion"
+  recurrence_interval_days: number | null
+  recurrence_weekdays: number[]
+  status: "active" | "paused" | "archived"
+  available: boolean
+  fantasy_title: string
+  monster: { key: string; name: string }
+  xp: number
+  coins: number
+}
+
+export type QuestHistoryItem = {
+  id: number
+  task_id: number
+  title: string
+  completed_at: string
+  xp: number
+  coins: number
+}
+
+export type QuestOptions = {
+  rooms: string[]
+  categories: string[]
+  efforts: string[]
+  priorities: string[]
+  recurrence_kinds: string[]
 }
 
 export type SharedProps = {

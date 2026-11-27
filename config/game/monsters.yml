@@ -1,0 +1,43 @@
+# Charming, all-ages monsters that stand in for household tasks. `rooms` and
+# `categories` drive the default monster for a task; `quest_title` is the
+# default fantasy title shown above the plain-language task.
+laundry_troll:
+  name: Laundry Troll
+  quest_title: Tame the Laundry Troll
+  rooms: [laundry]
+  categories: [laundry]
+dust_bunny_horde:
+  name: Dust Bunny Horde
+  quest_title: Scatter the Dust Bunny Horde
+  rooms: [living_room, bedroom]
+  categories: []
+counter_goblins:
+  name: Counter Goblins
+  quest_title: Banish the Counter Goblins
+  rooms: [kitchen]
+  categories: []
+bathroom_slime:
+  name: Bathroom Slime
+  quest_title: Defeat the Bathroom Slime
+  rooms: [bathroom]
+  categories: []
+doom_pile_dragon:
+  name: Doom Pile Dragon
+  quest_title: Slay the Doom Pile Dragon
+  rooms: [office]
+  categories: [admin]
+toy_swarm:
+  name: Toy Swarm
+  quest_title: Corral the Toy Swarm
+  rooms: [kids_room]
+  categories: [kids]
+backpack_bandits:
+  name: Backpack Bandits
+  quest_title: Outwit the Backpack Bandits
+  rooms: []
+  categories: [school]
+wardrobe_wraith:
+  name: Wardrobe Wraith
+  quest_title: Banish the Wardrobe Wraith
+  rooms: []
+  categories: []

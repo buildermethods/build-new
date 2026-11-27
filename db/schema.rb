@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_23_000006) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_23_000007) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "completions", force: :cascade do |t|
+    t.bigint "task_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "completed_at", null: false
+    t.date "previous_next_due_on"
+    t.datetime "undone_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_completions_on_task_id"
+    t.index ["user_id", "completed_at"], name: "index_completions_on_user_id_and_completed_at"
+    t.index ["user_id"], name: "index_completions_on_user_id"
+  end
 
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -165,13 +178,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000006) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
-  create_table "todos", force: :cascade do |t|
+  create_table "tasks", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "description", null: false
-    t.boolean "completed", default: false, null: false
+    t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id", "created_at"], name: "index_todos_on_user_id_and_created_at"
+    t.text "notes"
+    t.string "room", default: "other", null: false
+    t.string "category", default: "other", null: false
+    t.integer "duration_minutes", default: 10, null: false
+    t.string "effort", default: "small", null: false
+    t.string "priority", default: "normal", null: false
+    t.date "due_on"
+    t.string "recurrence_kind", default: "none", null: false
+    t.integer "recurrence_interval_days"
+    t.integer "recurrence_weekdays", default: [], null: false, array: true
+    t.date "next_due_on"
+    t.string "status", default: "active", null: false
+    t.date "deferred_until"
+    t.datetime "completed_at"
+    t.string "monster_key"
+    t.string "fantasy_title"
+    t.index ["user_id", "created_at"], name: "index_tasks_on_user_id_and_created_at"
+    t.index ["user_id", "status"], name: "index_tasks_on_user_id_and_status"
   end
 
   create_table "users", force: :cascade do |t|
@@ -184,6 +213,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000006) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "completions", "tasks"
+  add_foreign_key "completions", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
@@ -191,5 +222,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000006) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
-  add_foreign_key "todos", "users"
+  add_foreign_key "tasks", "users"
 end

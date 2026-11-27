@@ -1,0 +1,9 @@
+# Reward values are configuration, not code. XP is per effort level; coins are
+# a fixed fraction of XP (roughly one coin per two XP).
+xp_by_effort:
+  tiny: 15
+  small: 30
+  medium: 50
+  large: 85
+  boss: 150
+coins_per_xp: 0.5

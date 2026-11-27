@@ -18,6 +18,7 @@ import { ButtonsSection } from "@/components/design-system/sections/elements/But
 import { ButtonDropdownSection } from "@/components/design-system/sections/elements/ButtonDropdownSection";
 import { FormsSection } from "@/components/design-system/sections/elements/FormsSection";
 import { BadgesSection } from "@/components/design-system/sections/elements/BadgesSection";
+import { QuestCardSection } from "@/components/design-system/sections/elements/QuestCardSection";
 import { ToggleButtonsSection } from "@/components/design-system/sections/elements/ToggleButtonsSection";
 import { ListingsSection } from "@/components/design-system/sections/elements/ListingsSection";
 import { DataTableSection } from "@/components/design-system/sections/elements/DataTableSection";
@@ -118,6 +119,7 @@ export function DesignSystem() {
           <FormsSection />
           <BadgesSection />
           <ToggleButtonsSection />
+          <QuestCardSection />
           <ListingsSection />
           <DataTableSection />
           <ModalSection />

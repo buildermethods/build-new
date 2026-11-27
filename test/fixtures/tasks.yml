@@ -1,0 +1,34 @@
+wipe_counters:
+  user: one
+  title: Wipe kitchen countertops
+  room: kitchen
+  category: cleaning
+  duration_minutes: 5
+  effort: tiny
+  priority: normal
+  recurrence_kind: none
+
+laundry_weekly:
+  user: one
+  title: Put one load of washing on
+  room: laundry
+  category: laundry
+  duration_minutes: 3
+  effort: tiny
+  recurrence_kind: completion
+  recurrence_interval_days: 7
+
+done_report:
+  user: one
+  title: Write report
+  room: office
+  category: admin
+  duration_minutes: 30
+  effort: large
+  completed_at: <%= 1.day.ago.to_fs(:db) %>
+
+other_users_task:
+  user: two
+  title: Not yours
+  room: other
+  category: other

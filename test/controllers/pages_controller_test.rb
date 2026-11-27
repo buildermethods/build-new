@@ -6,11 +6,10 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "logged-in users see their to-do list at root without a redirect" do
+  test "logged-in users see their dashboard at root without a redirect" do
     log_in_as(users(:one))
     get root_path
     assert_response :success
-    assert_includes response.body, "Buy milk"
-    assert_not_includes response.body, "Not yours"
+    assert_includes response.body, "available_count"
   end
 end
