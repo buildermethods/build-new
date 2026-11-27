@@ -51,6 +51,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :todos, only: %i[ index create update destroy ] do
+    member do
+      post :complete
+      post :uncomplete
+    end
+  end
+
   get "achievements", to: "achievements#index", as: :achievements
   get "plan", to: "plans#show", as: :plan
   post "intentions", to: "intentions#create", as: :intentions

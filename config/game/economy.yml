@@ -22,3 +22,8 @@ routine_bonus_coins: 10
 # head start.
 start_xp: 3
 welcome_xp: 20
+
+# Quick to-dos pay a tiny reward, capped per day so they can't be farmed by
+# adding and ticking lots of throwaway items.
+todo_xp: 2
+todo_daily_cap: 5

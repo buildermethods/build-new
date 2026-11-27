@@ -7,6 +7,7 @@ import {
   Award,
   Flower2 as Cottage,
   ListChecks,
+  ListTodo,
   LogOut,
   Menu,
   Repeat,
@@ -49,6 +50,12 @@ const DEFAULT_NAV_ITEMS: NavItemDef[] = [
     icon: ListChecks,
     label: "Quests",
     match: (url) => url.startsWith("/quests"),
+  },
+  {
+    href: "/todos",
+    icon: ListTodo,
+    label: "To-dos",
+    match: (url) => url.startsWith("/todos"),
   },
   {
     href: "/routines",

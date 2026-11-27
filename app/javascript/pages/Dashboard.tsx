@@ -6,6 +6,8 @@ import { OneThingCard } from "@/components/quest/OneThingCard"
 import { Cottage } from "@/components/sanctuary/Cottage"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input"
 import { ProgressRing } from "@/components/ui/progress-ring"
 
 import type { Badge as BadgeType, FocusTarget, PageProps, Quest, SanctuaryData } from "@/types/inertia"
@@ -24,13 +26,16 @@ type TodayProps = {
   anchors: string[]
   default_anchor: string | null
   treat: string | null
+  todos: { id: number; title: string }[]
+  todo_open_count: number
   achievements: BadgeType[]
   sanctuary: SanctuaryData
 }
 
 export default function Today() {
   const { props } = usePage<PageProps<TodayProps>>()
-  const { greeting, prompt, one_thing, week, today, identity, anchors, default_anchor, treat, achievements, sanctuary } = props
+  const { greeting, prompt, one_thing, week, today, identity, anchors, default_anchor, treat, achievements, sanctuary, todos, todo_open_count } = props
+  const [newTodo, setNewTodo] = useState("")
   const [excluded, setExcluded] = useState<number[]>([])
   const [focus, setFocus] = useState<FocusTarget | null>(null)
   const quest = one_thing.quest
@@ -137,6 +142,38 @@ export default function Today() {
               <Link href="/quests">Quest Board ({props.available_count})</Link>
             </Button>
           </div>
+        </section>
+
+        <section className="mt-10" aria-label="Quick to-dos">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h2>Quick to-dos</h2>
+            <Link href="/todos">All to-dos{todo_open_count > 0 ? ` (${todo_open_count})` : ""}</Link>
+          </div>
+          {todos.length > 0 && (
+            <ul className="mt-3 max-w-xl list-none divide-y divide-hairline p-0">
+              {todos.map((t) => (
+                <li key={t.id} className="flex items-center gap-3 py-2">
+                  <Checkbox
+                    id={`today-todo-${t.id}`}
+                    checked={false}
+                    onChange={() => router.post(`/todos/${t.id}/complete`, {}, { preserveScroll: true })}
+                    aria-label={`Mark done: ${t.title}`}
+                  />
+                  <label htmlFor={`today-todo-${t.id}`} className="font-normal text-ink-body">{t.title}</label>
+                </li>
+              ))}
+            </ul>
+          )}
+          <form
+            className="mt-3 flex max-w-xl gap-2"
+            onSubmit={(e) => {
+              e.preventDefault()
+              router.post("/todos", { title: newTodo }, { preserveScroll: true, onSuccess: () => setNewTodo("") })
+            }}
+          >
+            <Input aria-label="Add a quick to-do" placeholder="Add a quick to-do" value={newTodo} onChange={(e) => setNewTodo(e.target.value)} />
+            <Button type="submit" variant="secondary" disabled={newTodo.trim() === ""}>Add</Button>
+          </form>
         </section>
 
         {achievements.length > 0 && (

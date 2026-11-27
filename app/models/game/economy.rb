@@ -13,6 +13,14 @@ module Game
         (xp_for(effort) * config.fetch("coins_per_xp")).round
       end
 
+      def todo_xp
+        config.fetch("todo_xp")
+      end
+
+      def todo_daily_cap
+        config.fetch("todo_daily_cap")
+      end
+
       def start_xp
         config.fetch("start_xp")
       end

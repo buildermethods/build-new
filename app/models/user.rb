@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_one :player_progress, dependent: :destroy
   has_many :reward_transactions, dependent: :destroy
   has_many :routines, dependent: :destroy
+  has_many :todos, dependent: :destroy
   has_many :daily_intentions, dependent: :destroy
   has_many :user_achievements, dependent: :destroy
   has_many :owned_decorations, dependent: :destroy

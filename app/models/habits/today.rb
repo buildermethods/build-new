@@ -27,6 +27,8 @@ module Habits
         anchors: Onboarding::Complete::ANCHORS,
         default_anchor: @user.anchor,
         treat: @user.treat,
+        todos: @user.todos.open.newest_first.limit(3).map { |t| { id: t.id, title: t.title } },
+        todo_open_count: @user.todos.open.count,
         achievements: achievements,
         sanctuary: SanctuaryPresenter.new(@user).as_json
       }

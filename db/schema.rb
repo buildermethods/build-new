@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_23_000012) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_23_000013) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -66,6 +66,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000012) do
     t.string "reference"
     t.index ["completion_id", "kind"], name: "index_reward_transactions_once_per_completion", unique: true, where: "(completion_id IS NOT NULL)"
     t.index ["completion_id"], name: "index_reward_transactions_on_completion_id"
+    t.index ["user_id", "reference"], name: "index_reward_transactions_once_per_engagement_reward", unique: true, where: "((kind)::text = ANY ((ARRAY['todo'::character varying, 'boss_stage'::character varying, 'boss_defeat'::character varying, 'challenge'::character varying])::text[]))"
     t.index ["user_id", "reference"], name: "index_reward_transactions_once_per_one_off", unique: true, where: "((kind)::text = ANY ((ARRAY['start'::character varying, 'welcome'::character varying])::text[]))"
     t.index ["user_id", "reference"], name: "index_reward_transactions_once_per_purchase", unique: true, where: "((kind)::text = 'purchase'::text)"
     t.index ["user_id", "reference"], name: "index_reward_transactions_once_per_routine_day", unique: true, where: "((kind)::text = 'routine_bonus'::text)"
@@ -288,6 +289,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000012) do
     t.index ["user_id", "status"], name: "index_tasks_on_user_id_and_status"
   end
 
+  create_table "todos", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "title", null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "completed_at"], name: "index_todos_on_user_id_and_completed_at"
+  end
+
   create_table "user_achievements", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "key", null: false
@@ -334,5 +344,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000012) do
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "tasks", "users"
+  add_foreign_key "todos", "users"
   add_foreign_key "user_achievements", "users"
 end
