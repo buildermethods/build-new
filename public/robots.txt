@@ -13,6 +13,9 @@ Disallow: /logout
 Disallow: /passwords
 Disallow: /dashboard
 Disallow: /todos
+Disallow: /quests
+Disallow: /routines
+Disallow: /sanctuary
 Disallow: /settings
 Disallow: /profile
 Disallow: /letter_opener

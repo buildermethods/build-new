@@ -9,20 +9,20 @@ export const SURFACES: PaletteEntry[] = [
   {
     name: "page",
     utility: "bg-page",
-    hexLight: "#ffffff",
-    hexDark: "#020617",
+    hexLight: "#fbf7f0",
+    hexDark: "#1a231e",
   },
   {
     name: "surface",
     utility: "bg-surface",
-    hexLight: "#f8fafc",
-    hexDark: "#0f172a",
+    hexLight: "#f4ede0",
+    hexDark: "#232f28",
   },
   {
     name: "hairline",
     utility: "border-hairline",
-    hexLight: "#e2e8f0",
-    hexDark: "#1e293b",
+    hexLight: "#e6d9c6",
+    hexDark: "#35453c",
   },
 ];
 
@@ -30,20 +30,20 @@ export const TEXT: PaletteEntry[] = [
   {
     name: "ink-body",
     utility: "text-ink-body",
-    hexLight: "#334155",
-    hexDark: "#e2e8f0",
+    hexLight: "#3f4a43",
+    hexDark: "#e6e2d6",
   },
   {
     name: "ink-display",
     utility: "text-ink-display",
-    hexLight: "#0f172a",
-    hexDark: "#f8fafc",
+    hexLight: "#35453c",
+    hexDark: "#f6f1e4",
   },
   {
     name: "ink-muted",
     utility: "text-ink-muted",
-    hexLight: "#64748b",
-    hexDark: "#94a3b8",
+    hexLight: "#667062",
+    hexDark: "#a9b3a4",
   },
 ];
 
@@ -51,38 +51,56 @@ export const SPLASH: PaletteEntry[] = [
   {
     name: "accent",
     utility: "bg-accent / text-accent",
-    hexLight: "oklch(71.5% 0.143 215.221)",
-    hexDark: "oklch(78.9% 0.154 211.53)",
+    hexLight: "#5f7157",
+    hexDark: "#9db094",
   },
   {
     name: "accent-faded",
     utility: "bg-accent-faded",
-    hexLight: "oklch(96% 0.025 215.221)",
-    hexDark: "oklch(22% 0.045 211.53)",
+    hexLight: "#e8eee3",
+    hexDark: "#2b3a2f",
   },
   {
     name: "accent-display",
     utility: "bg-accent-display / text-accent-display",
-    hexLight: "oklch(62% 0.135 215.221)",
-    hexDark: "oklch(86% 0.135 211.53)",
+    hexLight: "#4a5c43",
+    hexDark: "#b9cab0",
   },
   {
     name: "signal",
     utility: "bg-signal / text-signal",
-    hexLight: "#fcd34d",
-    hexDark: "#fcd34d",
+    hexLight: "#f2c46d",
+    hexDark: "#f2c46d",
   },
   {
     name: "signal-faded",
     utility: "bg-signal-faded",
-    hexLight: "#fffaea",
-    hexDark: "#2f2b21",
+    hexLight: "#fdf3dc",
+    hexDark: "#3a3220",
   },
   {
     name: "signal-display",
     utility: "bg-signal-display / text-signal-display",
-    hexLight: "oklch(76% 0.165 82)",
-    hexDark: "oklch(93% 0.13 95)",
+    hexLight: "#7a5710",
+    hexDark: "#f7d794",
+  },
+  {
+    name: "peach",
+    utility: "bg-peach / text-peach-display",
+    hexLight: "#e6c5ab",
+    hexDark: "#e6c5ab",
+  },
+  {
+    name: "lilac",
+    utility: "bg-lilac / text-lilac-display",
+    hexLight: "#a79abc",
+    hexDark: "#a79abc",
+  },
+  {
+    name: "forest",
+    utility: "bg-forest",
+    hexLight: "#35453c",
+    hexDark: "#35453c",
   },
   {
     name: "danger",
@@ -105,6 +123,6 @@ export const SPLASH: PaletteEntry[] = [
 ];
 
 export const FONTS = {
-  display: "Stack Sans Text",
-  body: "DM Sans",
+  display: "Fraunces",
+  body: "Nunito",
 };

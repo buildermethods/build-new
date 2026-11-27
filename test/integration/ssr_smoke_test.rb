@@ -50,8 +50,8 @@ class SsrSmokeTest < ActiveSupport::TestCase
 
     assert_kind_of String, result["body"]
     refute_empty result["body"], "SSR returned an empty body"
-    assert_includes result["body"], "Hello world",
-                    "Expected SSR-rendered Home page to include 'Hello world'; got: #{result["body"][0, 300]}"
+    assert_includes result["body"], "Nest Quest",
+                    "Expected SSR-rendered Home page to include 'Nest Quest'; got: #{result["body"][0, 300]}"
 
     head = Array(result["head"]).join
     assert_includes head, "<title", "Expected SSR head to include a <title> tag"

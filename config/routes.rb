@@ -10,6 +10,10 @@ Rails.application.routes.draw do
 
   resources :todos, only: %i[ create update destroy ]
 
+  get "quests",    to: "quests#index",      as: :quests
+  get "routines",  to: "routines#index",    as: :routines
+  get "sanctuary", to: "sanctuaries#show",  as: :sanctuary
+
   get "dashboard", to: "dashboard#show", as: :dashboard
   get "settings",  to: "settings#show",  as: :settings
 

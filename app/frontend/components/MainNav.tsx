@@ -4,8 +4,11 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Home,
+  House as Cottage,
+  ListChecks,
   LogOut,
   Menu,
+  Repeat,
   Settings,
   Shield,
   User,
@@ -24,7 +27,7 @@ import { cn } from "@/lib/utils"
 import type { PageProps } from "@/types/inertia"
 
 const STORAGE_KEY = "main-nav-open"
-const BRAND = "Build New"
+const BRAND = "Nest Quest"
 
 export type NavItemDef = {
   href: string
@@ -39,6 +42,24 @@ const DEFAULT_NAV_ITEMS: NavItemDef[] = [
     icon: Home,
     label: "Home",
     match: (url) => url === "/" || url.startsWith("/dashboard"),
+  },
+  {
+    href: "/quests",
+    icon: ListChecks,
+    label: "Quests",
+    match: (url) => url.startsWith("/quests"),
+  },
+  {
+    href: "/routines",
+    icon: Repeat,
+    label: "Routines",
+    match: (url) => url.startsWith("/routines"),
+  },
+  {
+    href: "/sanctuary",
+    icon: Cottage,
+    label: "Sanctuary",
+    match: (url) => url.startsWith("/sanctuary"),
   },
 ]
 

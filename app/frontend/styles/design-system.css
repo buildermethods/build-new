@@ -10,39 +10,55 @@
 @theme {
   --breakpoint-xs: 400px;
 
-  --font-display: 'Stack Sans Text', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif;
 
-  --color-page: #ffffff;
-  --color-surface: #f8fafc;
-  --color-hairline: #e2e8f0;
-  --color-ink-body: #334155;
-  --color-ink-display: #0f172a;
-  --color-ink-muted: #64748b;
-  --color-accent: oklch(71.5% 0.143 215.221);
-  --color-accent-faded: oklch(96% 0.025 215.221);
-  --color-accent-display: oklch(62% 0.135 215.221);
-  --color-signal: #fcd34d;
-  --color-signal-faded: #fffaea;
-  --color-signal-display: oklch(76% 0.165 82);
+  /* Nest Quest palette. Raw brand sage is #75876D; --color-accent is a
+     slightly deeper sage so cream text on filled buttons stays AA. */
+  --color-page: #fbf7f0;
+  --color-surface: #f4ede0;
+  --color-hairline: #e6d9c6;
+  --color-ink-body: #3f4a43;
+  --color-ink-display: #35453c;
+  --color-ink-muted: #667062;
+  --color-accent: #5f7157;
+  --color-accent-faded: #e8eee3;
+  --color-accent-display: #4a5c43;
+  --color-signal: #f2c46d;
+  --color-signal-faded: #fdf3dc;
+  --color-signal-display: #7a5710;
+  --color-peach: #e6c5ab;
+  --color-peach-faded: #f8ece2;
+  --color-peach-display: #8a5230;
+  --color-lilac: #a79abc;
+  --color-lilac-faded: #eeeaf4;
+  --color-lilac-display: #5d4f78;
+  --color-forest: #35453c;
   --color-danger: oklch(64% 0.22 25);
   --color-danger-faded: oklch(96% 0.025 25);
   --color-danger-display: oklch(55% 0.20 25);
 }
 
 .dark {
-  --color-page: #020617;
-  --color-surface: #0f172a;
-  --color-hairline: #1e293b;
-  --color-ink-body: #e2e8f0;
-  --color-ink-display: #f8fafc;
-  --color-ink-muted: #94a3b8;
-  --color-accent: oklch(78.9% 0.154 211.53);
-  --color-accent-faded: oklch(22% 0.045 211.53);
-  --color-accent-display: oklch(86% 0.135 211.53);
-  --color-signal: #fcd34d;
-  --color-signal-faded: #2f2b21;
-  --color-signal-display: oklch(93% 0.13 95);
+  --color-page: #1a231e;
+  --color-surface: #232f28;
+  --color-hairline: #35453c;
+  --color-ink-body: #e6e2d6;
+  --color-ink-display: #f6f1e4;
+  --color-ink-muted: #a9b3a4;
+  --color-accent: #9db094;
+  --color-accent-faded: #2b3a2f;
+  --color-accent-display: #b9cab0;
+  --color-signal: #f2c46d;
+  --color-signal-faded: #3a3220;
+  --color-signal-display: #f7d794;
+  --color-peach: #e6c5ab;
+  --color-peach-faded: #3b2f27;
+  --color-peach-display: #f0d6c1;
+  --color-lilac: #a79abc;
+  --color-lilac-faded: #322e40;
+  --color-lilac-display: #cbc1dc;
+  --color-forest: #35453c;
   --color-danger: oklch(72% 0.20 22);
   --color-danger-faded: oklch(22% 0.05 22);
   --color-danger-display: oklch(82% 0.18 22);

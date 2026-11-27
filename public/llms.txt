@@ -1,7 +1,7 @@
-# App Name
+# Nest Quest
 
-> One-sentence description of what this app does and who it's for.
-> Replace the heading and tagline above when forking this template.
+> Defeat chaos. Build calm. A cosy fantasy household organiser that turns
+> everyday chores into quests, monsters, XP and a cottage to decorate.
 
 This file follows the llms.txt convention (https://llmstxt.org). It gives
 LLM crawlers a curated, plain-text map of the public site so they can
@@ -12,7 +12,7 @@ authentication should not appear here.
 
 ## Main pages
 
-- [Home](https://example.com/): Landing page and entry point.
+- [Home](https://example.com/): Nest Quest landing page with sign up and log in.
 
 ## About
 
