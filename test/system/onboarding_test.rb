@@ -23,15 +23,15 @@ class OnboardingTest < ApplicationSystemTestCase
     assert_text "Which chores do you want?"
     assert_text "Wipe the kitchen sides"
     assert_text "Bedroom × 2"
-    click_button(/Next: how often/)
+    js_click find_button("Next: how often")
 
     assert_text "How often should each one come round?"
     assert_selector "select"
-    click_button "Next: almost done"
+    js_click find_button("Next: almost done")
 
     assert_text "Almost there!"
-    fill_in "What should we call you?", with: "Gemma"
-    click_button "Begin my adventure"
+    js_fill find_field("What should we call you?"), "Gemma"
+    js_click find_button("Begin my adventure")
 
     assert_text "Good", wait: 5
     assert_text "Gemma!"
