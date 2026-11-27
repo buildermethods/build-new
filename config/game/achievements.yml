@@ -46,3 +46,8 @@ dragon_tamer:
   description: Defeat your first boss battle.
   metric: bosses
   threshold: 1
+monster_hunter:
+  name: Monster Hunter
+  description: Discover 4 different monsters in your Codex.
+  metric: monsters_discovered
+  threshold: 4

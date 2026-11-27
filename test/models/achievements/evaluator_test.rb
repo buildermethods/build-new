@@ -75,7 +75,7 @@ class Achievements::EvaluatorTest < ActiveSupport::TestCase
   test "every configured achievement has a known metric" do
     Game::Catalog.achievements.each do |key, config|
       assert config["name"].present? && config["description"].present?, key
-      assert_match(/\A(completions|quick|week_days|comeback|decorations|bosses|category:\w+|room:\w+)\z/, config["metric"], key)
+      assert_match(/\A(completions|quick|week_days|comeback|decorations|bosses|monsters_discovered|category:\w+|room:\w+)\z/, config["metric"], key)
       assert_operator config["threshold"], :>=, 1
     end
   end

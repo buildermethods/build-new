@@ -68,6 +68,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get "codex", to: "codex#index", as: :codex
   get "achievements", to: "achievements#index", as: :achievements
   get "plan", to: "plans#show", as: :plan
   post "intentions", to: "intentions#create", as: :intentions

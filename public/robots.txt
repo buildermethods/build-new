@@ -19,6 +19,7 @@ Disallow: /sanctuary
 Disallow: /plan
 Disallow: /todos
 Disallow: /battles
+Disallow: /codex
 Disallow: /achievements
 Disallow: /intentions
 Disallow: /welcome
