@@ -26,7 +26,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         Skip to content
       </a>
       <MainNav />
-      <main id="main" tabIndex={-1} className="min-w-0 flex-1 px-6 py-8 focus:outline-none sm:px-10">
+      <main id="main" tabIndex={-1} className="min-w-0 flex-1 px-6 pb-8 pt-16 focus:outline-none sm:px-10 lg:pt-8">
         <div className="mx-auto max-w-4xl">
           {player && (
             <XpBar

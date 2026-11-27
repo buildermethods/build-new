@@ -4,7 +4,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Home,
-  House as Cottage,
+  Flower2 as Cottage,
   ListChecks,
   LogOut,
   Menu,

@@ -22,6 +22,16 @@ class OnboardingTest < ActiveSupport::TestCase
     assert @user.tasks.where(recurrence_kind: "calendar").all? { |t| t.next_due_on.present? }
   end
 
+  test "every starter task parses cleanly with its full title" do
+    allowed = %w[key title room category duration_minutes effort recurrence_kind recurrence_interval_days recurrence_weekdays]
+    Game::Catalog.starter_tasks.each do |t|
+      assert_empty t.keys - allowed, "#{t['key']} has unexpected keys (an unquoted comma in YAML?)"
+      assert t["title"].present?
+    end
+    bathroom = Game::Catalog.starter_tasks.find { |t| t["key"] == "bathroom" }
+    assert_equal "Clean the sink, toilet and surfaces", bathroom["title"]
+  end
+
   test "running twice does not duplicate anything" do
     Onboarding::Complete.call(user: @user, task_keys: %w[counters], display_name: nil)
     assert_not Onboarding::Complete.call(user: @user, task_keys: %w[counters], display_name: nil)
