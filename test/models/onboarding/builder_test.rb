@@ -80,4 +80,15 @@ class Onboarding::BuilderTest < ActiveSupport::TestCase
     assert @user.tasks.count > 100
     assert @user.tasks.all?(&:valid?)
   end
+
+  test "an archived chore can be added again later" do
+    build_all(rooms: { "kitchen" => 1 }, chores: %w[kitchen.oven])
+    oven = @user.tasks.find_by!(source_key: "kitchen:1:oven")
+    oven.complete!(today: @user.today)
+    oven.archive!
+    assert_nil oven.reload.source_key
+    assert_difference -> { @user.tasks.pending.count }, 1 do
+      Onboarding::Builder.call(user: @user, draft: @draft)
+    end
+  end
 end

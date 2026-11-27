@@ -90,7 +90,7 @@ class OnboardingController < ApplicationController
   end
 
   def skip
-    Onboarding::Complete.call(user: Current.user, draft: Onboarding::Draft.new(Current.user.tap { |u| u.onboarding_draft = {} }))
+    Onboarding::Complete.call(user: Current.user, draft: Onboarding::Draft.new(User.new))
     redirect_to root_path
   end
 

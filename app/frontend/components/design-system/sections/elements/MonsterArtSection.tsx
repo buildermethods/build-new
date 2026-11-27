@@ -37,7 +37,7 @@ export function MonsterArtSection() {
               </li>
             ))}
           </ul>
-          <p className="text-sm text-ink-muted">Sleepy mood (shown after a monster is defeated):</p>
+          <p className="caption">Sleepy mood (shown after a monster is defeated):</p>
           <ul className="grid list-none grid-cols-2 gap-4 p-0 sm:grid-cols-4">
             {monsters.map(([key, name]) => (
               <li key={key} className="flex flex-col items-center gap-1">

@@ -67,7 +67,7 @@ export function SubNavSection() {
       preview={
         <div className="space-y-8">
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Mobile (&lt; md) — full-width dropdown
             </p>
             <div className="max-w-sm border-b border-hairline">
@@ -83,7 +83,7 @@ export function SubNavSection() {
           </div>
 
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Desktop (md+) — tab strip
             </p>
             <nav className="flex items-end gap-6 border-b border-hairline">
@@ -103,7 +103,7 @@ export function SubNavSection() {
           </div>
 
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Desktop — with right-side content
             </p>
             <nav className="flex items-end justify-between gap-4 border-b border-hairline">

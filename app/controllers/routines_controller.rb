@@ -39,9 +39,9 @@ class RoutinesController < ApplicationController
     results = @routine.steps.reject { |s| done.include?(s.id) }.map do |step|
       Routines::CompleteStep.call(step: step, today: today)
     end
-    task_completion = results.filter_map(&:task_completion).find { |c| c.reward&.awarded }
     bonus = results.filter_map(&:bonus).first
-    flash_routine_victory(routine: @routine, level_before: level_before, task_completion: task_completion, bonus: bonus)
+    flash_routine_victory(routine: @routine, level_before: level_before,
+                          task_completions: results.filter_map(&:task_completion), bonus: bonus)
     redirect_to routines_path
   end
 

@@ -108,7 +108,7 @@ export function PageHeadersSection() {
       preview={
         <div className="space-y-10">
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Basic — with right-side actions
             </p>
             <div className="border-b border-hairline pb-6">
@@ -133,7 +133,7 @@ export function PageHeadersSection() {
           </div>
 
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               With search in the right slot
             </p>
             <div className="border-b border-hairline pb-6">
@@ -156,7 +156,7 @@ export function PageHeadersSection() {
           </div>
 
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Single-item view — title with settings dropdown (the standard
               layout for viewing one item from a collection)
             </p>
@@ -190,7 +190,7 @@ export function PageHeadersSection() {
           </div>
 
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               With sub-navigation tabs (two horizontal lines)
             </p>
             <div>

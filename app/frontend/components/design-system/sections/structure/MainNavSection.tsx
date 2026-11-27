@@ -531,13 +531,13 @@ export function MainNavSection() {
       preview={
         <div className="space-y-10">
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Desktop — toggle between collapsed and expanded
             </p>
             <DesktopPreview />
           </div>
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Mobile — hamburger fixed to the top-right corner opens a drawer
             </p>
             <MobilePreview />

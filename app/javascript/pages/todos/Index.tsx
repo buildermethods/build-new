@@ -133,7 +133,7 @@ export default function Todos() {
           </section>
         )}
 
-        <p className="mt-10 max-w-xl text-sm text-ink-muted">
+        <p className="mt-10 max-w-xl caption">
           Ticking a to-do earns a little XP, for up to {daily_cap} a day. Chores and quests are where the big rewards are.
         </p>
       </AppShell>

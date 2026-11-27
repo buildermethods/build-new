@@ -13,52 +13,54 @@
   --font-display: 'Fraunces', ui-serif, Georgia, serif;
   --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif;
 
-  /* Nest Quest palette. Raw brand sage is #75876D; --color-accent is a
-     slightly deeper sage so cream text on filled buttons stays AA. */
-  --color-page: #fbf7f0;
-  --color-surface: #f4ede0;
-  --color-hairline: #e6d9c6;
-  --color-ink-body: #3f4a43;
-  --color-ink-display: #35453c;
-  --color-ink-muted: #5b6558;
-  --color-accent: #5f7157;
-  --color-accent-faded: #e8eee3;
-  --color-accent-display: #4a5c43;
-  --color-signal: #f2c46d;
-  --color-signal-faded: #fdf3dc;
-  --color-signal-display: #7a5710;
-  --color-peach: #e6c5ab;
-  --color-peach-faded: #f8ece2;
-  --color-peach-display: #8a5230;
-  --color-lilac: #a79abc;
-  --color-lilac-faded: #eeeaf4;
-  --color-lilac-display: #5d4f78;
-  --color-forest: #35453c;
+  /* Nest Quest palette: bright but calm. Sky blue is the main accent, sunny
+     yellow marks rewards, and the "peach" tokens are a soft rose pink (the
+     name is kept so existing art and components pick it up). Deeper -display
+     shades keep text readable (WCAG AA) on the bright fills. */
+  --color-page: #fffaf7;
+  --color-surface: #fff0f2;
+  --color-hairline: #f3d6dc;
+  --color-ink-body: #3b4262;
+  --color-ink-display: #232a4d;
+  --color-ink-muted: #5a6285;
+  --color-accent: #2a70b3;
+  --color-accent-faded: #e1effb;
+  --color-accent-display: #1d5a98;
+  --color-signal: #ffd54a;
+  --color-signal-faded: #fff4cc;
+  --color-signal-display: #7a5300;
+  --color-peach: #ffb3c4;
+  --color-peach-faded: #ffe6ec;
+  --color-peach-display: #8a4a2f;
+  --color-lilac: #b9a6f2;
+  --color-lilac-faded: #efe9ff;
+  --color-lilac-display: #5a44b0;
+  --color-forest: #2a3358;
   --color-danger: oklch(64% 0.22 25);
   --color-danger-faded: oklch(96% 0.025 25);
   --color-danger-display: oklch(55% 0.20 25);
 }
 
 .dark {
-  --color-page: #1a231e;
-  --color-surface: #232f28;
-  --color-hairline: #35453c;
-  --color-ink-body: #e6e2d6;
-  --color-ink-display: #f6f1e4;
-  --color-ink-muted: #a9b3a4;
-  --color-accent: #9db094;
-  --color-accent-faded: #2b3a2f;
-  --color-accent-display: #b9cab0;
-  --color-signal: #f2c46d;
-  --color-signal-faded: #3a3220;
-  --color-signal-display: #f7d794;
-  --color-peach: #e6c5ab;
-  --color-peach-faded: #3b2f27;
-  --color-peach-display: #f0d6c1;
-  --color-lilac: #a79abc;
-  --color-lilac-faded: #322e40;
-  --color-lilac-display: #cbc1dc;
-  --color-forest: #35453c;
+  --color-page: #161a2e;
+  --color-surface: #202544;
+  --color-hairline: #343b66;
+  --color-ink-body: #e6e9fa;
+  --color-ink-display: #fff6f9;
+  --color-ink-muted: #aab2d6;
+  --color-accent: #7db7f2;
+  --color-accent-faded: #1f3558;
+  --color-accent-display: #a7d2f8;
+  --color-signal: #ffd54a;
+  --color-signal-faded: #3d3818;
+  --color-signal-display: #ffe48a;
+  --color-peach: #ff9db4;
+  --color-peach-faded: #3d2440;
+  --color-peach-display: #ffc2d1;
+  --color-lilac: #b9a6f2;
+  --color-lilac-faded: #2e2a56;
+  --color-lilac-display: #d5c9fa;
+  --color-forest: #2a3358;
   --color-danger: oklch(72% 0.20 22);
   --color-danger-faded: oklch(22% 0.05 22);
   --color-danger-display: oklch(82% 0.18 22);
@@ -180,9 +182,9 @@
   .btn-primary   { @apply bg-accent text-page hover:bg-accent/90; }
   .btn-secondary { @apply bg-surface text-ink-display border border-hairline hover:bg-hairline/40; }
   .btn-ghost     { @apply text-ink-body hover:bg-surface; }
-  .btn-soft      { @apply bg-accent-faded text-accent hover:bg-accent-faded/80; }
+  .btn-soft      { @apply bg-accent-faded text-accent-display hover:bg-accent-faded/80; }
   .btn-danger    { @apply bg-danger-display text-page hover:bg-danger-display/90; }
-  .btn-link      { @apply text-accent underline-offset-2 hover:underline p-0 h-auto; }
+  .btn-link      { @apply text-accent-display underline-offset-2 hover:underline p-0 h-auto; }
 
   /* Button-dropdown (split button: primary action on the left, chevron end-cap
      on the right that opens a menu of secondary actions). The two halves are
@@ -218,6 +220,11 @@
   .badge-neutral { @apply bg-surface text-ink-body border border-hairline; }
   .badge-accent  { @apply bg-accent-faded text-accent-display; }
   .badge-signal  { @apply bg-signal-faded text-signal-display; }
+  /* Semantic text variants for elements that must not carry size/colour
+     utilities (see CLAUDE.md): small muted helper text, and a smaller h2/h3. */
+  .caption    { font-size: 0.875rem; color: var(--color-ink-muted); }
+  .heading-sm { font-size: 1.125rem; }
+
   .badge-muted   { @apply bg-transparent text-ink-muted border border-hairline; }
   .badge-solid   { @apply bg-accent text-page; }
 

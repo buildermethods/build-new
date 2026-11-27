@@ -49,14 +49,14 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path
   end
 
-  test "authenticated users can reach the dashboard" do
+  test "the old /dashboard URL redirects to Today" do
     post login_path, params: {
       email: @user.email,
       password: @password
     }
 
     get dashboard_path
-    assert_response :success
+    assert_redirected_to root_path
   end
 
   test "DELETE /logout terminates the session and redirects to login" do

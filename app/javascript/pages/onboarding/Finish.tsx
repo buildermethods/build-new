@@ -56,7 +56,7 @@ export default function Finish() {
                 <option key={a} value={a}>{a.charAt(0).toUpperCase() + a.slice(1)}</option>
               ))}
             </Select>
-            <p className="text-sm text-ink-muted">We'll suggest your one thing for the day at that time.</p>
+            <p className="caption">We'll suggest your one thing for the day at that time.</p>
           </div>
           <div className="space-y-2">
             <label htmlFor="treat">A treat to pair with chores? (optional)</label>

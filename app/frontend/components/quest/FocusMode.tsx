@@ -90,7 +90,7 @@ export function FocusMode({
           </ol>
         )}
 
-        {treat && <p className="mt-3 text-sm text-ink-muted">Pair it with a treat: {treat}.</p>}
+        {treat && <p className="mt-3 caption">Pair it with a treat: {treat}.</p>}
 
         <div className="mt-4 space-y-3">
           {mode === "idle" && (

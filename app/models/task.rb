@@ -99,8 +99,10 @@ class Task < ApplicationRecord
     update!(deferred_until: until_date)
   end
 
+  # Archiving frees the catalogue source_key so a suggested chore can be added
+  # again later.
   def archive!
-    update!(status: "archived")
+    update!(status: "archived", source_key: nil)
   end
 
   def monster_key_or_default

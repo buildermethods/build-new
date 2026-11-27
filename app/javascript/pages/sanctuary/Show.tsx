@@ -61,7 +61,7 @@ export default function SanctuaryShow() {
           ))}
         </div>
         {sanctuary.rooms.some((r) => !r.unlocked) && (
-          <p className="mt-2 text-sm text-ink-muted">
+          <p className="mt-2 caption">
             You're level {sanctuary.level}. Locked rooms open as you reach their level, and never close again.
           </p>
         )}

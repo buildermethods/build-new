@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Nest Quest">
-  <rect width="512" height="512" rx="112" fill="#5f7157"/>
-  <circle cx="256" cy="256" r="196" fill="#75876d"/>
+  <rect width="512" height="512" rx="112" fill="#2a70b3"/>
+  <circle cx="256" cy="256" r="196" fill="#5aa0e3"/>
   <!-- leaf -->
-  <path d="M338 120c44 6 74 38 70 86-48 4-82-24-88-62 4-12 10-18 18-24z" fill="#e8eee3"/>
-  <path d="M342 132c14 28 26 46 50 66" fill="none" stroke="#75876d" stroke-width="8" stroke-linecap="round"/>
+  <path d="M338 120c44 6 74 38 70 86-48 4-82-24-88-62 4-12 10-18 18-24z" fill="#fff4cc"/>
+  <path d="M342 132c14 28 26 46 50 66" fill="none" stroke="#5aa0e3" stroke-width="8" stroke-linecap="round"/>
   <!-- eggs -->
-  <ellipse cx="214" cy="270" rx="46" ry="58" fill="#f2c46d"/>
-  <ellipse cx="300" cy="278" rx="40" ry="52" fill="#e6c5ab"/>
-  <ellipse cx="200" cy="252" rx="12" ry="18" fill="#fdf3dc" opacity=".75"/>
+  <ellipse cx="214" cy="270" rx="46" ry="58" fill="#ffd54a"/>
+  <ellipse cx="300" cy="278" rx="40" ry="52" fill="#ffb3c4"/>
+  <ellipse cx="200" cy="252" rx="12" ry="18" fill="#fff9e0" opacity=".75"/>
   <!-- nest -->
   <path d="M96 292c10 90 80 142 160 142s150-52 160-142c-40 40-100 56-160 56S136 332 96 292z" fill="#8a5230"/>
-  <path d="M110 300c52 34 104 44 146 44s94-10 146-44" fill="none" stroke="#e6c5ab" stroke-width="12" stroke-linecap="round"/>
-  <path d="M130 340c40 22 84 30 126 30s86-8 126-30" fill="none" stroke="#e6c5ab" stroke-width="10" stroke-linecap="round" opacity=".8"/>
-  <path d="M160 380c28 12 60 18 96 18s68-6 96-18" fill="none" stroke="#e6c5ab" stroke-width="9" stroke-linecap="round" opacity=".6"/>
+  <path d="M110 300c52 34 104 44 146 44s94-10 146-44" fill="none" stroke="#ffb3c4" stroke-width="12" stroke-linecap="round"/>
+  <path d="M130 340c40 22 84 30 126 30s86-8 126-30" fill="none" stroke="#ffb3c4" stroke-width="10" stroke-linecap="round" opacity=".8"/>
+  <path d="M160 380c28 12 60 18 96 18s68-6 96-18" fill="none" stroke="#ffb3c4" stroke-width="9" stroke-linecap="round" opacity=".6"/>
 </svg>

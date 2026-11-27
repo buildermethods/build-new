@@ -30,9 +30,9 @@ const DESCRIPTION = "A kind look back at your week: what you finished, how many 
 function Stat({ label, value, hint }: { label: string; value: React.ReactNode; hint?: string }) {
   return (
     <div className="rounded-2xl border border-hairline bg-surface p-4">
-      <p className="text-sm text-ink-muted">{label}</p>
+      <p className="caption">{label}</p>
       <p className="mt-1 text-2xl font-semibold text-ink-display">{value}</p>
-      {hint && <p className="mt-1 text-sm text-ink-muted">{hint}</p>}
+      {hint && <p className="mt-1 caption">{hint}</p>}
     </div>
   )
 }
@@ -84,7 +84,7 @@ export default function InsightsPage() {
                   />
                 </div>
                 <p className="text-sm font-semibold text-ink-display">{x.quests}</p>
-                <p className="text-xs text-ink-muted">{x.label}</p>
+                <p className="caption">{x.label}</p>
               </li>
             ))}
           </ul>

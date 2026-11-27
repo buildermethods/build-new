@@ -97,4 +97,12 @@ class BossBattlesControllerTest < ActionDispatch::IntegrationTest
     get root_path
     assert_includes response.body, "Slay the pile"
   end
+
+  test "the defeat dialog announces a newly earned badge" do
+    log_in_as(@user)
+    @battle.stages.each { |s| post complete_boss_battle_stage_path(@battle, s) }
+    keys = flash[:victory][:badges].map { |b| b[:key] }
+    assert_includes keys, "dragon_tamer"
+    assert_equal 160, flash[:victory][:xp] # last stage (10) plus the defeat reward (150)
+  end
 end

@@ -52,7 +52,7 @@ export default function Achievements() {
                     <Badge tone="accent">Earned</Badge>
                   </div>
                   <p className="mt-1">{b.description}</p>
-                  {b.earned_at && <p className="mt-1 text-sm text-ink-muted">Earned {dateText(b.earned_at)}</p>}
+                  {b.earned_at && <p className="mt-1 caption">Earned {dateText(b.earned_at)}</p>}
                 </li>
               ))}
             </ul>
@@ -79,7 +79,7 @@ export default function Achievements() {
                     >
                       <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${percent}%` }} />
                     </div>
-                    <p className="mt-1 text-sm text-ink-muted">{b.current} of {b.threshold}</p>
+                    <p className="mt-1 caption">{b.current} of {b.threshold}</p>
                   </li>
                 )
               })}

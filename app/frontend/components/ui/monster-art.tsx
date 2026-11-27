@@ -29,12 +29,12 @@ function Face({ cx, cy, gap = 12, mood, blush = true, mouth = "smile" }: {
       )}
       {mood === "happy" ? (
         <>
-          <circle cx={lx} cy={cy} r="4.2" className="fill-surface" />
-          <circle cx={rx} cy={cy} r="4.2" className="fill-surface" />
+          <circle cx={lx} cy={cy} r="4.2" className="fill-white" />
+          <circle cx={rx} cy={cy} r="4.2" className="fill-white" />
           <circle cx={lx + 0.6} cy={cy + 0.8} r="2.4" className="fill-forest" />
           <circle cx={rx + 0.6} cy={cy + 0.8} r="2.4" className="fill-forest" />
-          <circle cx={lx + 1.4} cy={cy - 0.2} r="0.9" className="fill-surface" />
-          <circle cx={rx + 1.4} cy={cy - 0.2} r="0.9" className="fill-surface" />
+          <circle cx={lx + 1.4} cy={cy - 0.2} r="0.9" className="fill-white" />
+          <circle cx={rx + 1.4} cy={cy - 0.2} r="0.9" className="fill-white" />
         </>
       ) : (
         <>

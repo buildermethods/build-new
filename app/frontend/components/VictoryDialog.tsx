@@ -47,7 +47,7 @@ export function VictoryDialog() {
             {victory.message}
           </DialogDescription>
         </DialogHeader>
-        <p className="text-sm text-ink-muted">
+        <p className="caption">
           {victory.quest_title}: "{victory.task_title}"
         </p>
         <div className="mt-3 flex flex-wrap gap-2">

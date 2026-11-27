@@ -32,7 +32,9 @@ module Quests
       plan = AiPlanner.new(client: client).call(@recommender, context: @context)
       Rails.cache.write(cache_key, plan, expires_in: CACHE_TTL)
       plan
-    rescue AiPlanner::Invalid, ClaudeClient::Error => e
+    rescue StandardError => e
+      # Anything unexpected from the AI path (bad JSON shape, protocol or
+      # timeout errors, malformed quests) must never break planning.
       Rails.logger.warn("[Quests::Planner] falling back to rules plan: #{e.class}: #{e.message}")
       rules_plan
     end

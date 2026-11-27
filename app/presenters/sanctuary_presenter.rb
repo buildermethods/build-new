@@ -22,7 +22,7 @@ class SanctuaryPresenter
   end
 
   def items
-    owned = @user.owned_decorations.pluck(:decoration_key)
+    owned = owned_keys
     placed = @user.sanctuary_placements.pluck(:decoration_key, :room).to_h
     Game::Catalog.decorations.map do |key, item|
       { key: key, name: item["name"], slot: item["slot"], price: item["price"], rooms: item["rooms"],
@@ -33,11 +33,15 @@ class SanctuaryPresenter
   # The cheapest decoration not yet owned, as a goal to save toward.
   def teaser
     coins = @user.progress.coins
-    key, item = Game::Catalog.decorations.reject { |k, _| @user.owned_decorations.exists?(decoration_key: k) }
+    key, item = Game::Catalog.decorations.reject { |k, _| owned_keys.include?(k) }
                              .min_by { |_, i| i["price"] }
     return nil unless item
 
     { key: key, name: item["name"], price: item["price"], coins_needed: [ item["price"] - coins, 0 ].max }
+  end
+
+  def owned_keys
+    @owned_keys ||= @user.owned_decorations.pluck(:decoration_key)
   end
 
   def as_json(*)

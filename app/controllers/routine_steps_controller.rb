@@ -10,7 +10,7 @@ class RoutineStepsController < ApplicationController
     level_before = user.progress.level
     result = Routines::CompleteStep.call(step: @step, today: user.today)
     flash_routine_victory(routine: @step.routine, level_before: level_before,
-                          task_completion: result.task_completion, bonus: result.bonus)
+                          task_completions: [ result.task_completion ].compact, bonus: result.bonus)
     redirect_back fallback_location: routines_path
   end
 

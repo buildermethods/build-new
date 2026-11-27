@@ -162,4 +162,15 @@ class Quests::PlannerTest < ActiveSupport::TestCase
     assert_empty result.quests
     assert_match(/fine/, result.intro)
   end
+
+  test "any unexpected failure on the AI path falls back to the rules plan" do
+    [
+      FakeClient.new(error: TypeError.new("no implicit conversion")),
+      FakeClient.new(error: EOFError.new("end of file reached")),
+      FakeClient.new({ "plan_title" => "x", "intro" => "x", "encouragement" => "x", "quests" => [ 1, 2 ] }),
+      FakeClient.new({ "quests" => "not an array" })
+    ].each do |client|
+      assert_equal "rules", plan(client).source
+    end
+  end
 end

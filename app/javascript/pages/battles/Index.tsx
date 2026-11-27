@@ -37,7 +37,7 @@ export function HealthBar({ remaining, total, label }: { remaining: number; tota
       >
         <div className="h-full rounded-full bg-danger transition-all" style={{ width: `${percent}%` }} />
       </div>
-      <p className="mt-1 text-sm text-ink-muted">{remaining} / {total} HP</p>
+      <p className="mt-1 caption">{remaining} / {total} HP</p>
     </div>
   )
 }
@@ -48,14 +48,14 @@ function BattleCard({ b }: { b: BattleSummary }) {
       <div className="flex items-center gap-4">
         <MonsterArt monster={b.monster_key} className="h-16 w-16" />
         <div className="flex-1">
-          <p className="text-sm text-ink-muted">{b.monster}</p>
+          <p className="caption">{b.monster}</p>
           <h3>{b.title}</h3>
         </div>
         {b.status === "defeated" && <Badge tone="accent">Defeated</Badge>}
       </div>
       <div className="mt-3">
         <HealthBar remaining={b.health_remaining} total={b.health_total} label={`${b.title} health`} />
-        <p className="mt-1 text-sm text-ink-muted">{b.stages_done} of {b.stages_total} stages cleared</p>
+        <p className="mt-1 caption">{b.stages_done} of {b.stages_total} stages cleared</p>
       </div>
       <Button asChild size="sm" variant={b.status === "defeated" ? "ghost" : "primary"} className="mt-3">
         <Link href={`/battles/${b.id}`}>{b.status === "defeated" ? "View" : "Continue"}</Link>

@@ -4,11 +4,13 @@
 # any task XP earned with the routine bonus.
 module RoutineVictory
   private
-    def flash_routine_victory(routine:, level_before:, task_completion:, bonus:)
+    def flash_routine_victory(routine:, level_before:, task_completions:, bonus:)
       xp = coins = 0
-      if task_completion&.reward&.awarded
-        xp += task_completion.reward.xp
-        coins += task_completion.reward.coins
+      awarded = Array(task_completions).select { |c| c.reward&.awarded }
+      task_completion = awarded.first
+      awarded.each do |c|
+        xp += c.reward.xp
+        coins += c.reward.coins
       end
       if bonus
         xp += bonus.xp

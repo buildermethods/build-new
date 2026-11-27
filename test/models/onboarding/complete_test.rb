@@ -65,4 +65,31 @@ class Onboarding::CompleteTest < ActiveSupport::TestCase
     Onboarding::Reset.call(user: users(:one))
     assert_equal 1, @user.tasks.count
   end
+
+  test "reset also clears to-dos, battles, badges, intentions and cottage rooms" do
+    user = users(:one)
+    user.todos.create!(title: "x")
+    battle = BossBattle.build_for(user, title: "B", monster_key: "toy_swarm", stage_titles: %w[a b c]).tap(&:save!)
+    battle.stages.each { |s| battle.complete_stage!(s) }
+    user.user_achievements.create!(key: "first_victory", earned_at: Time.current)
+    user.daily_intentions.create!(task: tasks(:wipe_counters), on_date: user.today)
+    user.progress.update!(xp: Game::Economy.xp_to_reach(8))
+    assert Sanctuary::Equip.unlocked?(user, "garden")
+
+    Onboarding::Reset.call(user: user)
+    user.reload
+    assert_equal 0, user.todos.count
+    assert_equal 0, user.boss_battles.count
+    assert_equal 0, user.user_achievements.count
+    assert_equal 0, user.daily_intentions.count
+    assert_equal 1, user.progress.reload.peak_level
+    assert_not Sanctuary::Equip.unlocked?(user, "garden")
+    assert Sanctuary::Equip.unlocked?(user, "living_room")
+  end
+
+  test "Equip works inside a larger transaction" do
+    @user.owned_decorations.create!(decoration_key: "fern_pot")
+    User.transaction { assert Sanctuary::Equip.call(user: @user, key: "fern_pot") }
+    assert_equal "fern_pot", @user.sanctuary_placements.find_by!(slot: "plant").decoration_key
+  end
 end

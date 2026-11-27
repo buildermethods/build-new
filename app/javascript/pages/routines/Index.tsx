@@ -32,7 +32,7 @@ function RoutineCard({ routine, onEdit }: { routine: Routine; onEdit: (r: Routin
           {complete ? "Done for today" : `${routine.done_count} of ${routine.total} done`}
         </Badge>
       </div>
-      <p className="mt-1 text-sm text-ink-muted">{schedule(routine)}</p>
+      <p className="mt-1 caption">{schedule(routine)}</p>
       <ul className="mt-3 space-y-2">
         {routine.steps.map((s) => (
           <li key={s.id} className="flex items-center gap-3">

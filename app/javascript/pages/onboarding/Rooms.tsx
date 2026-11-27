@@ -51,7 +51,7 @@ export default function Rooms() {
                   <RoomIcon room={room.key} />
                   <div className="flex-1">
                     <p><strong>{room.label}</strong></p>
-                    {on && room.max_count > 1 && <p className="text-sm text-ink-muted">{n} {n === 1 ? "room" : "rooms"}</p>}
+                    {on && room.max_count > 1 && <p className="caption">{n} {n === 1 ? "room" : "rooms"}</p>}
                   </div>
                 </div>
                 <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -90,7 +90,7 @@ export default function Rooms() {
             )
           })}
         </ul>
-        <p className="mt-4 text-sm text-ink-muted">Whole-home chores (like meal planning) are always included.</p>
+        <p className="mt-4 caption">Whole-home chores (like meal planning) are always included.</p>
       </WizardShell>
     </>
   )

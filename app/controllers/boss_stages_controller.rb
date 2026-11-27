@@ -6,8 +6,7 @@ class BossStagesController < ApplicationController
   def complete
     result = @battle.complete_stage!(@stage)
     if result&.defeated
-      flash[:victory] = defeat_payload(result)
-      Achievements::Evaluator.call(Current.user)
+      flash[:victory] = defeat_payload(result, Achievements::Evaluator.call(Current.user))
     elsif result
       flash[:notice] = "Stage cleared! #{@battle.reload.health_remaining} HP left."
     end
@@ -25,11 +24,10 @@ class BossStagesController < ApplicationController
       @stage = @battle.stages.find(params[:id])
     end
 
-    def defeat_payload(result)
+    def defeat_payload(result, badges)
       level_before = [ result.stage_award, result.defeat_award ].compact.first.from_level
       level = Current.user.progress.reload.level
       monster = Game::Catalog.monster(@battle.monster_key)
-      badges = Achievements::Evaluator.call(Current.user)
       {
         id: SecureRandom.random_number(1 << 30),
         monster: monster["name"], monster_key: @battle.monster_key,

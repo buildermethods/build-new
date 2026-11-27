@@ -71,7 +71,7 @@ export default function Settings() {
                 <option key={a} value={a}>{a.charAt(0).toUpperCase() + a.slice(1)}</option>
               ))}
             </Select>
-            <p className="text-sm text-ink-muted">Used as the default when you plan when to do your one thing.</p>
+            <p className="caption">Used as the default when you plan when to do your one thing.</p>
             {errors.anchor && <p className="text-xs text-danger-display">{errors.anchor}</p>}
           </div>
 
@@ -85,7 +85,7 @@ export default function Settings() {
               aria-invalid={!!errors.treat}
               onChange={(e) => form.setData("treat", e.target.value)}
             />
-            <p className="text-sm text-ink-muted">Shown as a gentle reminder when you start a task.</p>
+            <p className="caption">Shown as a gentle reminder when you start a task.</p>
             {errors.treat && <p className="text-xs text-danger-display">{errors.treat}</p>}
           </div>
 

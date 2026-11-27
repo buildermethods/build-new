@@ -34,7 +34,7 @@ const QuestCard = React.forwardRef<HTMLElement, QuestCardProps>(
       <div className="flex items-center gap-3">
         {monsterKey && <MonsterArt monster={monsterKey} className="h-14 w-14" />}
         <div>
-          <p className="text-sm text-ink-muted">{monsterName}</p>
+          <p className="caption">{monsterName}</p>
           <h3 className="mt-1">{fantasyTitle}</h3>
         </div>
       </div>

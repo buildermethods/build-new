@@ -97,4 +97,15 @@ class RoutinesControllerTest < ActionDispatch::IntegrationTest
     post complete_routine_step_path(other, other.steps.first)
     assert_response :not_found
   end
+
+  test "complete all sums the XP of every linked task plus the bonus" do
+    log_in_as(@user)
+    t1 = @user.tasks.create!(title: "Linked one", effort: "tiny", duration_minutes: 3)
+    t2 = @user.tasks.create!(title: "Linked two", effort: "tiny", duration_minutes: 3)
+    @routine.replace_steps!([ { title: "A", task_id: t1.id }, { title: "B", task_id: t2.id } ])
+    post complete_all_routine_path(@routine)
+    expected = Game::Economy.xp_for("tiny") * 2 + Game::Economy.routine_bonus[:xp]
+    assert_equal expected, flash[:victory][:xp]
+    assert_equal expected, PlayerProgress.find_by!(user: @user).xp
+  end
 end

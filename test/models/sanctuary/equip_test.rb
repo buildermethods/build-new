@@ -155,4 +155,13 @@ class Sanctuary::EquipTest < ActiveSupport::TestCase
       assert_equal Game::Catalog.decoration_slots.sort, fitting.values.map { |i| i["slot"] }.uniq.sort, "#{room} lacks a slot type"
     end
   end
+
+  test "the presenter does not query ownership once per decoration" do
+    queries = []
+    callback = ->(*, payload) { queries << payload[:sql] if payload[:sql].include?("owned_decorations") }
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") do
+      SanctuaryPresenter.new(@user).as_json
+    end
+    assert_operator queries.size, :<=, 3
+  end
 end

@@ -58,13 +58,13 @@ export default function Codex() {
               {m.discovered ? (
                 <>
                   <p className="mt-3">{m.description}</p>
-                  <p className="mt-1 text-sm italic text-ink-muted">{m.flavor}</p>
+                  <p className="mt-1 italic caption">{m.flavor}</p>
                   {m.first_defeated_on && (
-                    <p className="mt-2 text-sm text-ink-muted">First defeated {dateText(m.first_defeated_on)}</p>
+                    <p className="mt-2 caption">First defeated {dateText(m.first_defeated_on)}</p>
                   )}
                 </>
               ) : (
-                <p className="mt-3 text-ink-muted">Finish a quest in its part of the home to meet this one.</p>
+                <p className="mt-3 caption">Finish a quest in its part of the home to meet this one.</p>
               )}
             </li>
           ))}

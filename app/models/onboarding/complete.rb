@@ -9,9 +9,12 @@ module Onboarding
     ANCHORS = [ "after my morning coffee", "after the school run", "after lunch", "after dinner", "before bed" ].freeze
 
     def self.call(user:, draft:, display_name: nil, anchor: nil, treat: nil)
-      return false if user.onboarded?
-
+      completed = false
       User.transaction do
+        # Lock the row and re-check, so a double-submit can't build twice.
+        user.lock!
+        next if user.onboarded?
+
         Builder.call(user: user, draft: draft)
         user.owned_decorations.find_or_create_by!(decoration_key: GIFT)
         Sanctuary::Equip.call(user: user, key: GIFT)
@@ -23,8 +26,9 @@ module Onboarding
           onboarded_at: Time.current,
           onboarding_draft: {}
         )
+        completed = true
       end
-      true
+      completed
     end
   end
 end

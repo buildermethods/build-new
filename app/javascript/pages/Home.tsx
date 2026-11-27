@@ -56,7 +56,7 @@ export default function Home() {
                 <Link href="/login">Log in</Link>
               </Button>
             </div>
-            <p className="mt-4 text-sm text-ink-muted">No streaks to lose, no guilt. Skip or postpone anything, any time.</p>
+            <p className="mt-4 caption">No streaks to lose, no guilt. Skip or postpone anything, any time.</p>
           </div>
           <div className="relative">
             <Cottage
@@ -74,7 +74,7 @@ export default function Home() {
             {STEPS.map((step, i) => (
               <li key={step.title} className="rounded-2xl border border-hairline bg-surface p-5">
                 <MonsterArt monster={step.monster} className="h-20 w-20" />
-                <p className="mt-3 text-sm text-ink-muted">Step {i + 1}</p>
+                <p className="mt-3 caption">Step {i + 1}</p>
                 <h3 className="mt-1">{step.title}</h3>
                 <p className="mt-2">{step.text}</p>
               </li>

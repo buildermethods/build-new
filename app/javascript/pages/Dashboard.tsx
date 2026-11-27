@@ -77,8 +77,8 @@ export default function Today() {
               label="Today's wins"
             />
             <div>
-              <h2 className="text-lg">Today's wins</h2>
-              <p className="text-sm text-ink-muted">
+              <h2 className="heading-sm">Today's wins</h2>
+              <p className="caption">
                 {today.wins >= today.goal ? "Goal reached. Anything more is a bonus." : `${today.goal - today.wins} more for a great day.`}
               </p>
             </div>
@@ -92,7 +92,7 @@ export default function Today() {
               label="Days active this week"
             />
             <div>
-              <h2 className="text-lg">This week</h2>
+              <h2 className="heading-sm">This week</h2>
               <ul className="mt-1 flex list-none gap-1 p-0" aria-label="Days this week">
                 {week.days.map((d) => (
                   <li
@@ -107,7 +107,7 @@ export default function Today() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-1 text-sm text-ink-muted">{week.met ? "Weekly goal met!" : `Aim for ${week.target} days. Any pace counts.`}</p>
+              <p className="mt-1 caption">{week.met ? "Weekly goal met!" : `Aim for ${week.target} days. Any pace counts.`}</p>
             </div>
           </div>
         </section>
@@ -152,12 +152,12 @@ export default function Today() {
 
         <section className="mt-10" aria-label="Challenges">
           <h2>Challenges</h2>
-          <p className="mt-1 text-sm text-ink-muted">Optional extras. No timers, and nothing is lost if you skip one.</p>
+          <p className="mt-1 caption">Optional extras. No timers, and nothing is lost if you skip one.</p>
           <ul className="mt-4 grid list-none gap-4 p-0 sm:grid-cols-2">
             {challenges.map((c) => (
               <li key={c.key} className="rounded-2xl border border-hairline bg-surface p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="text-lg">{c.name}</h3>
+                  <h3 className="heading-sm">{c.name}</h3>
                   <Badge tone="muted">{c.period === "daily" ? "Today" : "This week"}</Badge>
                 </div>
                 <p className="mt-1">{c.description}</p>
@@ -172,7 +172,7 @@ export default function Today() {
                   <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${Math.round((c.current / c.target) * 100)}%` }} />
                 </div>
                 <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
-                  <p className="text-sm text-ink-muted">{c.current} of {c.target} · +{c.xp} XP, +{c.coins} coins</p>
+                  <p className="caption">{c.current} of {c.target} · +{c.xp} XP, +{c.coins} coins</p>
                   {c.claimed ? (
                     <Badge tone="accent">Claimed</Badge>
                   ) : (
@@ -198,7 +198,7 @@ export default function Today() {
               <MonsterArt monster={boss.monster_key} className="h-16 w-16" />
               <div className="flex-1">
                 <p><strong>{boss.title}</strong></p>
-                <p className="text-sm text-ink-muted">{boss.health_remaining} / {boss.health_total} HP left</p>
+                <p className="caption">{boss.health_remaining} / {boss.health_total} HP left</p>
               </div>
               <Button asChild size="sm"><Link href={`/battles/${boss.id}`}>Continue</Link></Button>
             </div>

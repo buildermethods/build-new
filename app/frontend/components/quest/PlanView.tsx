@@ -22,7 +22,7 @@ export function PlanView({ plan, onStart }: { plan: QuestPlan; onStart: (target:
               <div className="flex items-center gap-3">
                 <MonsterArt monster={q.monster_key} className="h-14 w-14" />
                 <div>
-                  <p className="text-sm text-ink-muted">Step {i + 1} · {q.monster}</p>
+                  <p className="caption">Step {i + 1} · {q.monster}</p>
                   <h3 className="mt-1">{q.quest_title}</h3>
                 </div>
               </div>
@@ -77,7 +77,7 @@ export function PlanView({ plan, onStart }: { plan: QuestPlan; onStart: (target:
         </p>
       )}
       {plan.encouragement && <p><em>{plan.encouragement}</em></p>}
-      <p className="text-xs text-ink-muted">
+      <p className="caption">
         {plan.source === "ai" ? "Themed by the Questmaster." : "Planned from your saved tasks."}
       </p>
     </section>
