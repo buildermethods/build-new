@@ -107,4 +107,18 @@ class QuestsTest < ApplicationSystemTestCase
     within("[role=dialog]") { click_button "Yes, reset" }
     assert_text "Welcome to Nest Quest"
   end
+
+  test "settings saves a quiet time and a treat, and the badges page loads" do
+    visit settings_path
+    assert_text "How this works"
+    select "After dinner", from: "When do you usually have a quiet few minutes?"
+    fill_in "A treat to pair with chores", with: "A podcast"
+    click_button "Save settings"
+    assert_text "Settings saved."
+    assert_equal "after dinner", users(:one).reload.anchor
+
+    visit achievements_path
+    assert_text "Next to earn"
+    assert_selector "[role=progressbar][aria-label='Five-Minute Hero progress']"
+  end
 end

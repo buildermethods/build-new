@@ -17,6 +17,8 @@ class User < ApplicationRecord
                             format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: 7 }, allow_nil: true
   validates :display_name, length: { maximum: 40 }
+  validates :treat, length: { maximum: 60 }
+  validates :anchor, inclusion: { in: ->(_) { Onboarding::Complete::ANCHORS } }, allow_blank: true
 
   def onboarded?
     onboarded_at.present?

@@ -17,6 +17,7 @@ Disallow: /quests
 Disallow: /routines
 Disallow: /sanctuary
 Disallow: /plan
+Disallow: /achievements
 Disallow: /intentions
 Disallow: /welcome
 Disallow: /add-chores

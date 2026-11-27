@@ -28,6 +28,21 @@ module Achievements
       end
     end
 
+    # Every badge with the player's progress toward it, earned or not. Powers
+    # the Achievements page.
+    def progress
+      earned = @user.user_achievements.index_by(&:key)
+      Game::Catalog.achievements.map do |key, config|
+        threshold = config["threshold"]
+        {
+          key: key, name: config["name"], description: config["description"],
+          earned: earned.key?(key), earned_at: earned[key]&.earned_at&.iso8601,
+          current: earned.key?(key) ? threshold : [ metric(config["metric"]), threshold ].min,
+          threshold: threshold
+        }
+      end
+    end
+
     private
       def completions
         @completions ||= @user.completions.active

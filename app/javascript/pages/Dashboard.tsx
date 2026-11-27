@@ -141,7 +141,10 @@ export default function Today() {
 
         {achievements.length > 0 && (
           <section className="mt-10" aria-label="Your badges">
-            <h2>Your badges</h2>
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h2>Your badges</h2>
+              <Link href="/achievements">See all badges</Link>
+            </div>
             <ul className="mt-3 flex list-none flex-wrap gap-2 p-0">
               {achievements.map((b) => (
                 <li key={b.key}>

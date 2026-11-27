@@ -4,6 +4,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Home,
+  Award,
   Flower2 as Cottage,
   ListChecks,
   LogOut,
@@ -60,6 +61,12 @@ const DEFAULT_NAV_ITEMS: NavItemDef[] = [
     icon: Cottage,
     label: "Sanctuary",
     match: (url) => url.startsWith("/sanctuary"),
+  },
+  {
+    href: "/achievements",
+    icon: Award,
+    label: "Badges",
+    match: (url) => url.startsWith("/achievements"),
   },
 ]
 

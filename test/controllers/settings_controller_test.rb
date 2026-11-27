@@ -45,6 +45,40 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     assert_not @user.reload.onboarded?
   end
 
+  test "saves a quiet-time anchor and a treat" do
+    log_in_as(@user)
+    patch settings_path, params: { anchor: "after dinner", treat: "  A favourite   podcast " }
+    assert_redirected_to settings_path
+    @user.reload
+    assert_equal "after dinner", @user.anchor
+    assert_equal "A favourite podcast", @user.treat
+  end
+
+  test "rejects an unknown anchor and an over-long treat" do
+    log_in_as(@user)
+    patch settings_path, params: { anchor: "at midnight", treat: "x" * 80 }
+    @user.reload
+    assert_nil @user.anchor
+    assert_nil @user.treat
+  end
+
+  test "clearing the anchor and treat works" do
+    @user.update!(anchor: "after lunch", treat: "Tea")
+    log_in_as(@user)
+    patch settings_path, params: { anchor: "", treat: "" }
+    @user.reload
+    assert_nil @user.anchor
+    assert_nil @user.treat
+  end
+
+  test "settings shows the current anchor and treat and the explainer" do
+    @user.update!(anchor: "after lunch", treat: "Tea")
+    log_in_as(@user)
+    get settings_path
+    assert_includes response.body, "after lunch"
+    assert_includes response.body, "&quot;anchors&quot;"
+  end
+
   private
     def settings_reset_path_helper
       reset_settings_path

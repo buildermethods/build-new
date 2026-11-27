@@ -79,4 +79,23 @@ class Achievements::EvaluatorTest < ActiveSupport::TestCase
       assert_operator config["threshold"], :>=, 1
     end
   end
+
+  test "progress lists every badge, capped at its threshold" do
+    task = quick_task
+    3.times { |i| finish(task, on: @today - i) }
+    rows = Achievements::Evaluator.new(@user).progress
+    assert_equal Game::Catalog.achievements.keys, rows.map { |r| r[:key] }
+    hero = rows.find { |r| r[:key] == "five_minute_hero" }
+    assert_equal [ 3, 10, false ], [ hero[:current], hero[:threshold], hero[:earned] ]
+    assert rows.all? { |r| r[:current] <= r[:threshold] }
+  end
+
+  test "progress reports earned badges as complete with a date" do
+    finish(quick_task)
+    Achievements::Evaluator.call(@user)
+    row = Achievements::Evaluator.new(@user).progress.find { |r| r[:key] == "first_victory" }
+    assert row[:earned]
+    assert_equal row[:threshold], row[:current]
+    assert row[:earned_at].present?
+  end
 end
