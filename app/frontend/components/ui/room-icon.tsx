@@ -40,6 +40,17 @@ const ART: Record<string, React.ReactNode> = {
       <rect x="34" y="36" width="4" height="4" className="fill-forest" />
     </g>
   ),
+  dining_room: (
+    <g>
+      <ellipse cx="24" cy="30" rx="18" ry="6" className="fill-peach-display" />
+      <rect x="22" y="30" width="4" height="10" className="fill-peach-display" />
+      <rect x="12" y="38" width="24" height="3" rx="1.5" className="fill-peach-display" />
+      <rect x="6" y="18" width="7" height="16" rx="2" className="fill-coral" />
+      <rect x="35" y="18" width="7" height="16" rx="2" className="fill-coral" />
+      <ellipse cx="24" cy="26" rx="8" ry="3" className="fill-surface stroke-hairline" strokeWidth="1.5" />
+      <circle cx="24" cy="22" r="2.6" className="fill-signal" />
+    </g>
+  ),
   hallway: (
     <g>
       <rect x="12" y="8" width="24" height="32" rx="3" className="fill-peach-display" />

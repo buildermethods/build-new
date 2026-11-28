@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Task < ApplicationRecord
-  ROOMS = %w[kitchen bathroom bedroom living_room hallway utility laundry kids_room garden office other].freeze
+  ROOMS = %w[kitchen bathroom bedroom living_room dining_room hallway utility laundry kids_room garden office other].freeze
   CATEGORIES = %w[cleaning laundry school admin kids wellbeing outdoors other].freeze
   EFFORTS = %w[tiny small medium large boss].freeze
   PRIORITIES = %w[low normal high].freeze

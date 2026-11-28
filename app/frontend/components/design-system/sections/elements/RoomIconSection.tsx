@@ -1,7 +1,7 @@
 import { SectionShell } from "@/components/design-system/SectionShell"
 import { RoomIcon } from "@/components/ui/room-icon"
 
-const rooms = ["kitchen", "living_room", "bedroom", "bathroom", "hallway", "kids_room", "utility", "office", "garden", "home"]
+const rooms = ["kitchen", "living_room", "dining_room", "bedroom", "bathroom", "hallway", "kids_room", "utility", "office", "garden", "home"]
 
 const code = `<RoomIcon room="kitchen" />
 <RoomIcon room="bedroom" className="h-16 w-16" />

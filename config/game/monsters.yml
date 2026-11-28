@@ -18,7 +18,7 @@ dust_bunny_horde:
 counter_goblins:
   name: Counter Goblins
   quest_title: Banish the Counter Goblins
-  rooms: [kitchen]
+  rooms: [kitchen, dining_room]
   categories: []
   description: "Cheeky little goblins who scatter crumbs and clutter."
   flavor: "They are quite fond of the corner by the kettle."

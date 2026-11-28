@@ -91,4 +91,21 @@ class Onboarding::BuilderTest < ActiveSupport::TestCase
       Onboarding::Builder.call(user: @user, draft: @draft)
     end
   end
+
+  test "the dining room is offered with sensible chores and its own icon room" do
+    room = Game::Catalog.chore_rooms["dining_room"]
+    assert_equal "Dining room", room["label"]
+    assert_includes Task::ROOMS, "dining_room"
+    assert_equal "daily", Game::Catalog.chore("dining_room", "table")["frequency"]
+    assert_equal "weekly", Game::Catalog.chore("dining_room", "floor")["frequency"]
+    assert_equal "monthly", Game::Catalog.chore("dining_room", "polish")["frequency"]
+  end
+
+  test "choosing the dining room builds tasks in that room with the goblins as the monster" do
+    build_all(rooms: { "dining_room" => 1 })
+    task = @user.tasks.find_by!(source_key: "dining_room:1:table")
+    assert_equal "dining_room", task.room
+    assert_equal "Dining room", task.room_label
+    assert_equal "counter_goblins", task.monster_key_or_default
+  end
 end

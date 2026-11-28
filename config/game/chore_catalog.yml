@@ -1,5 +1,5 @@
 # Suggested chores offered in setup. Frequencies are sensible defaults and
-# all editable. Generated once; edit by hand (quote any title containing a comma).
+# all editable. Edit by hand (quote any title containing a comma).
 ---
 frequencies:
   daily:
@@ -277,6 +277,61 @@ rooms:
       minutes: 15
       effort: medium
       frequency: monthly
+  dining_room:
+    label: Dining room
+    room: dining_room
+    max_count: 1
+    category: cleaning
+    chores:
+    - key: table
+      title: Wipe the dining table
+      minutes: 5
+      effort: tiny
+      frequency: daily
+      default: true
+    - key: crumbs
+      title: Sweep up crumbs under the table
+      minutes: 3
+      effort: tiny
+      frequency: daily
+    - key: floor
+      title: Sweep and mop the dining room floor
+      minutes: 10
+      effort: small
+      frequency: weekly
+      default: true
+    - key: chairs
+      title: Wipe down the dining chairs
+      minutes: 5
+      effort: tiny
+      frequency: weekly
+    - key: dust
+      title: Dust the sideboard and shelves
+      minutes: 10
+      effort: small
+      frequency: weekly
+      default: true
+    - key: linens
+      title: Wash the placemats and tablecloth
+      minutes: 10
+      effort: small
+      frequency: fortnightly
+      category: laundry
+    - key: polish
+      title: Polish the dining table
+      minutes: 10
+      effort: small
+      frequency: monthly
+    - key: windows
+      title: Clean the dining room windows
+      minutes: 15
+      effort: medium
+      frequency: monthly
+    - key: lights
+      title: Dust the light fitting
+      minutes: 10
+      effort: small
+      frequency: quarterly
   hallway:
     label: Hallway and stairs
     room: hallway

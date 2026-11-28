@@ -88,7 +88,7 @@ export default function Home() {
           <h2>Made for every room of your home</h2>
           <ul className="mt-4 flex list-none flex-wrap gap-5 p-0">
             {[
-              ["kitchen", "Kitchen"], ["bathroom", "Bathroom"], ["bedroom", "Bedrooms"], ["living_room", "Living room"],
+              ["kitchen", "Kitchen"], ["bathroom", "Bathroom"], ["bedroom", "Bedrooms"], ["living_room", "Living room"], ["dining_room", "Dining room"],
               ["hallway", "Hallway"], ["utility", "Laundry"], ["garden", "Garden"],
             ].map(([room, label]) => (
               <li key={room} className="flex items-center gap-2">
