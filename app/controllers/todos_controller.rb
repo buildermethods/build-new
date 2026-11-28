@@ -4,7 +4,7 @@ class TodosController < ApplicationController
   before_action :set_todo, only: %i[update destroy complete uncomplete]
 
   def index
-    todos = Current.user.todos.newest_first.to_a
+    todos = Current.user.todos.reminders_first.to_a
     render inertia: "todos/Index", props: {
       open: todos.reject(&:done?).map { |t| todo_json(t) },
       done: todos.select(&:done?).first(20).map { |t| todo_json(t) },
@@ -13,14 +13,14 @@ class TodosController < ApplicationController
   end
 
   def create
-    todo = Current.user.todos.build(params.permit(:title))
+    todo = Current.user.todos.build(todo_params)
     return redirect_back(fallback_location: todos_path) if todo.save
 
     redirect_back fallback_location: todos_path, inertia: { errors: todo.errors.to_hash(true).transform_values(&:first) }
   end
 
   def update
-    return redirect_back(fallback_location: todos_path) if @todo.update(params.permit(:title))
+    return redirect_back(fallback_location: todos_path) if @todo.update(todo_params)
 
     redirect_back fallback_location: todos_path, inertia: { errors: @todo.errors.to_hash(true).transform_values(&:first) }
   end
@@ -46,7 +46,15 @@ class TodosController < ApplicationController
       @todo = Current.user.todos.find(params[:id])
     end
 
+    def todo_params
+      permitted = params.permit(:title, :remind_on)
+      permitted[:remind_on] = permitted[:remind_on].presence if permitted.key?(:remind_on)
+      permitted
+    end
+
     def todo_json(todo)
-      { id: todo.id, title: todo.title, done: todo.done?, completed_at: todo.completed_at&.iso8601 }
+      { id: todo.id, title: todo.title, done: todo.done?, completed_at: todo.completed_at&.iso8601,
+        remind_on: todo.remind_on&.iso8601,
+        remind_text: todo.reminder_text(Current.user.today) }
     end
 end

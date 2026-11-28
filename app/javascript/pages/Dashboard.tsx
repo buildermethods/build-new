@@ -29,7 +29,7 @@ type TodayProps = {
   treat: string | null
   challenges: Challenge[]
   boss: { id: number; title: string; monster_key: string; health_remaining: number; health_total: number } | null
-  todos: { id: number; title: string }[]
+  todos: { id: number; title: string; remind_text: string | null }[]
   todo_open_count: number
   achievements: BadgeType[]
   sanctuary: SanctuaryData
@@ -223,7 +223,8 @@ export default function Today() {
                     onChange={() => router.post(`/todos/${t.id}/complete`, {}, { preserveScroll: true })}
                     aria-label={`Mark done: ${t.title}`}
                   />
-                  <label htmlFor={`today-todo-${t.id}`} className="font-normal text-ink-body">{t.title}</label>
+                  <label htmlFor={`today-todo-${t.id}`} className="flex-1 font-normal text-ink-body">{t.title}</label>
+                  {t.remind_text && <Badge tone="accent">{t.remind_text}</Badge>}
                 </li>
               ))}
             </ul>

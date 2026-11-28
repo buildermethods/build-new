@@ -29,7 +29,7 @@ module Habits
         treat: @user.treat,
         challenges: Challenges::Current.call(@user),
         boss: active_boss,
-        todos: @user.todos.open.newest_first.limit(3).map { |t| { id: t.id, title: t.title } },
+        todos: @user.todos.open.reminders_first.limit(3).map { |t| { id: t.id, title: t.title, remind_text: t.reminder_text(@today) } },
         todo_open_count: @user.todos.open.count,
         achievements: achievements,
         sanctuary: SanctuaryPresenter.new(@user).as_json

@@ -11,7 +11,18 @@ class Todo < ApplicationRecord
 
   scope :open, -> { where(completed_at: nil) }
   scope :done, -> { where.not(completed_at: nil) }
+  # Reminders first (soonest date first), then the rest newest first. A date in
+  # the past is simply a reminder that is ready, never "overdue".
+  scope :reminders_first, -> { order(Arel.sql("remind_on IS NULL, remind_on ASC, created_at DESC, id DESC")) }
   scope :newest_first, -> { order(created_at: :desc, id: :desc) }
+
+  # "Reminder: today" / "Reminder: Thu 4 Dec". Past dates read the same way, as
+  # a plain date, so nothing ever says "overdue".
+  def reminder_text(today)
+    return unless remind_on
+
+    remind_on == today ? "Reminder: today" : "Reminder: #{remind_on.strftime('%a %-d %b')}"
+  end
 
   def done?
     completed_at.present?

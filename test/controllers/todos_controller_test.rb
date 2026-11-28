@@ -84,4 +84,24 @@ class TodosControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes response.body, "Not yours"
     assert_includes response.body, "&quot;todo_open_count&quot;:1"
   end
+
+  test "a to-do can carry a reminder date, and clearing it works" do
+    log_in_as(@user)
+    post todos_path, params: { title: "Call plumber", remind_on: "2030-01-04" }
+    todo = @user.todos.find_by!(title: "Call plumber")
+    assert_equal Date.new(2030, 1, 4), todo.remind_on
+    assert_equal "Reminder: Fri 4 Jan", todo.reminder_text(Date.new(2029, 12, 1))
+
+    patch todo_path(todo), params: { title: "Call plumber", remind_on: "" }
+    assert_nil todo.reload.remind_on
+  end
+
+  test "reminders sort first, and a reminder for today reads as today" do
+    today = @user.today
+    later = @user.todos.create!(title: "Later", remind_on: today + 5)
+    now = @user.todos.create!(title: "Now", remind_on: today)
+    assert_equal [ now, later ], @user.todos.open.reminders_first.first(2)
+    assert_equal "Reminder: today", now.reminder_text(today)
+    assert_nil @todo.reminder_text(today)
+  end
 end
