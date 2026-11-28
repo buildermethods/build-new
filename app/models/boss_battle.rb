@@ -24,15 +24,36 @@ class BossBattle < ApplicationRecord
 
   # Builds a battle with its stages; damage splits the 100 HP evenly (the last
   # stage takes any remainder). Returns the unsaved battle.
-  def self.build_for(user, title:, monster_key:, stage_titles:)
-    titles = Array(stage_titles).map { |t| t.to_s.squish }.reject(&:blank?).first(MAX_STAGES)
+  #
+  # `task_ids` stack the player's real chores into the battle: each becomes a
+  # stage that clears when the chore is completed. Free-text stages follow.
+  def self.build_for(user, title:, monster_key:, stage_titles: [], task_ids: [])
+    ids = Array(task_ids).map(&:to_i).uniq
+    tasks = user.tasks.pending.where(id: ids).sort_by { |t| ids.index(t.id) }.first(MAX_STAGES)
+    free = Array(stage_titles).map { |t| t.to_s.squish }.reject(&:blank?).first(MAX_STAGES - tasks.size)
+    entries = tasks.map { |t| { title: t.title.truncate(160), task: t } } + free.map { |t| { title: t, task: nil } }
+
     battle = user.boss_battles.build(title: title, monster_key: monster_key)
-    each = titles.empty? ? 0 : TOTAL_HEALTH / titles.size
-    titles.each_with_index do |stage_title, index|
-      damage = index == titles.size - 1 ? TOTAL_HEALTH - each * (titles.size - 1) : each
-      battle.stages.build(title: stage_title, position: index, damage: damage)
+    each = entries.empty? ? 0 : TOTAL_HEALTH / entries.size
+    entries.each_with_index do |entry, index|
+      damage = index == entries.size - 1 ? TOTAL_HEALTH - each * (entries.size - 1) : each
+      battle.stages.build(title: entry[:title], task: entry[:task], position: index, damage: damage)
     end
     battle
+  end
+
+  # Completing a chore clears its stage in every active battle. Returns
+  # [battle, Result] pairs for the stages that actually cleared.
+  def self.clear_linked_stages!(task, at: Time.current)
+    BossStage.joins(:boss_battle).merge(active).where(task_id: task.id, completed_at: nil).includes(:boss_battle).filter_map do |stage|
+      result = stage.boss_battle.complete_stage!(stage, at: at)
+      [ stage.boss_battle, result ] if result
+    end
+  end
+
+  # What defeating this boss pays, shown up front so the stakes are clear.
+  def defeat_reward
+    Game::Economy.boss_defeat(stages: stages.size)
   end
 
   def health_remaining
@@ -65,7 +86,7 @@ class BossBattle < ApplicationRecord
       defeat_award = nil
       if stages.reload.all?(&:done?)
         update!(status: "defeated", defeated_at: at)
-        reward = Game::Economy.boss_defeat
+        reward = defeat_reward
         defeat_award = Game::AwardOneOff.call(user: user, kind: "boss_defeat", reference: "battle:#{id}",
                                               xp: reward[:xp], coins: reward[:coins])
       end

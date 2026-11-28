@@ -31,6 +31,7 @@ class TasksController < ApplicationController
   def complete
     completion = @task.complete!(today: Current.user.today)
     flash[:victory] = victory_payload(completion, Achievements::Evaluator.call(Current.user)) if completion&.reward&.awarded
+    flash[:notice] = boss_notice(completion.boss_results) if completion&.boss_results.present?
     redirect_back fallback_location: quests_path
   end
 
@@ -65,6 +66,17 @@ class TasksController < ApplicationController
   private
     def set_task
       @task = Current.user.tasks.find(params[:id])
+    end
+
+    # "Boss stage cleared" news when a chore was also a stage of a boss battle.
+    def boss_notice(results)
+      results.map do |battle, result|
+        if result.defeated
+          "#{battle.title} defeated! +#{result.xp} XP and +#{result.coins} coins for clearing every stage."
+        else
+          "Boss stage cleared: #{battle.title} has #{battle.reload.health_remaining} HP left."
+        end
+      end.join(" ")
     end
 
     def task_params

@@ -17,8 +17,14 @@ module Game
         config.fetch("boss_stage_xp")
       end
 
-      def boss_defeat
-        { xp: config.fetch("boss_defeat_xp"), coins: config.fetch("boss_defeat_coins") }
+      # The defeat reward grows with every stage stacked into the battle.
+      def boss_defeat(stages: 0)
+        { xp: config.fetch("boss_defeat_xp") + config.fetch("boss_stack_bonus_xp") * stages,
+          coins: config.fetch("boss_defeat_coins") }
+      end
+
+      def boss_stack_bonus_xp
+        config.fetch("boss_stack_bonus_xp")
       end
 
       def todo_xp

@@ -57,6 +57,7 @@ class Task < ApplicationRecord
 
       completion = completions.create!(user: user, completed_at: at, previous_next_due_on: next_due_on)
       completion.reward = Game::AwardCompletion.call(completion)
+      completion.boss_results = BossBattle.clear_linked_stages!(self, at: at)
       if recurring?
         update!(next_due_on: Tasks::Recurrence.next_due_on(self, today), deferred_until: nil)
       else

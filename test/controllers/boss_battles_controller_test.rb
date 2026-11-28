@@ -50,13 +50,13 @@ class BossBattlesControllerTest < ActionDispatch::IntegrationTest
     log_in_as(@user)
     @battle.stages.each { |s| post complete_boss_battle_stage_path(@battle, s) }
     assert @battle.reload.defeated?
-    assert_equal 30 + 150, xp
+    assert_equal 30 + 150 + 15 * 3, xp
     follow_redirect!
     assert_includes response.body, "Boss defeated"
     assert_includes response.body, "Dragon Tamer"
 
     @battle.stages.each { |s| post complete_boss_battle_stage_path(@battle, s) }
-    assert_equal 180, xp
+    assert_equal 30 + 150 + 15 * 3, xp
   end
 
   test "double-clicking a stage pays once" do
@@ -103,6 +103,36 @@ class BossBattlesControllerTest < ActionDispatch::IntegrationTest
     @battle.stages.each { |s| post complete_boss_battle_stage_path(@battle, s) }
     keys = flash[:victory][:badges].map { |b| b[:key] }
     assert_includes keys, "dragon_tamer"
-    assert_equal 160, flash[:victory][:xp] # last stage (10) plus the defeat reward (150)
+    assert_equal 10 + 150 + 15 * 3, flash[:victory][:xp] # last stage plus the defeat reward (150 + 15 per stage)
+  end
+
+  test "stacking chores creates linked stages, and linked stages cannot be ticked by hand" do
+    log_in_as(@user)
+    tasks = %w[A B C].map { |t| @user.tasks.create!(title: "Chore #{t}") }
+    post boss_battles_path, params: { title: "Stack", monster_key: "toy_swarm", task_ids: tasks.map(&:id) }
+    battle = @user.boss_battles.find_by!(title: "Stack")
+    assert_equal tasks.map(&:id), battle.stages.map(&:task_id)
+
+    post complete_boss_battle_stage_path(battle, battle.stages.first)
+    assert_redirected_to boss_battle_path(battle)
+    assert_not battle.reload.stages.first.done?
+  end
+
+  test "completing a stacked chore from the quest board clears the stage and says so" do
+    log_in_as(@user)
+    tasks = %w[A B C].map { |t| @user.tasks.create!(title: "Chore #{t}") }
+    battle = BossBattle.build_for(@user, title: "Stack", monster_key: "toy_swarm", task_ids: tasks.map(&:id)).tap(&:save!)
+    post complete_task_path(tasks.first)
+    assert battle.reload.stages.first.done?
+    follow_redirect!
+    assert_includes response.body, "Boss stage cleared"
+  end
+
+  test "the new battle page lists my open chores and the rewards" do
+    log_in_as(@user)
+    @user.tasks.create!(title: "Wipe the worktop")
+    get new_boss_battle_path
+    assert_includes response.body, "Wipe the worktop"
+    assert_includes response.body, "stack_bonus_xp"
   end
 end

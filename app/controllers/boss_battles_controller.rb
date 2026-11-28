@@ -8,7 +8,8 @@ class BossBattlesController < ApplicationController
     render inertia: "battles/Index", props: {
       active: battles.select(&:active?).map { |b| summary(b) },
       defeated: battles.select(&:defeated?).map { |b| summary(b) },
-      abandoned_count: battles.count { |b| b.status == "abandoned" }
+      abandoned_count: battles.count { |b| b.status == "abandoned" },
+      rewards: rewards(nil)
     }
   end
 
@@ -18,13 +19,17 @@ class BossBattlesController < ApplicationController
         { key: key, name: t["name"], title: t["title"], monster_key: t["monster"], stages: t["stages"] }
       end,
       monsters: Game::Catalog.monsters.map { |key, m| { key: key, name: m["name"] } },
-      limits: { min: BossBattle::MIN_STAGES, max: BossBattle::MAX_STAGES }
+      limits: { min: BossBattle::MIN_STAGES, max: BossBattle::MAX_STAGES },
+      chores: Current.user.tasks.pending.order(:room_label, :title).limit(200).map do |t|
+        { id: t.id, title: t.title, room: t.room_label.presence || "Other", minutes: t.duration_minutes }
+      end,
+      rewards: rewards(nil)
     }
   end
 
   def create
     battle = BossBattle.build_for(Current.user, title: params[:title], monster_key: params[:monster_key],
-                                  stage_titles: params[:stages])
+                                  stage_titles: params[:stages], task_ids: params[:task_ids])
     if battle.save
       redirect_to boss_battle_path(battle), notice: "Battle started. Take it one stage at a time."
     else
@@ -47,6 +52,14 @@ class BossBattlesController < ApplicationController
       @battle = Current.user.boss_battles.includes(:stages).find(params[:id])
     end
 
+    # What a battle pays, spelled out for the screens. With no battle, the
+    # numbers a new one would pay per stage so the form can preview them.
+    def rewards(battle)
+      defeat = battle ? battle.defeat_reward : Game::Economy.boss_defeat
+      { stage_xp: Game::Economy.boss_stage_xp, defeat_xp: defeat[:xp], defeat_coins: defeat[:coins],
+        stack_bonus_xp: Game::Economy.boss_stack_bonus_xp }
+    end
+
     def summary(battle)
       {
         id: battle.id, title: battle.title, monster_key: battle.monster_key,
@@ -58,8 +71,8 @@ class BossBattlesController < ApplicationController
     end
 
     def detail(battle)
-      summary(battle).merge(stages: battle.stages.map do |s|
-        { id: s.id, title: s.title, damage: s.damage, done: s.done? }
+      summary(battle).merge(rewards: rewards(battle), stages: battle.stages.map do |s|
+        { id: s.id, title: s.title, damage: s.damage, done: s.done?, linked: s.linked? }
       end)
     end
 end

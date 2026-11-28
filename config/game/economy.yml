@@ -33,3 +33,5 @@ todo_daily_cap: 5
 boss_stage_xp: 10
 boss_defeat_xp: 150
 boss_defeat_coins: 60
+# Stacking pays: the defeat reward grows by this much XP for every stage.
+boss_stack_bonus_xp: 15

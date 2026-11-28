@@ -14,12 +14,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { HealthBar, type BattleSummary } from "./Index"
+import { HealthBar, RewardsPanel, type BattleSummary, type Rewards } from "./Index"
 
 import type { PageProps } from "@/types/inertia"
 
-type Stage = { id: number; title: string; damage: number; done: boolean }
-type Battle = BattleSummary & { stages: Stage[] }
+type Stage = { id: number; title: string; damage: number; done: boolean; linked: boolean }
+type Battle = BattleSummary & { stages: Stage[]; rewards: Rewards }
 
 const DESCRIPTION = "Work through the stages of your boss battle. Progress is saved, so leave and come back any time."
 
@@ -51,21 +51,38 @@ export default function ShowBattle() {
           </div>
         </section>
 
+        {live && (
+          <div className="mt-6 max-w-xl">
+            <RewardsPanel rewards={battle.rewards} stages={battle.stages_total} />
+          </div>
+        )}
+
         <section className="mt-8 max-w-xl" aria-label="Stages">
           <h2>Stages</h2>
           <ol className="mt-3 divide-y divide-hairline">
             {battle.stages.map((s, i) => (
               <li key={s.id} className="flex items-start gap-3 py-3">
-                <Checkbox
-                  id={`stage-${s.id}`}
-                  className="mt-1"
-                  checked={s.done}
-                  disabled={!live}
-                  onChange={() => toggle(s)}
-                />
-                <label htmlFor={`stage-${s.id}`} className={`flex-1 font-normal ${s.done ? "text-ink-muted line-through" : "text-ink-body"}`}>
-                  <span className="text-ink-muted">Stage {i + 1}. </span>{s.title}
-                </label>
+                {s.linked ? (
+                  <>
+                    <Checkbox id={`stage-${s.id}`} className="mt-1" checked={s.done} disabled readOnly />
+                    <label htmlFor={`stage-${s.id}`} className={`flex-1 font-normal ${s.done ? "text-ink-muted line-through" : "text-ink-body"}`}>
+                      <span className="text-ink-muted">Stage {i + 1}. </span>{s.title}
+                      {!s.done && live && (
+                        <span className="block caption">
+                          Your chore: it clears when you complete it on the <Link href="/quests">Quest Board</Link>.
+                        </span>
+                      )}
+                    </label>
+                    <Badge tone="accent">Chore</Badge>
+                  </>
+                ) : (
+                  <>
+                    <Checkbox id={`stage-${s.id}`} className="mt-1" checked={s.done} disabled={!live} onChange={() => toggle(s)} />
+                    <label htmlFor={`stage-${s.id}`} className={`flex-1 font-normal ${s.done ? "text-ink-muted line-through" : "text-ink-body"}`}>
+                      <span className="text-ink-muted">Stage {i + 1}. </span>{s.title}
+                    </label>
+                  </>
+                )}
                 <Badge tone="muted">-{s.damage} HP</Badge>
               </li>
             ))}

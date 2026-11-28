@@ -4,6 +4,8 @@ class BossStagesController < ApplicationController
   before_action :set_stage
 
   def complete
+    return redirect_to(boss_battle_path(@battle), alert: "Finish that chore to clear this stage.") if @stage.linked?
+
     result = @battle.complete_stage!(@stage)
     if result&.defeated
       flash[:victory] = defeat_payload(result, Achievements::Evaluator.call(Current.user))
@@ -14,6 +16,8 @@ class BossStagesController < ApplicationController
   end
 
   def uncomplete
+    return redirect_to(boss_battle_path(@battle)) if @stage.linked?
+
     @battle.uncomplete_stage!(@stage)
     redirect_to boss_battle_path(@battle)
   end

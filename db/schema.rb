@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_23_000016) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_23_000017) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,7 +34,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000016) do
     t.datetime "completed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "task_id"
     t.index ["boss_battle_id"], name: "index_boss_stages_on_boss_battle_id"
+    t.index ["task_id"], name: "index_boss_stages_on_task_id"
   end
 
   create_table "completions", force: :cascade do |t|
@@ -350,6 +352,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_000016) do
 
   add_foreign_key "boss_battles", "users"
   add_foreign_key "boss_stages", "boss_battles"
+  add_foreign_key "boss_stages", "tasks", on_delete: :nullify
   add_foreign_key "completions", "tasks"
   add_foreign_key "completions", "users"
   add_foreign_key "daily_intentions", "tasks", on_delete: :cascade

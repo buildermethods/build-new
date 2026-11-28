@@ -42,6 +42,26 @@ export function HealthBar({ remaining, total, label }: { remaining: number; tota
   )
 }
 
+export type Rewards = { stage_xp: number; defeat_xp: number; defeat_coins: number; stack_bonus_xp: number }
+
+// Spells out what a battle pays so the stakes are never a surprise.
+export function RewardsPanel({ rewards, stages }: { rewards: Rewards; stages?: number }) {
+  return (
+    <section className="rounded-xl border border-hairline bg-accent-faded p-4" aria-label="How rewards work">
+      <h2 className="heading-sm">How a boss battle pays</h2>
+      <ul className="mt-2 space-y-1">
+        <li>Each stage you clear: <strong>+{rewards.stage_xp} XP</strong></li>
+        <li>
+          Clear every stage and the boss falls: <strong>+{rewards.defeat_xp} XP and +{rewards.defeat_coins} coins</strong>
+          {stages === undefined ? ` (more with every stage you add: +${rewards.stack_bonus_xp} XP each)` : ""}
+        </li>
+        <li>Stack your real chores as stages: finishing a chore anywhere clears its stage for you.</li>
+      </ul>
+      <p className="caption mt-2">Nothing is ever taken away, and you can leave a battle and come back any time.</p>
+    </section>
+  )
+}
+
 function BattleCard({ b }: { b: BattleSummary }) {
   return (
     <article className="rounded-2xl border border-hairline bg-surface p-4">
@@ -65,7 +85,7 @@ function BattleCard({ b }: { b: BattleSummary }) {
 }
 
 export default function BattlesIndex() {
-  const { props } = usePage<PageProps<{ active: BattleSummary[]; defeated: BattleSummary[]; abandoned_count: number }>>()
+  const { props } = usePage<PageProps<{ active: BattleSummary[]; defeated: BattleSummary[]; abandoned_count: number; rewards: Rewards }>>()
   const { active, defeated } = props
 
   return (
@@ -81,6 +101,10 @@ export default function BattlesIndex() {
           description="Big jobs, one stage at a time. Leave and come back whenever you like."
           actions={<Button asChild><Link href="/battles/new">New boss battle</Link></Button>}
         />
+
+        <div className="mt-6 max-w-xl">
+          <RewardsPanel rewards={props.rewards} />
+        </div>
 
         <section className="mt-8" aria-label="Active battles">
           <h2>In progress</h2>
