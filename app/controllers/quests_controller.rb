@@ -6,7 +6,7 @@ class QuestsController < ApplicationController
   def index
     user = Current.user
     today = user.today
-    tasks = user.tasks.pending.newest_first.to_a
+    tasks = user.tasks.pending.newest_first.includes(:assignee, :user).to_a
     available, upcoming = tasks.partition { |task| task.available_on?(today) }
     last_done = TaskPresenter.last_done_map(tasks)
 
@@ -14,6 +14,7 @@ class QuestsController < ApplicationController
       quests: available.map { |task| TaskPresenter.new(task, today: today, last_done: last_done[task.id]).as_json },
       upcoming: upcoming.map { |task| TaskPresenter.new(task, today: today, last_done: last_done[task.id]).as_json },
       history: history_for(user),
+      members: user.household_members.map { |m| { id: m.id, name: m.name } },
       options: {
         rooms: Task::ROOMS, categories: Task::CATEGORIES, efforts: Task::EFFORTS,
         priorities: Task::PRIORITIES, recurrence_kinds: Task::RECURRENCE_KINDS

@@ -32,6 +32,9 @@ export type Quest = {
   monster: { key: string; name: string }
   xp: number
   coins: number
+  assignee_id: number | null
+  assignee_name: string | null
+  rotate: boolean
   last_done_days: number | null
 }
 

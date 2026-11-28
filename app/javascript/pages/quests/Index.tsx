@@ -68,13 +68,14 @@ function formatDate(iso: string) {
 
 export default function QuestsIndex() {
   const { props } = usePage<
-    PageProps<{ quests: Quest[]; upcoming: Quest[]; history: QuestHistoryItem[]; options: QuestOptions }>
+    PageProps<{ quests: Quest[]; upcoming: Quest[]; history: QuestHistoryItem[]; options: QuestOptions; members: { id: number; name: string }[] }>
   >()
-  const { quests, upcoming, history, options } = props
+  const { quests, upcoming, history, options, members } = props
 
   const [room, setRoom] = useState("all")
   const [time, setTime] = useState("any")
   const [difficulty, setDifficulty] = useState("All")
+  const [person, setPerson] = useState("all")
   const [formOpen, setFormOpen] = useState(false)
   const [editing, setEditing] = useState<Quest | null>(null)
 
@@ -82,7 +83,8 @@ export default function QuestsIndex() {
     (q) =>
       (room === "all" || q.room === room) &&
       (time === "any" || q.duration_minutes <= Number(time)) &&
-      (difficulty === "All" || q.difficulty === difficulty),
+      (difficulty === "All" || q.difficulty === difficulty) &&
+      (person === "all" || String(q.assignee_id) === person),
   )
 
   const post = (path: string, data: Record<string, string | number> = {}) =>
@@ -170,6 +172,14 @@ export default function QuestsIndex() {
             onChange={setDifficulty}
             options={DIFFICULTY_FILTERS.map((d) => ({ value: d, label: d }))}
           />
+          {members.length > 0 && (
+            <Chips
+              label="Filter by person"
+              value={person}
+              onChange={setPerson}
+              options={[{ value: "all", label: "Everyone" }, ...members.map((m) => ({ value: String(m.id), label: m.name }))]}
+            />
+          )}
         </section>
 
         <section className="mt-8" aria-label="Available quests">
@@ -204,6 +214,7 @@ export default function QuestsIndex() {
                     xp={q.xp}
                     coins={q.coins}
                     status={statusFor(q)}
+                    assignee={q.assignee_name}
                     lastDoneDays={q.last_done_days}
                     actions={actions(q)}
                   />
@@ -229,6 +240,7 @@ export default function QuestsIndex() {
                     xp={q.xp}
                     coins={q.coins}
                     status={statusFor(q)}
+                    assignee={q.assignee_name}
                     lastDoneDays={q.last_done_days}
                     actions={actions(q)}
                   />
@@ -268,6 +280,7 @@ export default function QuestsIndex() {
             onOpenChange={setFormOpen}
             quest={editing}
             options={options}
+            members={members}
           />
         )}
       </AppShell>

@@ -40,6 +40,8 @@ type FormData = {
   recurrence_kind: string
   recurrence_interval_days: number
   recurrence_weekdays: number[]
+  assignee_id: string
+  rotate: boolean
 }
 
 const blank: FormData = {
@@ -54,6 +56,8 @@ const blank: FormData = {
   recurrence_kind: "none",
   recurrence_interval_days: 7,
   recurrence_weekdays: [],
+  assignee_id: "",
+  rotate: false,
 }
 
 function fromQuest(q: Quest): FormData {
@@ -69,6 +73,8 @@ function fromQuest(q: Quest): FormData {
     recurrence_kind: q.recurrence_kind,
     recurrence_interval_days: q.recurrence_interval_days ?? 7,
     recurrence_weekdays: q.recurrence_weekdays,
+    assignee_id: q.assignee_id ? String(q.assignee_id) : "",
+    rotate: q.rotate,
   }
 }
 
@@ -77,11 +83,13 @@ export function TaskForm({
   onOpenChange,
   quest,
   options,
+  members = [],
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
   quest: Quest | null
   options: QuestOptions
+  members?: { id: number; name: string }[]
 }) {
   const form = useForm<FormData>(quest ? fromQuest(quest) : blank)
   const { data, setData, errors } = form
@@ -184,7 +192,25 @@ export function TaskForm({
               <label htmlFor="task-due">Deadline (optional)</label>
               <Input id="task-due" type="date" value={data.due_on} onChange={(e) => setData("due_on", e.target.value)} />
             </div>
+            {members.length > 0 && (
+              <div className="space-y-2">
+                <label htmlFor="task-assignee">Whose job is it?</label>
+                <Select id="task-assignee" value={data.assignee_id} onChange={(e) => setData("assignee_id", e.target.value)}>
+                  <option value="">Anyone</option>
+                  {members.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
+                </Select>
+              </div>
+            )}
           </div>
+          {members.length > 0 && data.assignee_id !== "" && data.recurrence_kind !== "none" && (
+            <label className="flex items-start gap-3 font-normal text-ink-body">
+              <Checkbox className="mt-1" checked={data.rotate} onChange={(e) => setData("rotate", e.target.checked)} />
+              <span>
+                Take turns
+                <span className="block text-sm text-ink-muted">After each time it's done, the next person in your household gets it.</span>
+              </span>
+            </label>
+          )}
 
           <div className="space-y-2">
             <label htmlFor="task-recurrence">Repeat</label>

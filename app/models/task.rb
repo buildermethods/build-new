@@ -9,6 +9,7 @@ class Task < ApplicationRecord
   STATUSES = %w[active paused archived].freeze
 
   belongs_to :user
+  belongs_to :assignee, class_name: "HouseholdMember", optional: true
   has_many :completions, dependent: :destroy
 
   validates :title, presence: true, length: { maximum: 200 }
@@ -23,6 +24,7 @@ class Task < ApplicationRecord
   validates :duration_minutes, numericality: { only_integer: true, in: 1..240 }
   validates :recurrence_interval_days, numericality: { only_integer: true, in: 1..365 },
                                        if: -> { recurrence_kind == "completion" }
+  validate :assignee_is_mine
   validate :weekdays_valid, if: -> { recurrence_kind == "calendar" }
 
   before_validation :normalize_recurrence
@@ -55,11 +57,12 @@ class Task < ApplicationRecord
     with_lock do
       next nil unless available_on?(today)
 
-      completion = completions.create!(user: user, completed_at: at, previous_next_due_on: next_due_on)
+      completion = completions.create!(user: user, completed_at: at, previous_next_due_on: next_due_on,
+                                       previous_assignee_id: assignee_id)
       completion.reward = Game::AwardCompletion.call(completion)
       completion.boss_results = BossBattle.clear_linked_stages!(self, at: at)
       if recurring?
-        update!(next_due_on: Tasks::Recurrence.next_due_on(self, today), deferred_until: nil)
+        update!(next_due_on: Tasks::Recurrence.next_due_on(self, today), deferred_until: nil, assignee_id: next_assignee_id)
       else
         update!(completed_at: at, deferred_until: nil)
       end
@@ -76,7 +79,7 @@ class Task < ApplicationRecord
       completion.update!(undone_at: at)
       Game::UndoCompletion.call(completion)
       if recurring?
-        update!(next_due_on: completion.previous_next_due_on)
+        update!(next_due_on: completion.previous_next_due_on, assignee_id: rotate? ? completion.previous_assignee_id : assignee_id)
       else
         update!(completed_at: nil)
       end
@@ -140,6 +143,21 @@ class Task < ApplicationRecord
       if recurrence_weekdays.empty? || recurrence_weekdays.any? { |d| !(0..6).cover?(d) }
         errors.add(:recurrence_weekdays, "must include at least one day")
       end
+    end
+
+    # Who is next when "take turns" is on: the following person in the list,
+    # wrapping round. Without rotation, or without an assignee, nothing changes.
+    def next_assignee_id
+      return assignee_id unless rotate? && assignee_id
+
+      ids = user.household_members.pluck(:id)
+      return assignee_id unless ids.include?(assignee_id)
+
+      ids[(ids.index(assignee_id) + 1) % ids.size]
+    end
+
+    def assignee_is_mine
+      errors.add(:assignee, "must be someone in your household") if assignee && assignee.user_id != user_id
     end
 
     def schedule_first_due_date

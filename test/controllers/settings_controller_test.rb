@@ -83,4 +83,25 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     def settings_reset_path_helper
       reset_settings_path
     end
+
+  test "household members can be added and removed, only by their owner" do
+    log_in_as(users(:one))
+    post household_members_path, params: { name: "Sam" }
+    assert_redirected_to settings_path
+    member = users(:one).household_members.find_by!(name: "Sam")
+
+    delete household_member_path(users(:two).household_members.create!(name: "Theirs"))
+    assert_response :not_found
+
+    delete household_member_path(member)
+    assert_empty users(:one).household_members.reload
+  end
+
+  test "a blank household name is refused with a message" do
+    log_in_as(users(:one))
+    post household_members_path, params: { name: " " }
+    assert_empty users(:one).household_members
+    follow_redirect!
+    assert_includes response.body, "Name can"
+  end
 end

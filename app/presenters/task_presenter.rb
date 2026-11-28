@@ -39,6 +39,9 @@ class TaskPresenter
       available: @task.available_on?(@today),
       fantasy_title: @task.fantasy_title_or_default,
       monster: { key: monster_key, name: Game::Catalog.monster(monster_key)["name"] },
+      assignee_id: @task.assignee_id,
+      assignee_name: @task.assignee&.name,
+      rotate: @task.rotate,
       last_done_days: last_done_days,
       xp: @task.xp,
       coins: @task.coins

@@ -81,7 +81,7 @@ class TasksController < ApplicationController
 
     def task_params
       params.permit(:title, :notes, :room, :category, :duration_minutes, :effort, :priority,
-                    :due_on, :recurrence_kind, :recurrence_interval_days, :monster_key,
+                    :due_on, :recurrence_kind, :recurrence_interval_days, :monster_key, :assignee_id, :rotate,
                     recurrence_weekdays: [])
     end
 

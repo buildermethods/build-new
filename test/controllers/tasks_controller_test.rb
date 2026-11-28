@@ -139,4 +139,18 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     get quests_path
     assert_includes response.body, "xp_into_level"
   end
+
+  test "a chore can be assigned to my household member but not someone else's" do
+    log_in_as(users(:one))
+    task = users(:one).tasks.create!(title: "Bins")
+    mine = users(:one).household_members.create!(name: "Sam")
+    theirs = users(:two).household_members.create!(name: "Stranger")
+
+    patch task_path(task), params: { assignee_id: mine.id, rotate: true }
+    assert_equal mine, task.reload.assignee
+    assert task.rotate
+
+    patch task_path(task), params: { assignee_id: theirs.id }
+    assert_equal mine, task.reload.assignee
+  end
 end

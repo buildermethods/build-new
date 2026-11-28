@@ -24,6 +24,7 @@ export default function Settings() {
     PageProps<{
       settings: { display_name: string | null; reduced_motion: boolean; anchor: string | null; treat: string | null }
       anchors: string[]
+      household: { id: number; name: string }[]
     }>
   >()
   const errors = props.errors ?? {}
@@ -34,6 +35,7 @@ export default function Settings() {
     treat: props.settings.treat ?? "",
   })
   const [confirmReset, setConfirmReset] = useState(false)
+  const [newMember, setNewMember] = useState("")
 
   const submit = (e: FormEvent) => {
     e.preventDefault()
@@ -103,6 +105,40 @@ export default function Settings() {
 
           <Button type="submit" disabled={form.processing}>Save settings</Button>
         </form>
+
+        <section className="mt-12 max-w-md" aria-label="Household">
+          <h2>Household</h2>
+          <p className="caption mt-1">
+            Add the people you share chores with. Then you can give a chore to someone, or have it take turns. They share
+            your account (there are no separate logins).
+          </p>
+          {props.household.length > 0 && (
+            <ul className="mt-3 list-none divide-y divide-hairline p-0">
+              {props.household.map((m) => (
+                <li key={m.id} className="flex items-center gap-3 py-2">
+                  <span className="flex-1">{m.name}</span>
+                  <Button size="sm" variant="ghost" aria-label={`Remove ${m.name}`} onClick={() => router.delete(`/household_members/${m.id}`, { preserveScroll: true })}>
+                    Remove
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          )}
+          <form
+            className="mt-3 flex flex-wrap items-end gap-2"
+            onSubmit={(e) => {
+              e.preventDefault()
+              router.post("/household_members", { name: newMember }, { preserveScroll: true, onSuccess: () => setNewMember("") })
+            }}
+          >
+            <div className="min-w-0 flex-1 space-y-2">
+              <label htmlFor="new-member">Add a person</label>
+              <Input id="new-member" value={newMember} maxLength={40} placeholder="Sam" aria-invalid={!!errors.household} onChange={(e) => setNewMember(e.target.value)} />
+              {errors.household && <p className="text-xs text-danger-display">{errors.household}</p>}
+            </div>
+            <Button type="submit" variant="secondary" disabled={newMember.trim() === ""}>Add</Button>
+          </form>
+        </section>
 
         <section className="mt-12 max-w-xl" aria-label="How this works">
           <h2>How this works</h2>

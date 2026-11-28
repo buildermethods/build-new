@@ -9,7 +9,8 @@ class SettingsController < ApplicationController
         anchor: Current.user.anchor,
         treat: Current.user.treat
       },
-      anchors: Onboarding::Complete::ANCHORS
+      anchors: Onboarding::Complete::ANCHORS,
+      household: Current.user.household_members.map { |m| { id: m.id, name: m.name } }
     }
   end
 

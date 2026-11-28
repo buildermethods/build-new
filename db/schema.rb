@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_28_100619) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_28_110000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -75,6 +75,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_28_100619) do
     t.datetime "undone_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "previous_assignee_id"
     t.index ["task_id"], name: "index_completions_on_task_id"
     t.index ["user_id", "completed_at"], name: "index_completions_on_user_id_and_completed_at"
     t.index ["user_id"], name: "index_completions_on_user_id"
@@ -89,6 +90,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_28_100619) do
     t.datetime "updated_at", null: false
     t.index ["task_id"], name: "index_daily_intentions_on_task_id"
     t.index ["user_id", "on_date"], name: "index_daily_intentions_on_user_id_and_on_date", unique: true
+  end
+
+  create_table "household_members", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "position"], name: "index_household_members_on_user_id_and_position"
+    t.index ["user_id"], name: "index_household_members_on_user_id"
   end
 
   create_table "owned_decorations", force: :cascade do |t|
@@ -339,6 +350,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_28_100619) do
     t.string "fantasy_title"
     t.string "room_label"
     t.string "source_key"
+    t.bigint "assignee_id"
+    t.boolean "rotate", default: false, null: false
+    t.index ["assignee_id"], name: "index_tasks_on_assignee_id"
     t.index ["user_id", "created_at"], name: "index_tasks_on_user_id_and_created_at"
     t.index ["user_id", "source_key"], name: "index_tasks_on_user_id_and_source_key", unique: true, where: "(source_key IS NOT NULL)"
     t.index ["user_id", "status"], name: "index_tasks_on_user_id_and_status"
@@ -388,6 +402,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_28_100619) do
   add_foreign_key "completions", "users"
   add_foreign_key "daily_intentions", "tasks", on_delete: :cascade
   add_foreign_key "daily_intentions", "users"
+  add_foreign_key "household_members", "users"
   add_foreign_key "owned_decorations", "users"
   add_foreign_key "player_progresses", "users"
   add_foreign_key "reward_transactions", "completions"
@@ -404,6 +419,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_28_100619) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "tasks", "household_members", column: "assignee_id", on_delete: :nullify
   add_foreign_key "tasks", "users"
   add_foreign_key "todos", "users"
   add_foreign_key "user_achievements", "users"
