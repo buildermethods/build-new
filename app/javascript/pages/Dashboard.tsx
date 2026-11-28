@@ -144,6 +144,9 @@ export default function Today() {
             <Button asChild variant="secondary">
               <Link href="/plan">Plan my day</Link>
             </Button>
+            <Button asChild variant="secondary">
+              <Link href="/blitz">Tidy blitz</Link>
+            </Button>
             <Button asChild variant="ghost">
               <Link href="/quests">Quest Board ({props.available_count})</Link>
             </Button>

@@ -252,6 +252,8 @@
      utilities (see CLAUDE.md): small muted helper text, and a smaller h2/h3. */
   .caption    { font-size: 0.875rem; color: var(--color-ink-muted); }
   .heading-sm { font-size: 1.125rem; }
+  /* Big countdown/clock numbers (tidy blitz). */
+  .timer-readout { font-family: var(--font-display); font-size: 2.5rem; line-height: 1; color: var(--color-ink-display); font-variant-numeric: tabular-nums; }
 
   .badge-muted   { @apply bg-transparent text-ink-muted border border-hairline; }
   .badge-solid   { @apply bg-accent text-on-accent; }
@@ -264,7 +266,8 @@
     @apply disabled:pointer-events-none disabled:opacity-50;
   }
   .toggle-button-on,
-  .toggle-button[aria-pressed="true"] {
+  .toggle-button[aria-pressed="true"],
+  .toggle-button[aria-current="true"] {
     @apply border-accent-strong bg-accent-faded text-accent-display hover:bg-accent-faded;
   }
 

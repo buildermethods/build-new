@@ -1,0 +1,20 @@
+# Spotify playlists suggested while you tidy. These are public Spotify-made
+# playlists shown through Spotify's own embedded player, only after the player
+# chooses to load it. Players can also paste their own Spotify link.
+playlists:
+  - key: energise
+    label: Energise
+    blurb: Upbeat and quick, for a fast blitz.
+    spotify_id: 37i9dQZF1DX3rxVfibe1L0
+  - key: power
+    label: Power through
+    blurb: High energy for the jobs you are dreading.
+    spotify_id: 37i9dQZF1DX76Wlfdnj7AP
+  - key: happy
+    label: Feel good
+    blurb: Happy tunes to sing along with.
+    spotify_id: 37i9dQZF1DXdPec7aLTmlC
+  - key: calm
+    label: Calm focus
+    blurb: Gentle piano for a slow, steady reset.
+    spotify_id: 37i9dQZF1DX4sWSpwq3LiO

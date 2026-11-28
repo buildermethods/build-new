@@ -146,6 +146,9 @@ export default function QuestsIndex() {
           actions={
             <>
               <Button asChild variant="secondary">
+                <Link href="/blitz">Tidy blitz</Link>
+              </Button>
+              <Button asChild variant="secondary">
                 <Link href="/add-chores/rooms">Add suggested chores</Link>
               </Button>
               <Button onClick={() => openForm(null)}>Add quest</Button>

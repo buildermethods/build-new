@@ -18,6 +18,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get  "blitz", to: "blitz#show", as: :blitz
+  post "blitz/:id/complete", to: "blitz#complete", as: :blitz_complete
+
   get "quests",    to: "quests#index",      as: :quests
   get "sanctuary", to: "sanctuaries#show",  as: :sanctuary
 
