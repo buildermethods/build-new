@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     defaults = { mode: mode }
     get  "#{base}/rooms",     to: "onboarding#rooms",          defaults: defaults, as: :"#{mode}_rooms"
     post "#{base}/rooms",     to: "onboarding#save_rooms",     defaults: defaults
+    post "#{base}/preload",   to: "onboarding#preload",        defaults: defaults
     get  "#{base}/chores",    to: "onboarding#chores",         defaults: defaults, as: :"#{mode}_chores"
     post "#{base}/chores",    to: "onboarding#save_chores",    defaults: defaults
     get  "#{base}/frequency", to: "onboarding#frequency",      defaults: defaults, as: :"#{mode}_frequency"

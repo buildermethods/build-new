@@ -2,13 +2,13 @@
 
 module Onboarding
   # Turns a Draft into real tasks: one per chore per room instance, with the
-  # chosen frequency mapped onto the existing recurrence engine. First due dates
-  # of "every N days" chores are spread across the first two weeks so a new
-  # player never meets a wall of work. Re-running skips anything already made
-  # (matched on source_key), so adding chores later never duplicates.
+  # chosen frequency mapped onto the existing recurrence engine. Every chosen
+  # chore is available today (its timer starts the day it is chosen); the Today
+  # screen still shows just one thing at a time, so nothing is a wall of work.
+  # Re-running skips anything already made (matched on source_key), so adding
+  # chores later never duplicates.
   class Builder
     MAX_TASKS = 150
-    SPREAD_DAYS = 14
 
     def self.call(user:, draft:, today: user.today)
       new(user, draft, today).call
@@ -23,20 +23,17 @@ module Onboarding
     def call
       existing = @user.tasks.where.not(source_key: nil).pluck(:source_key).to_set
       created = 0
-      spread_index = 0
 
       specs.each do |spec|
         break if created >= MAX_TASKS
         next if existing.include?(spec[:source_key])
 
         freq = Game::Catalog.frequency(spec[:frequency])
-        attrs = spec.slice(:title, :room, :room_label, :category, :duration_minutes, :effort, :source_key)
+        attrs = spec.slice(:title, :room, :room_label, :category, :duration_minutes, :effort, :source_key).merge(next_due_on: @today)
         if freq["kind"] == "calendar"
           attrs.merge!(recurrence_kind: "calendar", recurrence_weekdays: freq["weekdays"])
         else
-          attrs.merge!(recurrence_kind: "completion", recurrence_interval_days: freq["interval"],
-                       next_due_on: @today + (spread_index % [ freq["interval"], SPREAD_DAYS ].min))
-          spread_index += 1
+          attrs.merge!(recurrence_kind: "completion", recurrence_interval_days: freq["interval"])
         end
         @user.tasks.create!(attrs)
         created += 1

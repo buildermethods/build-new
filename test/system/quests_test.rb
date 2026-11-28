@@ -39,7 +39,7 @@ class QuestsTest < ApplicationSystemTestCase
   test "Today shows one thing; start with two minutes, then finish it" do
     visit root_path
     assert_text "Your one thing today"
-    assert_text "To do:"
+    assert_selector "article[aria-label=\"Your one thing today\"] h3"
     assert_selector "[role=progressbar][aria-label=\"Today's wins\"]"
 
     click_button "Start with 2 minutes"

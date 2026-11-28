@@ -6,7 +6,7 @@ import { RoomIcon } from "@/components/ui/room-icon"
 
 import type { PageProps } from "@/types/inertia"
 
-type RoomDef = { key: string; label: string; max_count: number; always: boolean }
+type RoomDef = { key: string; label: string; max_count: number }
 
 const DESCRIPTION = "Choose the rooms in your home so Nest Quest can suggest the right chores for each one."
 
@@ -17,7 +17,10 @@ export default function Rooms() {
   const error = props.errors?.rooms
 
   const set = (key: string, n: number) => setCounts((c) => ({ ...c, [key]: n }))
-  const selectable = rooms.filter((r) => !r.always)
+  const allOn = rooms.every((r) => (counts[r.key] ?? 0) > 0)
+  const selectAll = () => setCounts(Object.fromEntries(rooms.map((r) => [r.key, counts[r.key] || 1])))
+  const clearAll = () => setCounts({})
+  const setupMode = wizard.mode === "setup"
   const base = wizard.mode === "setup" ? "/welcome" : "/add-chores"
 
   return (
@@ -30,7 +33,7 @@ export default function Rooms() {
       <WizardShell
         wizard={wizard}
         title="Which rooms do you have?"
-        description="Tick each room. For bedrooms and bathrooms, say how many, and we'll make chores for each one."
+        description="Keep the rooms you have and remove the ones you don't. For bedrooms and bathrooms, say how many, and we'll make chores for each one."
         footer={
           <Button size="lg" onClick={() => router.post(`${base}/rooms`, { rooms: counts })}>
             Next: choose chores
@@ -38,8 +41,18 @@ export default function Rooms() {
         }
       >
         {error && <p className="mb-4 text-sm text-danger-display" role="alert">{error}</p>}
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <Button size="sm" variant="secondary" onClick={allOn ? clearAll : selectAll}>
+            {allOn ? "Clear all rooms" : "Select all rooms"}
+          </Button>
+          {setupMode && (
+            <Button size="sm" variant="secondary" onClick={() => router.post(`${base}/preload`)}>
+              Preload every room and chore
+            </Button>
+          )}
+        </div>
         <ul className="grid list-none gap-3 p-0 sm:grid-cols-2">
-          {selectable.map((room) => {
+          {rooms.map((room) => {
             const n = counts[room.key] ?? 0
             const on = n > 0
             return (
@@ -63,6 +76,16 @@ export default function Rooms() {
                   >
                     {on ? "Included" : "Include"}
                   </button>
+                  {on && (
+                    <button
+                      type="button"
+                      className="toggle-button"
+                      aria-label={`Remove ${room.label}`}
+                      onClick={() => set(room.key, 0)}
+                    >
+                      Remove
+                    </button>
+                  )}
                   {on && room.max_count > 1 && (
                     <>
                       <Button
@@ -90,7 +113,7 @@ export default function Rooms() {
             )
           })}
         </ul>
-        <p className="mt-4 caption">Whole-home chores (like meal planning) are always included.</p>
+        <p className="mt-4 caption">No dining room? Just leave it out. You can add rooms later from the Quest Board.</p>
       </WizardShell>
     </>
   )

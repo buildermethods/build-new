@@ -15,14 +15,18 @@ class Onboarding::DraftTest < ActiveSupport::TestCase
     assert_not @draft.rooms.key?("garden")
   end
 
-  test "the whole-home room is always included" do
+  test "any room, including whole home, can be left out" do
     @draft.rooms = { "kitchen" => 1 }
-    assert_equal 1, @draft.rooms["home"]
-  end
-
-  test "selected_rooms? is false with only the whole-home room" do
+    assert_equal %w[kitchen], @draft.rooms.keys
     @draft.rooms = {}
     assert_not @draft.selected_rooms?
+  end
+
+  test "preload_all! picks every room once and every suggested chore" do
+    @draft.preload_all!
+    assert_equal Game::Catalog.chore_rooms.keys, @draft.rooms.keys
+    total = Game::Catalog.chore_rooms.values.sum { |r| r["chores"].size }
+    assert_equal total, @draft.chores.size
   end
 
   test "chores must belong to a selected room" do
@@ -66,6 +70,6 @@ class Onboarding::DraftTest < ActiveSupport::TestCase
   test "rooms always come back in catalogue order, even after a database round trip" do
     @draft.rooms = { "garden" => 1, "bedroom" => 1, "kitchen" => 1 }
     @draft.save!
-    assert_equal %w[kitchen bedroom garden home], Onboarding::Draft.new(@user.reload).rooms.keys
+    assert_equal %w[kitchen bedroom garden], Onboarding::Draft.new(@user.reload).rooms.keys
   end
 end

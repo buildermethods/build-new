@@ -11,6 +11,20 @@ class OnboardingControllerTest < ActionDispatch::IntegrationTest
     Onboarding::Draft.new(@user.reload)
   end
 
+  test "preload picks every room and chore and goes to how-often" do
+    log_in_as(@user)
+    post "/welcome/preload"
+    assert_redirected_to "/welcome/frequency"
+    assert_equal Game::Catalog.chore_rooms.keys, draft.rooms.keys
+    assert_operator draft.chores.size, :>, 50
+  end
+
+  test "an onboarded user cannot preload" do
+    log_in_as(users(:one))
+    post "/welcome/preload"
+    assert_redirected_to root_path
+  end
+
   # --- one-time gate -------------------------------------------------------
 
   test "new users are sent to the welcome page from the root" do

@@ -19,7 +19,7 @@ class OnboardingController < ApplicationController
 
   def rooms
     render_step "onboarding/Rooms", props: {
-      rooms: Game::Catalog.chore_rooms.map { |key, r| { key: key, label: r["label"], max_count: r["max_count"], always: !!r["always"] } },
+      rooms: Game::Catalog.chore_rooms.map { |key, r| { key: key, label: r["label"], max_count: r["max_count"] } },
       counts: @draft.rooms
     }
   end
@@ -30,6 +30,14 @@ class OnboardingController < ApplicationController
 
     @draft.save!
     redirect_to step_path("chores")
+  end
+
+  # "Preload everything": every room and every suggested chore, then on to
+  # the how-often screen where they can still be trimmed.
+  def preload
+    @draft.preload_all!
+    @draft.save!
+    redirect_to step_path("frequency")
   end
 
   def chores

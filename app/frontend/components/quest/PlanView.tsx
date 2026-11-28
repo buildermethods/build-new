@@ -22,13 +22,10 @@ export function PlanView({ plan, onStart }: { plan: QuestPlan; onStart: (target:
               <div className="flex items-center gap-3">
                 <MonsterArt monster={q.monster_key} className="h-14 w-14" />
                 <div>
-                  <p className="caption">Step {i + 1} · {q.monster}</p>
-                  <h3 className="mt-1">{q.quest_title}</h3>
+                  <h3>{q.real_task}</h3>
+                  <p className="caption mt-1">Step {i + 1} · {q.monster}: {q.quest_title}</p>
                 </div>
               </div>
-              <p className="mt-1">
-                <strong>To do:</strong> {q.real_task}
-              </p>
               {q.steps.length > 0 && (
                 <ul className="mt-2 space-y-1">
                   {q.steps.map((step) => (

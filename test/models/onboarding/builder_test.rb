@@ -58,18 +58,12 @@ class Onboarding::BuilderTest < ActiveSupport::TestCase
     end
   end
 
-  test "every-N-days chores are staggered, not all due on day one" do
-    build_all(rooms: { "kitchen" => 1, "bathroom" => 1, "bedroom" => 1, "living_room" => 1, "hallway" => 1, "utility" => 1 }, chores: nil)
-    today = @user.today
-    due_dates = @user.tasks.where(recurrence_kind: "completion").pluck(:next_due_on)
-    assert due_dates.all?(&:present?)
-    assert_operator due_dates.uniq.size, :>, 1, "expected first due dates to be spread out"
-    assert due_dates.all? { |d| d >= today && d < today + 14 }
-  end
-
-  test "a typical household starts with a light first day" do
+  test "every chosen chore is available today, so its timer starts the day it is chosen" do
     build_all(rooms: { "kitchen" => 1, "bathroom" => 1, "bedroom" => 1, "living_room" => 1 }, chores: nil)
-    assert_operator @user.tasks.available_on(@user.today).count, :<=, 10
+    today = @user.today
+    assert @user.tasks.any?
+    assert @user.tasks.all? { |t| t.next_due_on == today }
+    assert_equal @user.tasks.count, @user.tasks.available_on(today).count
   end
 
   test "all-chores-everywhere still yields valid tasks" do

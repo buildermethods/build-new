@@ -34,13 +34,12 @@ export function OneThingCard({
       <div className="flex items-center gap-4">
         <MonsterArt monster={quest.monster.key} className="h-20 w-20" />
         <div>
-          <p className="caption">{quest.monster.name}</p>
-          <h3 className="mt-1">{quest.fantasy_title}</h3>
+          <h3>{quest.title}</h3>
+          <p className="caption mt-1">
+            {quest.monster.name}: {quest.fantasy_title}
+          </p>
         </div>
       </div>
-      <p className="mt-3 text-lg">
-        <strong>To do:</strong> {quest.title}
-      </p>
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <Badge tone="neutral">{quest.duration_minutes} min</Badge>
         <Badge tone="muted">{quest.difficulty}</Badge>

@@ -508,7 +508,6 @@ rooms:
     label: Whole home
     room: other
     max_count: 1
-    always: true
     category: admin
     chores:
     - key: meals

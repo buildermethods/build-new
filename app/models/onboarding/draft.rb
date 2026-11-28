@@ -35,12 +35,11 @@ module Onboarding
       clean = {}
       Hash(raw).each do |key, count|
         room = Game::Catalog.chore_rooms[key.to_s]
-        next unless room && !room["always"]
+        next unless room
 
         n = count.to_i.clamp(0, room.fetch("max_count"))
         clean[key.to_s] = n if n.positive?
       end
-      Game::Catalog.chore_rooms.each { |key, room| clean[key] = 1 if room["always"] }
       @data["rooms"] = clean
       prune!
     end
@@ -56,6 +55,13 @@ module Onboarding
       end
     end
 
+    # Every room once, with every suggested chore: the "preload everything" start.
+    def preload_all!
+      self.rooms = Game::Catalog.chore_rooms.keys.index_with { 1 }
+      self.chores = rooms.keys.flat_map { |room_key| Game::Catalog.chore_rooms.fetch(room_key)["chores"].map { |c| "#{room_key}.#{c['key']}" } }
+      @data["frequencies"] = {}
+    end
+
     # Pre-ticked suggestions for the selected rooms.
     def default_chores
       rooms.keys.flat_map do |room_key|
@@ -68,7 +74,7 @@ module Onboarding
     end
 
     def selected_rooms?
-      rooms.keys.any? { |k| !Game::Catalog.chore_rooms.dig(k, "always") }
+      rooms.any?
     end
 
     def save!

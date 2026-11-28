@@ -34,13 +34,12 @@ const QuestCard = React.forwardRef<HTMLElement, QuestCardProps>(
       <div className="flex items-center gap-3">
         {monsterKey && <MonsterArt monster={monsterKey} className="h-14 w-14" />}
         <div>
-          <p className="caption">{monsterName}</p>
-          <h3 className="mt-1">{fantasyTitle}</h3>
+          <h3>{title}</h3>
+          <p className="caption mt-1">
+            {monsterName}: {fantasyTitle}
+          </p>
         </div>
       </div>
-      <p className="mt-1">
-        <strong>To do:</strong> {title}
-      </p>
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <Badge tone="neutral">{minutes} min</Badge>
         <Badge tone="muted">{difficulty}</Badge>
