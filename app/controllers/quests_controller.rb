@@ -8,10 +8,11 @@ class QuestsController < ApplicationController
     today = user.today
     tasks = user.tasks.pending.newest_first.to_a
     available, upcoming = tasks.partition { |task| task.available_on?(today) }
+    last_done = TaskPresenter.last_done_map(tasks)
 
     render inertia: "quests/Index", props: {
-      quests: available.map { |task| TaskPresenter.new(task, today: today).as_json },
-      upcoming: upcoming.map { |task| TaskPresenter.new(task, today: today).as_json },
+      quests: available.map { |task| TaskPresenter.new(task, today: today, last_done: last_done[task.id]).as_json },
+      upcoming: upcoming.map { |task| TaskPresenter.new(task, today: today, last_done: last_done[task.id]).as_json },
       history: history_for(user),
       options: {
         rooms: Task::ROOMS, categories: Task::CATEGORIES, efforts: Task::EFFORTS,

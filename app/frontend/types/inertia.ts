@@ -32,6 +32,7 @@ export type Quest = {
   monster: { key: string; name: string }
   xp: number
   coins: number
+  last_done_days: number | null
 }
 
 export type PlanQuest = {

@@ -35,6 +35,17 @@ class EngagementTest < ApplicationSystemTestCase
     assert_text "80 / 100 HP"
   end
 
+  test "a room boss stacks that room's chores into one battle" do
+    user = users(:one)
+    user.tasks.destroy_all
+    %w[A B].each { |t| user.tasks.create!(title: "Kitchen #{t}", room: "kitchen", room_label: "Kitchen") }
+    user.tasks.create!(title: "Bath", room: "bathroom", room_label: "Bathroom")
+    visit new_boss_battle_path
+    js_click find_button("Kitchen")
+    assert_text "Stack your real chores (2 chosen)"
+    assert_field "battle-title", with: "The Kitchen boss"
+  end
+
   test "the codex, insights, badges and challenges all load" do
     visit codex_path
     assert_text "Monster Codex"

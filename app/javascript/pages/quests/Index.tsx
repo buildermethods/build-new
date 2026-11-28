@@ -204,6 +204,7 @@ export default function QuestsIndex() {
                     xp={q.xp}
                     coins={q.coins}
                     status={statusFor(q)}
+                    lastDoneDays={q.last_done_days}
                     actions={actions(q)}
                   />
                 </li>
@@ -228,6 +229,7 @@ export default function QuestsIndex() {
                     xp={q.xp}
                     coins={q.coins}
                     status={statusFor(q)}
+                    lastDoneDays={q.last_done_days}
                     actions={actions(q)}
                   />
                 </li>

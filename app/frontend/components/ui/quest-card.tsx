@@ -17,13 +17,15 @@ export interface QuestCardProps extends React.HTMLAttributes<HTMLElement> {
   coins: number
   /** Short plain-text status, e.g. "Due today" or "Back tomorrow". */
   status?: string
+  /** Whole days since last done; null when never. Informational only. */
+  lastDoneDays?: number | null
   /** Action buttons rendered in the footer. */
   actions?: React.ReactNode
 }
 
 const QuestCard = React.forwardRef<HTMLElement, QuestCardProps>(
   (
-    { fantasyTitle, title, monsterName, monsterKey, minutes, difficulty, xp, coins, status, actions, className, ...props },
+    { fantasyTitle, title, monsterName, monsterKey, minutes, difficulty, xp, coins, status, lastDoneDays, actions, className, ...props },
     ref,
   ) => (
     <article
@@ -47,6 +49,11 @@ const QuestCard = React.forwardRef<HTMLElement, QuestCardProps>(
         <Badge tone="signal">+{coins} coins</Badge>
         {status && <Badge tone="accent">{status}</Badge>}
       </div>
+      {lastDoneDays !== undefined && (
+        <p className="caption mt-2">
+          {lastDoneDays === null ? "Not done yet" : lastDoneDays === 0 ? "Done today" : `Last done ${lastDoneDays === 1 ? "yesterday" : `${lastDoneDays} days ago`}`}
+        </p>
+      )}
       {actions && <div className="mt-4 flex flex-wrap gap-2">{actions}</div>}
     </article>
   ),

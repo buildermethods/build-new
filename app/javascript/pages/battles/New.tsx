@@ -38,6 +38,12 @@ export default function NewBattle() {
   const total = Math.min(limits.max, taskIds.length + free.length)
   const room = limits.max - free.length
   const payout = rewards.defeat_xp + rewards.stack_bonus_xp * total
+  const roomNames = Array.from(new Set(chores.map((c) => c.room)))
+  const roomBoss = (name: string) => {
+    const ids = chores.filter((c) => c.room === name).slice(0, Math.max(0, limits.max - free.length)).map((c) => c.id)
+    setTaskIds(ids)
+    setTitle(`The ${name} boss`)
+  }
   const toggleChore = (id: number) =>
     setTaskIds((ids) => (ids.includes(id) ? ids.filter((x) => x !== id) : ids.length < room ? [...ids, id] : ids))
 
@@ -101,6 +107,16 @@ export default function NewBattle() {
             <fieldset className="space-y-2">
               <legend>Stack your real chores ({taskIds.length} chosen)</legend>
               <p className="caption">Each chore you tick becomes a stage, and it clears itself when you complete the chore.</p>
+              {roomNames.length > 1 && (
+                <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Fight a whole room">
+                  <span className="caption">Fight a whole room:</span>
+                  {roomNames.map((name) => (
+                    <button key={name} type="button" className="toggle-button" onClick={() => roomBoss(name)}>
+                      {name}
+                    </button>
+                  ))}
+                </div>
+              )}
               <ul className="max-h-64 space-y-2 overflow-y-auto">
                 {chores.map((c) => (
                   <li key={c.id}>

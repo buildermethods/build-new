@@ -5,9 +5,15 @@
 class TaskPresenter
   DIFFICULTY = { "tiny" => "Easy", "small" => "Easy", "medium" => "Medium", "large" => "Hard", "boss" => "Boss" }.freeze
 
-  def initialize(task, today:)
+  # task_id => last (undone-excluded) completion time, in one query for a list.
+  def self.last_done_map(tasks)
+    Completion.active.where(task_id: tasks.map(&:id)).group(:task_id).maximum(:completed_at)
+  end
+
+  def initialize(task, today:, last_done: nil)
     @task = task
     @today = today
+    @last_done = last_done
   end
 
   def as_json(*)
@@ -33,8 +39,17 @@ class TaskPresenter
       available: @task.available_on?(@today),
       fantasy_title: @task.fantasy_title_or_default,
       monster: { key: monster_key, name: Game::Catalog.monster(monster_key)["name"] },
+      last_done_days: last_done_days,
       xp: @task.xp,
       coins: @task.coins
     }
   end
+
+  private
+    # Whole days since it was last done, or nil if never. Purely informational.
+    def last_done_days
+      return unless @last_done
+
+      (@today - @last_done.in_time_zone(@task.user.zone).to_date).to_i.clamp(0, 10_000)
+    end
 end
