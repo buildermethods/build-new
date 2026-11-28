@@ -1,0 +1,42 @@
+# Stage breakdowns for big jobs. Each template picks a default monster; the
+# player can edit the title and stages before starting the battle.
+declutter:
+  name: Declutter a space
+  monster: doom_pile_dragon
+  title: Slay the clutter pile
+  stages:
+    - Clear one surface completely
+    - Sort everything into keep, donate and rubbish
+    - Put the keepers back where they belong
+    - Take the donation bag and rubbish out
+    - Wipe down and reset the space
+wardrobe:
+  name: Tame a wardrobe
+  monster: wardrobe_wraith
+  title: Banish the Wardrobe Wraith
+  stages:
+    - Remove everything from one shelf
+    - Sort into keep, donate and repair
+    - Wipe the shelf
+    - Refold and replace the keepers
+    - Remove the donation bag
+deep_clean:
+  name: Deep clean a room
+  monster: dust_bunny_horde
+  title: Scatter the Dust Bunny Horde
+  stages:
+    - Gather your cleaning supplies
+    - Clear the surfaces and bin the rubbish
+    - Dust from high to low
+    - Scrub the dirty bits
+    - Vacuum or mop the floor
+paperwork:
+  name: Beat the paperwork pile
+  monster: doom_pile_dragon
+  title: Defeat the Paperwork Dragon
+  stages:
+    - Gather every scrap into one pile
+    - Sort into act now, file and recycle
+    - Deal with the urgent ones first
+    - File what needs keeping
+    - Recycle or shred the rest

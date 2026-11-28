@@ -1,0 +1,24 @@
+# Energy modes shape what the recommender offers. Every mode is valid; none
+# implies the player is failing. `allowed_efforts` hard-limits which tasks may
+# be suggested (so neither the rules nor the AI can propose a heavy chore to
+# someone in Survival Mode) and `max_quests` caps the plan length.
+survival:
+  label: Survival Mode
+  description: Tiny, essential wins only.
+  allowed_efforts: [tiny]
+  max_quests: 2
+gentle:
+  label: Gentle Adventure
+  description: A few small wins with breaks.
+  allowed_efforts: [tiny, small]
+  max_quests: 3
+ready:
+  label: Ready for Battle
+  description: A standard workload.
+  allowed_efforts: [tiny, small, medium, large]
+  max_quests: 4
+hero:
+  label: Hero Mode
+  description: Bigger jobs and deeper challenges.
+  allowed_efforts: [tiny, small, medium, large, boss]
+  max_quests: 5

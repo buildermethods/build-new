@@ -20,7 +20,7 @@ export function ProfileSubNav({ active }: { active: "details" | "password" }) {
             className={cn(
               "-mb-px border-b-2 px-1 py-3 text-sm no-underline",
               isActive
-                ? "border-accent font-medium text-accent-display"
+                ? "border-accent-strong font-medium text-accent-display"
                 : "border-transparent text-ink-body hover:text-ink-display",
             )}
           >

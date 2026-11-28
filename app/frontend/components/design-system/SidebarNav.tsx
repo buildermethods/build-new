@@ -9,6 +9,7 @@ const NAV: NavGroup[] = [
   {
     label: "Branding",
     items: [
+      { id: "logo", label: "Logo" },
       { id: "colors", label: "Colors" },
       { id: "typography", label: "Typography" },
     ],
@@ -33,6 +34,13 @@ const NAV: NavGroup[] = [
       { id: "forms", label: "Forms" },
       { id: "badges", label: "Badges" },
       { id: "toggle-buttons", label: "Toggle buttons" },
+      { id: "quest-card", label: "Quest card" },
+      { id: "xp-bar", label: "XP bar" },
+      { id: "cottage", label: "Cottage" },
+      { id: "room-icon", label: "Room icon" },
+      { id: "monster-art", label: "Monster art" },
+      { id: "empty-state", label: "Empty state" },
+      { id: "progress-ring", label: "Progress ring" },
       { id: "listings", label: "Listings" },
       { id: "data-table", label: "Data table" },
       { id: "modal", label: "Modal" },

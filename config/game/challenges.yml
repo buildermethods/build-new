@@ -1,0 +1,65 @@
+# Optional daily and weekly challenges. One of each is shown, picked
+# deterministically from the date (no randomness), and progress is computed
+# from what the player already did. Nothing is lost if one is skipped: an
+# unclaimed challenge simply rolls over to the next one.
+#
+# metrics: completions, quick (<= 5 min), active_days, starts, boss_stages,
+#          room:<room>, category:<category>
+daily:
+  - key: two_quick
+    name: Two quick wins
+    description: Finish 2 quick quests (5 minutes or less).
+    metric: quick
+    target: 2
+    xp: 20
+    coins: 10
+  - key: three_quests
+    name: A good day
+    description: Finish 3 quests.
+    metric: completions
+    target: 3
+    xp: 25
+    coins: 12
+  - key: just_start
+    name: Just begin
+    description: Start something with the 2-minute button. Starting counts.
+    metric: starts
+    target: 1
+    xp: 12
+    coins: 6
+  - key: kitchen_reset
+    name: Kitchen reset
+    description: Finish a kitchen quest.
+    metric: "room:kitchen"
+    target: 1
+    xp: 15
+    coins: 8
+weekly:
+  - key: ten_quests
+    name: Ten-quest week
+    description: Finish 10 quests this week.
+    metric: completions
+    target: 10
+    xp: 60
+    coins: 30
+  - key: four_days
+    name: Show up four days
+    description: Be active on 4 different days this week.
+    metric: active_days
+    target: 4
+    xp: 50
+    coins: 25
+  - key: kitchen_week
+    name: Kitchen week
+    description: Finish 3 kitchen quests this week.
+    metric: "room:kitchen"
+    target: 3
+    xp: 40
+    coins: 20
+  - key: boss_progress
+    name: Chip away at a boss
+    description: Clear 3 boss battle stages this week.
+    metric: boss_stages
+    target: 3
+    xp: 45
+    coins: 22

@@ -27,7 +27,7 @@ export default function PasswordNew() {
         <p className="mt-2">We&apos;ll email you a link to set a new password.</p>
 
         {props.flash?.notice && (
-          <p className="mt-4 text-sm text-accent">{props.flash.notice}</p>
+          <p className="mt-4 text-sm text-accent-display">{props.flash.notice}</p>
         )}
 
         <form onSubmit={submit} className="mt-6 space-y-4">

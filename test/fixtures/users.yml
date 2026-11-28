@@ -3,12 +3,15 @@
 one:
   email: one@example.com
   password_digest: <%= password_digest %>
+  onboarded_at: <%= Time.current.to_fs(:db) %>
 
 two:
   email: two@example.com
   password_digest: <%= password_digest %>
+  onboarded_at: <%= Time.current.to_fs(:db) %>
 
 admin:
   email: admin@example.com
   password_digest: <%= password_digest %>
+  onboarded_at: <%= Time.current.to_fs(:db) %>
   admin: true

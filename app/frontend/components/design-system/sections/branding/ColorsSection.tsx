@@ -6,7 +6,7 @@ const code = `<div className="bg-page text-ink-body">
   <div className="bg-surface border border-hairline">
     <h2 className="text-ink-display">Headline</h2>
     <p className="text-ink-muted">Quiet supporting copy.</p>
-    <button className="bg-accent text-page">Primary action</button>
+    <button className="bg-accent-strong text-page">Primary action</button>
   </div>
 </div>`;
 
@@ -17,7 +17,7 @@ export function ColorsSection() {
       title="Colors"
       description={
         <>
-          Ten semantic tokens, each defined for light and dark mode. Use the
+          A complementary scheme: pool aqua against coral, with sunshine yellow as the accent and warm cream neutrals (about 60% neutral, 30% aqua, 10% coral, yellow and green). Each hue has a bright decorative shade, a "-strong" shade for meters and borders, and a deep "-display" shade for text, each defined for light and dark mode. Use the
           token names — never raw hex. Each swatch shows the value for the
           mode you're currently viewing; both hex codes are listed below the
           swatch and click-to-copy.

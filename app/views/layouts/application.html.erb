@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="<%= "reduce-motion" if Current.user&.reduced_motion? %>">
   <head>
-    <title inertia><%= content_for(:title) || "Build New" %></title>
+    <title inertia><%= content_for(:title) || "Nest Quest" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Build New">
+    <meta name="apple-mobile-web-app-title" content="Nest Quest">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -15,16 +15,27 @@
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-    <meta name="theme-color" content="#00b8db">
+    <meta name="theme-color" content="#19d3e3">
+    <meta property="og:site_name" content="Nest Quest">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<%= request.base_url %>/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Nest Quest: defeat chaos, build calm">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="<%= request.base_url %>/og-image.png">
     <link rel="icon" href="/favicon.ico" sizes="32x32">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <%# bm-design-system:start %>
+    <%# Web fonts are skipped in tests so system tests never wait on the network. %>
+    <% unless Rails.env.test? %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <% end %>
     <script>
       (function () {
         try {

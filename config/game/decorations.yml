@@ -1,0 +1,37 @@
+# The cottage has four fixed slots per room. Prices are coins; decorations are
+# purely cosmetic and never give a gameplay advantage. Rooms unlock at a level
+# and are never taken away. An item may list `rooms:` to limit where it can go
+# (otherwise it fits anywhere); an item sits in one place at a time.
+slots: [rug, plant, lamp, wall]
+
+rooms:
+  living_room: { name: Living room, unlock_level: 1 }
+  kitchen:     { name: Kitchen,     unlock_level: 3 }
+  bedroom:     { name: Bedroom,     unlock_level: 5 }
+  garden:      { name: Garden,      unlock_level: 8 }
+
+items:
+  woven_rug:       { name: Woven Rug,             slot: rug,   price: 75 }
+  moss_rug:        { name: Mossy Meadow Rug,      slot: rug,   price: 90 }
+  starry_rug:      { name: Starry Night Rug,      slot: rug,   price: 120 }
+  fern_pot:        { name: Fern in a Pot,         slot: plant, price: 20 }
+  sunny_succulent: { name: Sunny Succulent,       slot: plant, price: 30 }
+  lemon_tree:      { name: Little Lemon Tree,     slot: plant, price: 60 }
+  table_lamp:      { name: Cosy Table Lamp,       slot: lamp,  price: 45 }
+  lantern:         { name: Enchanted Lantern,     slot: lamp,  price: 80 }
+  firefly_lamp:    { name: Firefly Jar Lamp,      slot: lamp,  price: 110 }
+  meadow_frame:    { name: Framed Meadow,         slot: wall,  price: 40 }
+  moon_tapestry:   { name: Moonlit Tapestry,      slot: wall,  price: 70 }
+  curio_shelf:     { name: Shelf of Curios,       slot: wall,  price: 95 }
+  checkered_mat:   { name: Checkered Kitchen Mat, slot: rug,   price: 55,  rooms: [kitchen] }
+  herb_pots:       { name: Windowsill Herb Pots,  slot: plant, price: 35,  rooms: [kitchen] }
+  pendant_light:   { name: Copper Pendant Light,  slot: lamp,  price: 85,  rooms: [kitchen] }
+  tea_towel_shelf: { name: Tea Towel Shelf,       slot: wall,  price: 50,  rooms: [kitchen] }
+  quilt_rug:       { name: Patchwork Quilt Rug,   slot: rug,   price: 95,  rooms: [bedroom] }
+  sleepy_cactus:   { name: Sleepy Cactus,         slot: plant, price: 40,  rooms: [bedroom] }
+  bedside_lamp:    { name: Bedside Moon Lamp,     slot: lamp,  price: 90,  rooms: [bedroom] }
+  star_poster:     { name: Starry Sky Poster,     slot: wall,  price: 60,  rooms: [bedroom] }
+  stepping_stones: { name: Stepping Stones,       slot: rug,   price: 70,  rooms: [garden] }
+  flower_boxes:    { name: Flower Boxes,          slot: plant, price: 45,  rooms: [garden] }
+  fairy_lights:    { name: Fairy Lights,          slot: lamp,  price: 100, rooms: [garden] }
+  birdhouse:       { name: Cosy Birdhouse,        slot: wall,  price: 65,  rooms: [garden] }

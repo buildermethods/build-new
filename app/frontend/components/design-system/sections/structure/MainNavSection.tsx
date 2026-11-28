@@ -126,7 +126,7 @@ function RailBody({ open, onToggle }: { open: boolean; onToggle: () => void }) {
           className="flex min-w-0 items-center gap-2 text-ink-display no-underline"
           aria-label="Home"
         >
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent-faded font-display text-sm font-semibold text-accent">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent-faded font-display text-sm font-semibold text-accent-display">
             A
           </span>
           {open && (
@@ -229,11 +229,11 @@ function UserMenu({ open }: { open: boolean }) {
           type="button"
           aria-label={open ? undefined : email}
           className={cn(
-            "group/user relative flex w-full items-center gap-3 rounded-md text-left text-ink-body hover:bg-surface hover:text-ink-display focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+            "group/user relative flex w-full items-center gap-3 rounded-md text-left text-ink-body hover:bg-surface hover:text-ink-display focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong",
             open ? "px-2 py-2" : "h-10 justify-center",
           )}
         >
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-faded text-xs font-semibold text-accent">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-faded text-xs font-semibold text-accent-display">
             {initial}
           </span>
           {open ? (
@@ -321,11 +321,11 @@ function PreviewUserMenu({ open }: { open: boolean }) {
           type="button"
           aria-label={open ? undefined : email}
           className={cn(
-            "group/user relative flex w-full cursor-pointer items-center gap-3 rounded-md text-left text-ink-body hover:bg-surface hover:text-ink-display focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+            "group/user relative flex w-full cursor-pointer items-center gap-3 rounded-md text-left text-ink-body hover:bg-surface hover:text-ink-display focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong",
             open ? "px-2 py-2" : "h-10 justify-center",
           )}
         >
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-faded text-xs font-semibold text-accent">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-faded text-xs font-semibold text-accent-display">
             Y
           </span>
           {open ? (
@@ -383,7 +383,7 @@ function DesktopPreview() {
           )}
         >
           <span className="flex min-w-0 items-center gap-2 text-ink-display">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent-faded font-display text-sm font-semibold text-accent">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent-faded font-display text-sm font-semibold text-accent-display">
               A
             </span>
             {open && (
@@ -531,13 +531,13 @@ export function MainNavSection() {
       preview={
         <div className="space-y-10">
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Desktop — toggle between collapsed and expanded
             </p>
             <DesktopPreview />
           </div>
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Mobile — hamburger fixed to the top-right corner opens a drawer
             </p>
             <MobilePreview />

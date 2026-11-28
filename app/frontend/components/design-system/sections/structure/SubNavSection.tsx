@@ -21,7 +21,7 @@ const code = `{/* Mobile (< md): full-width dropdown showing the active tab */}
 {/* Desktop (md+): horizontal tab strip */}
 <nav className="hidden md:flex items-end justify-between gap-4 border-b border-hairline">
   <div className="flex items-center gap-6">
-    <a href="#" className="-mb-px cursor-pointer border-b-2 border-accent px-1 py-3 text-sm font-medium text-accent-display no-underline">Overview</a>
+    <a href="#" className="-mb-px cursor-pointer border-b-2 border-accent-strong px-1 py-3 text-sm font-medium text-accent-display no-underline">Overview</a>
     <a href="#" className="-mb-px cursor-pointer border-b-2 border-transparent px-1 py-3 text-sm text-ink-body no-underline hover:text-ink-display">Activity</a>
     <a href="#" className="-mb-px cursor-pointer border-b-2 border-transparent px-1 py-3 text-sm text-ink-body no-underline hover:text-ink-display">Members</a>
     <a href="#" className="-mb-px cursor-pointer border-b-2 border-transparent px-1 py-3 text-sm text-ink-body no-underline hover:text-ink-display">Billing</a>
@@ -67,7 +67,7 @@ export function SubNavSection() {
       preview={
         <div className="space-y-8">
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Mobile (&lt; md) — full-width dropdown
             </p>
             <div className="max-w-sm border-b border-hairline">
@@ -83,11 +83,11 @@ export function SubNavSection() {
           </div>
 
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Desktop (md+) — tab strip
             </p>
             <nav className="flex items-end gap-6 border-b border-hairline">
-              <span className="-mb-px cursor-pointer border-b-2 border-accent px-1 py-3 text-sm font-medium text-accent-display">
+              <span className="-mb-px cursor-pointer border-b-2 border-accent-strong px-1 py-3 text-sm font-medium text-accent-display">
                 Overview
               </span>
               <span className="-mb-px cursor-pointer border-b-2 border-transparent px-1 py-3 text-sm text-ink-body">
@@ -103,12 +103,12 @@ export function SubNavSection() {
           </div>
 
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Desktop — with right-side content
             </p>
             <nav className="flex items-end justify-between gap-4 border-b border-hairline">
               <div className="flex items-center gap-6">
-                <span className="-mb-px cursor-pointer border-b-2 border-accent px-1 py-3 text-sm font-medium text-accent-display">
+                <span className="-mb-px cursor-pointer border-b-2 border-accent-strong px-1 py-3 text-sm font-medium text-accent-display">
                   Overview
                 </span>
                 <span className="-mb-px cursor-pointer border-b-2 border-transparent px-1 py-3 text-sm text-ink-body">
@@ -139,7 +139,7 @@ export function SubNavSection() {
           </li>
           <li>
             <strong>Active state</strong>:{" "}
-            <code>border-b-2 border-accent text-accent-display font-medium</code>{" "}
+            <code>border-b-2 border-accent-strong text-accent-display font-medium</code>{" "}
             on the active tab; <code>-mb-px</code> overlaps the parent's
             hairline so the underlines merge into one line.
           </li>

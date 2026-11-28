@@ -1,0 +1,59 @@
+# Charming, all-ages monsters that stand in for household tasks. `rooms` and
+# `categories` drive the default monster for a task; `quest_title` is the
+# default fantasy title shown above the plain-language task.
+laundry_troll:
+  name: Laundry Troll
+  quest_title: Tame the Laundry Troll
+  rooms: [laundry, utility]
+  categories: [laundry]
+  description: "A big, softly grumbling troll who collects odd socks."
+  flavor: "Rumour says he has never once found the pair."
+dust_bunny_horde:
+  name: Dust Bunny Horde
+  quest_title: Scatter the Dust Bunny Horde
+  rooms: [living_room, bedroom]
+  categories: []
+  description: "Tiny, fluffy and endlessly mischievous."
+  flavor: "They multiply the moment you look away."
+counter_goblins:
+  name: Counter Goblins
+  quest_title: Banish the Counter Goblins
+  rooms: [kitchen, dining_room]
+  categories: []
+  description: "Cheeky little goblins who scatter crumbs and clutter."
+  flavor: "They are quite fond of the corner by the kettle."
+bathroom_slime:
+  name: Bathroom Slime
+  quest_title: Defeat the Bathroom Slime
+  rooms: [bathroom]
+  categories: []
+  description: "Bubbly, cheeky and not at all scary."
+  flavor: "It pops into rainbow bubbles when defeated."
+doom_pile_dragon:
+  name: Doom Pile Dragon
+  quest_title: Slay the Doom Pile Dragon
+  rooms: [office]
+  categories: [admin]
+  description: "A sleepy dragon who hoards unfinished things."
+  flavor: "It guards its piles of paper with great dignity."
+toy_swarm:
+  name: Toy Swarm
+  quest_title: Corral the Toy Swarm
+  rooms: [kids_room]
+  categories: [kids]
+  description: "A playful band of miniature invaders."
+  flavor: "They always march home to the toy box in the end."
+backpack_bandits:
+  name: Backpack Bandits
+  quest_title: Outwit the Backpack Bandits
+  rooms: [hallway]
+  categories: [school]
+  description: "Masked rascals who hide the essentials before school."
+  flavor: "They always leave one shoe behind."
+wardrobe_wraith:
+  name: Wardrobe Wraith
+  quest_title: Banish the Wardrobe Wraith
+  rooms: []
+  categories: []
+  description: "A gentle ghost who haunts overfull shelves."
+  flavor: "It fades into the folds once everything has a place."

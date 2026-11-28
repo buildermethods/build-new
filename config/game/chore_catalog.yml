@@ -1,0 +1,542 @@
+# Suggested chores offered in setup. Frequencies are sensible defaults and
+# all editable. Edit by hand (quote any title containing a comma).
+---
+frequencies:
+  daily:
+    label: Daily
+    kind: calendar
+    weekdays:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+  every_2_days:
+    label: Every 2 days
+    kind: completion
+    interval: 2
+  every_3_days:
+    label: Every 3 days
+    kind: completion
+    interval: 3
+  twice_weekly:
+    label: Twice a week
+    kind: calendar
+    weekdays:
+    - 1
+    - 4
+  school_nights:
+    label: School nights
+    kind: calendar
+    weekdays:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+  weekly:
+    label: Weekly
+    kind: completion
+    interval: 7
+  fortnightly:
+    label: Every 2 weeks
+    kind: completion
+    interval: 14
+  monthly:
+    label: Monthly
+    kind: completion
+    interval: 30
+  quarterly:
+    label: Every 3 months
+    kind: completion
+    interval: 90
+  twice_yearly:
+    label: Twice a year
+    kind: completion
+    interval: 182
+rooms:
+  kitchen:
+    label: Kitchen
+    room: kitchen
+    max_count: 1
+    category: cleaning
+    chores:
+    - key: wipe_sides
+      title: Wipe the kitchen sides
+      minutes: 5
+      effort: tiny
+      frequency: daily
+      default: true
+    - key: dishwasher
+      title: Load or empty the dishwasher
+      minutes: 5
+      effort: tiny
+      frequency: daily
+      default: true
+    - key: hob
+      title: Wipe the hob
+      minutes: 5
+      effort: tiny
+      frequency: every_2_days
+    - key: sink
+      title: Clean the kitchen sink and taps
+      minutes: 5
+      effort: tiny
+      frequency: twice_weekly
+    - key: floor
+      title: Sweep and mop the kitchen floor
+      minutes: 15
+      effort: medium
+      frequency: weekly
+      default: true
+    - key: bins
+      title: Take out the rubbish and recycling
+      minutes: 5
+      effort: tiny
+      frequency: twice_weekly
+      default: true
+    - key: microwave
+      title: Clean the microwave
+      minutes: 5
+      effort: tiny
+      frequency: fortnightly
+    - key: cupboards
+      title: Wipe the cupboard fronts and handles
+      minutes: 10
+      effort: small
+      frequency: monthly
+    - key: fridge
+      title: Clean out the fridge
+      minutes: 15
+      effort: medium
+      frequency: monthly
+    - key: oven
+      title: Clean the oven
+      minutes: 30
+      effort: large
+      frequency: monthly
+    - key: bin_wash
+      title: Wash the kitchen bin
+      minutes: 10
+      effort: small
+      frequency: monthly
+    - key: kettle
+      title: Descale the kettle
+      minutes: 10
+      effort: small
+      frequency: quarterly
+    - key: extractor
+      title: Clean the extractor filter
+      minutes: 10
+      effort: small
+      frequency: quarterly
+  bathroom:
+    label: Bathroom
+    room: bathroom
+    max_count: 3
+    category: cleaning
+    chores:
+    - key: sink
+      title: Wipe the bathroom sink and taps
+      minutes: 5
+      effort: tiny
+      frequency: every_2_days
+      default: true
+    - key: toilet
+      title: Clean the toilet
+      minutes: 10
+      effort: small
+      frequency: twice_weekly
+      default: true
+    - key: shower
+      title: Clean the shower or bath
+      minutes: 15
+      effort: medium
+      frequency: weekly
+      default: true
+    - key: floor
+      title: Mop the bathroom floor
+      minutes: 10
+      effort: small
+      frequency: weekly
+    - key: mirror
+      title: Wipe the bathroom mirror
+      minutes: 5
+      effort: tiny
+      frequency: weekly
+    - key: towels
+      title: Wash the bath towels
+      minutes: 5
+      effort: tiny
+      frequency: weekly
+      category: laundry
+    - key: mat
+      title: Wash the bath mat
+      minutes: 5
+      effort: tiny
+      frequency: fortnightly
+      category: laundry
+    - key: grout
+      title: Scrub the grout and mould
+      minutes: 20
+      effort: large
+      frequency: monthly
+    - key: showerhead
+      title: Descale the showerhead
+      minutes: 10
+      effort: small
+      frequency: quarterly
+  bedroom:
+    label: Bedroom
+    room: bedroom
+    max_count: 5
+    category: cleaning
+    chores:
+    - key: bed
+      title: Make the bed
+      minutes: 3
+      effort: tiny
+      frequency: daily
+      default: true
+    - key: bedding
+      title: Change the bedding
+      minutes: 15
+      effort: medium
+      frequency: fortnightly
+      default: true
+      category: laundry
+    - key: floor
+      title: Vacuum or mop the bedroom floor
+      minutes: 10
+      effort: small
+      frequency: weekly
+      default: true
+    - key: dust
+      title: Dust the bedroom surfaces
+      minutes: 10
+      effort: small
+      frequency: weekly
+    - key: clothes
+      title: Put away clothes and clear the floor
+      minutes: 5
+      effort: tiny
+      frequency: every_2_days
+    - key: mattress
+      title: Rotate the mattress
+      minutes: 10
+      effort: small
+      frequency: quarterly
+    - key: wardrobe
+      title: Declutter the wardrobe
+      minutes: 30
+      effort: large
+      frequency: twice_yearly
+  living_room:
+    label: Living room
+    room: living_room
+    max_count: 2
+    category: cleaning
+    chores:
+    - key: tidy
+      title: Tidy the living room
+      minutes: 5
+      effort: tiny
+      frequency: daily
+      default: true
+    - key: vacuum
+      title: Vacuum the living room floor
+      minutes: 10
+      effort: small
+      frequency: weekly
+      default: true
+    - key: dust
+      title: Dust the living room surfaces
+      minutes: 10
+      effort: small
+      frequency: weekly
+    - key: mop
+      title: Mop the living room hard floors
+      minutes: 10
+      effort: small
+      frequency: fortnightly
+    - key: cushions
+      title: Wash the cushion covers and throws
+      minutes: 10
+      effort: small
+      frequency: monthly
+      category: laundry
+    - key: sofa
+      title: Vacuum under the sofa cushions
+      minutes: 5
+      effort: tiny
+      frequency: monthly
+    - key: windows
+      title: Clean the living room windows
+      minutes: 15
+      effort: medium
+      frequency: monthly
+  dining_room:
+    label: Dining room
+    room: dining_room
+    max_count: 1
+    category: cleaning
+    chores:
+    - key: table
+      title: Wipe the dining table
+      minutes: 5
+      effort: tiny
+      frequency: daily
+      default: true
+    - key: crumbs
+      title: Sweep up crumbs under the table
+      minutes: 3
+      effort: tiny
+      frequency: daily
+    - key: floor
+      title: Sweep and mop the dining room floor
+      minutes: 10
+      effort: small
+      frequency: weekly
+      default: true
+    - key: chairs
+      title: Wipe down the dining chairs
+      minutes: 5
+      effort: tiny
+      frequency: weekly
+    - key: dust
+      title: Dust the sideboard and shelves
+      minutes: 10
+      effort: small
+      frequency: weekly
+      default: true
+    - key: linens
+      title: Wash the placemats and tablecloth
+      minutes: 10
+      effort: small
+      frequency: fortnightly
+      category: laundry
+    - key: polish
+      title: Polish the dining table
+      minutes: 10
+      effort: small
+      frequency: monthly
+    - key: windows
+      title: Clean the dining room windows
+      minutes: 15
+      effort: medium
+      frequency: monthly
+    - key: lights
+      title: Dust the light fitting
+      minutes: 10
+      effort: small
+      frequency: quarterly
+  hallway:
+    label: Hallway and stairs
+    room: hallway
+    max_count: 1
+    category: cleaning
+    chores:
+    - key: floor
+      title: Sweep and mop the hallway floor
+      minutes: 10
+      effort: small
+      frequency: weekly
+      default: true
+    - key: shoes
+      title: Tidy the shoes and coats
+      minutes: 5
+      effort: tiny
+      frequency: every_2_days
+      default: true
+    - key: stairs
+      title: Vacuum the stairs
+      minutes: 10
+      effort: small
+      frequency: weekly
+    - key: handles
+      title: Wipe the door handles and light switches
+      minutes: 5
+      effort: tiny
+      frequency: weekly
+    - key: doormat
+      title: Shake out the doormat
+      minutes: 3
+      effort: tiny
+      frequency: weekly
+  kids_room:
+    label: Kids' room
+    room: kids_room
+    max_count: 4
+    category: kids
+    chores:
+    - key: toys
+      title: Tidy the toys away
+      minutes: 10
+      effort: small
+      frequency: daily
+      default: true
+    - key: bags
+      title: Prepare school bags and uniforms
+      minutes: 5
+      effort: tiny
+      frequency: school_nights
+      default: true
+      category: school
+    - key: floor
+      title: Vacuum or mop the kids' room floor
+      minutes: 10
+      effort: small
+      frequency: weekly
+    - key: bedding
+      title: Change the kids' bedding
+      minutes: 15
+      effort: medium
+      frequency: fortnightly
+      category: laundry
+    - key: outgrown
+      title: Sort out outgrown toys and clothes
+      minutes: 20
+      effort: medium
+      frequency: quarterly
+  utility:
+    label: Utility and laundry
+    room: utility
+    max_count: 1
+    category: laundry
+    chores:
+    - key: wash
+      title: Put a load of washing on
+      minutes: 3
+      effort: tiny
+      frequency: every_3_days
+      default: true
+    - key: fold
+      title: Fold and put away the clean washing
+      minutes: 15
+      effort: medium
+      frequency: every_3_days
+      default: true
+    - key: filter
+      title: Empty the tumble dryer filter
+      minutes: 3
+      effort: tiny
+      frequency: weekly
+    - key: floor
+      title: Mop the utility room floor
+      minutes: 10
+      effort: small
+      frequency: fortnightly
+      category: cleaning
+    - key: machine
+      title: Clean the washing machine drum and seal
+      minutes: 10
+      effort: small
+      frequency: monthly
+      category: cleaning
+  office:
+    label: Home office
+    room: office
+    max_count: 1
+    category: admin
+    chores:
+    - key: desk
+      title: Clear and wipe the desk
+      minutes: 5
+      effort: tiny
+      frequency: weekly
+      default: true
+      category: cleaning
+    - key: post
+      title: Sort the post and paperwork pile
+      minutes: 15
+      effort: medium
+      frequency: weekly
+      default: true
+    - key: dust
+      title: Dust the office shelves and screens
+      minutes: 10
+      effort: small
+      frequency: fortnightly
+      category: cleaning
+    - key: floor
+      title: Vacuum the office floor
+      minutes: 10
+      effort: small
+      frequency: weekly
+      category: cleaning
+    - key: bills
+      title: Pay bills and check the budget
+      minutes: 20
+      effort: medium
+      frequency: monthly
+  garden:
+    label: Garden and outdoors
+    room: garden
+    max_count: 1
+    category: outdoors
+    chores:
+    - key: water
+      title: Water the plants
+      minutes: 5
+      effort: tiny
+      frequency: every_2_days
+      default: true
+    - key: bins_out
+      title: Put the bins out
+      minutes: 5
+      effort: tiny
+      frequency: weekly
+      default: true
+    - key: sweep
+      title: Sweep the patio or path
+      minutes: 15
+      effort: medium
+      frequency: monthly
+    - key: weed
+      title: Weed the beds
+      minutes: 20
+      effort: medium
+      frequency: monthly
+    - key: mow
+      title: Mow the lawn
+      minutes: 30
+      effort: large
+      frequency: fortnightly
+  home:
+    label: Whole home
+    room: other
+    max_count: 1
+    category: admin
+    chores:
+    - key: meals
+      title: Plan the week's meals
+      minutes: 10
+      effort: small
+      frequency: weekly
+      default: true
+    - key: groceries
+      title: Check the groceries and make a list
+      minutes: 10
+      effort: small
+      frequency: weekly
+      default: true
+    - key: declutter
+      title: Declutter one drawer or shelf
+      minutes: 10
+      effort: small
+      frequency: weekly
+      category: cleaning
+    - key: reset
+      title: Do a 10-minute tidy of every room
+      minutes: 10
+      effort: small
+      frequency: weekly
+      category: cleaning
+    - key: windows
+      title: Clean all the windows
+      minutes: 30
+      effort: large
+      frequency: quarterly
+      category: cleaning

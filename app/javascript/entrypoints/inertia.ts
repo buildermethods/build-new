@@ -2,6 +2,7 @@ import { createInertiaApp } from '@inertiajs/react'
 import { createElement, type ReactNode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { pageTitle } from '@/lib/page-title'
 import { installStandaloneRecovery } from '@/lib/standalone-recovery'
 
 type ResolvedComponent = {
@@ -14,6 +15,7 @@ type ResolvedComponent = {
 installStandaloneRecovery()
 
 createInertiaApp({
+  title: pageTitle,
   resolve: (name) => {
     const pages = import.meta.glob<ResolvedComponent>('../pages/**/*.tsx', {
       eager: true,

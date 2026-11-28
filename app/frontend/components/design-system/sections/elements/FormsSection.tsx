@@ -18,7 +18,7 @@ import { RichTextField } from "@/components/ui/rich-text-field";
   <div className="space-y-2">
     <label htmlFor="email">Email</label>
     <Input id="email" type="email" placeholder="you@example.com" />
-    <p className="text-xs text-ink-muted">We'll only use this for account notifications.</p>
+    <p className="caption">We'll only use this for account notifications.</p>
   </div>
 
   {/* Select */}
@@ -109,7 +109,7 @@ export function FormsSection() {
               type="email"
               placeholder="you@example.com"
             />
-            <p className="text-xs text-ink-muted">
+            <p className="caption">
               We'll only use this for account notifications.
             </p>
           </div>

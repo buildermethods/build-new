@@ -13,7 +13,7 @@ class RegistrationsController < ApplicationController
 
     if user.save
       start_new_session_for(user)
-      redirect_to dashboard_path
+      redirect_to root_path
     else
       redirect_to signup_path, inertia: { errors: user.errors.to_hash(true).transform_values(&:first) }
     end

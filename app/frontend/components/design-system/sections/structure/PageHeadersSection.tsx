@@ -69,7 +69,7 @@ const code = `{/* Basic — title row only */}
   </div>
   <nav className="flex items-end justify-between gap-4 border-b border-hairline">
     <div className="flex items-center gap-6">
-      <a href="#" className="-mb-px cursor-pointer border-b-2 border-accent px-1 py-3 text-sm font-medium text-accent-display no-underline">Overview</a>
+      <a href="#" className="-mb-px cursor-pointer border-b-2 border-accent-strong px-1 py-3 text-sm font-medium text-accent-display no-underline">Overview</a>
       <a href="#" className="-mb-px cursor-pointer border-b-2 border-transparent px-1 py-3 text-sm text-ink-body no-underline hover:text-ink-display">Members</a>
       <a href="#" className="-mb-px cursor-pointer border-b-2 border-transparent px-1 py-3 text-sm text-ink-body no-underline hover:text-ink-display">Billing</a>
     </div>
@@ -108,7 +108,7 @@ export function PageHeadersSection() {
       preview={
         <div className="space-y-10">
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Basic — with right-side actions
             </p>
             <div className="border-b border-hairline pb-6">
@@ -133,7 +133,7 @@ export function PageHeadersSection() {
           </div>
 
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               With search in the right slot
             </p>
             <div className="border-b border-hairline pb-6">
@@ -156,7 +156,7 @@ export function PageHeadersSection() {
           </div>
 
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               Single-item view — title with settings dropdown (the standard
               layout for viewing one item from a collection)
             </p>
@@ -190,7 +190,7 @@ export function PageHeadersSection() {
           </div>
 
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-ink-muted">
+            <p className="mb-2 uppercase tracking-wider caption">
               With sub-navigation tabs (two horizontal lines)
             </p>
             <div>
@@ -205,7 +205,7 @@ export function PageHeadersSection() {
               </div>
               <nav className="flex items-end justify-between gap-4 border-b border-hairline">
                 <div className="flex items-center gap-6">
-                  <span className="-mb-px cursor-pointer border-b-2 border-accent px-1 py-3 text-sm font-medium text-accent-display">
+                  <span className="-mb-px cursor-pointer border-b-2 border-accent-strong px-1 py-3 text-sm font-medium text-accent-display">
                     Overview
                   </span>
                   <span className="-mb-px cursor-pointer border-b-2 border-transparent px-1 py-3 text-sm text-ink-body">

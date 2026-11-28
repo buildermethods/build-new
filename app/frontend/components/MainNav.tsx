@@ -4,8 +4,16 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Home,
+  Award,
+  BarChart3,
+  BookOpen,
+  Flower2 as Cottage,
+  ListChecks,
+  ListTodo,
   LogOut,
   Menu,
+  Repeat,
+  Swords,
   Settings,
   Shield,
   User,
@@ -20,11 +28,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { BRAND, Logo } from "@/components/Logo"
 import { cn } from "@/lib/utils"
 import type { PageProps } from "@/types/inertia"
 
 const STORAGE_KEY = "main-nav-open"
-const BRAND = "Build New"
 
 export type NavItemDef = {
   href: string
@@ -35,10 +43,58 @@ export type NavItemDef = {
 
 const DEFAULT_NAV_ITEMS: NavItemDef[] = [
   {
-    href: "/dashboard",
+    href: "/",
     icon: Home,
     label: "Home",
     match: (url) => url === "/" || url.startsWith("/dashboard"),
+  },
+  {
+    href: "/quests",
+    icon: ListChecks,
+    label: "Quests",
+    match: (url) => url.startsWith("/quests"),
+  },
+  {
+    href: "/todos",
+    icon: ListTodo,
+    label: "To-dos",
+    match: (url) => url.startsWith("/todos"),
+  },
+  {
+    href: "/routines",
+    icon: Repeat,
+    label: "Routines",
+    match: (url) => url.startsWith("/routines"),
+  },
+  {
+    href: "/battles",
+    icon: Swords,
+    label: "Battles",
+    match: (url) => url.startsWith("/battles"),
+  },
+  {
+    href: "/sanctuary",
+    icon: Cottage,
+    label: "Sanctuary",
+    match: (url) => url.startsWith("/sanctuary"),
+  },
+  {
+    href: "/codex",
+    icon: BookOpen,
+    label: "Codex",
+    match: (url) => url.startsWith("/codex"),
+  },
+  {
+    href: "/insights",
+    icon: BarChart3,
+    label: "Insights",
+    match: (url) => url.startsWith("/insights"),
+  },
+  {
+    href: "/achievements",
+    icon: Award,
+    label: "Badges",
+    match: (url) => url.startsWith("/achievements"),
   },
 ]
 
@@ -58,7 +114,7 @@ function useMainNavOpen() {
 
 export function MainNav({
   items = DEFAULT_NAV_ITEMS,
-  brandHref = "/dashboard",
+  brandHref = "/",
 }: {
   items?: NavItemDef[]
   brandHref?: string
@@ -90,10 +146,10 @@ export function MainNav({
             aria-hidden
           />
           <aside className="absolute left-0 top-0 flex h-full w-64 flex-col bg-page shadow-xl">
-            <div className="flex h-14 shrink-0 items-center justify-between border-b border-hairline px-4">
-              <span className="font-display text-sm font-semibold text-ink-display">
-                {BRAND}
-              </span>
+            <div className="flex h-20 shrink-0 items-center justify-between border-b border-hairline px-4">
+              <Link href={brandHref} aria-label={`${BRAND} home`}>
+                <Logo size="md" />
+              </Link>
               <button
                 type="button"
                 onClick={() => setMobileOpen(false)}
@@ -138,23 +194,15 @@ function RailBody({
     <>
       <div
         className={cn(
-          "flex h-14 shrink-0 items-center gap-3 border-b border-hairline px-3",
+          "flex h-20 shrink-0 items-center gap-3 border-b border-hairline px-3",
           open ? "justify-between" : "justify-center",
         )}
       >
         <Link
           href={brandHref}
           className="flex min-w-0 items-center gap-2 text-ink-display no-underline"
-          aria-label={BRAND}
         >
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent-faded font-display text-sm font-semibold text-accent">
-            {BRAND.charAt(0)}
-          </span>
-          {open && (
-            <span className="truncate font-display text-sm font-semibold">
-              {BRAND}
-            </span>
-          )}
+          <Logo size="md" iconOnly={!open} />
         </Link>
         {open && (
           <button
@@ -279,11 +327,11 @@ function UserMenu({ open }: { open: boolean }) {
           type="button"
           aria-label={open ? undefined : email || "Account"}
           className={cn(
-            "group/user relative flex w-full cursor-pointer items-center gap-3 rounded-md text-left text-ink-body hover:bg-surface hover:text-ink-display focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+            "group/user relative flex w-full cursor-pointer items-center gap-3 rounded-md text-left text-ink-body hover:bg-surface hover:text-ink-display focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong",
             open ? "px-2 py-2" : "h-10 justify-center",
           )}
         >
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-faded text-xs font-semibold text-accent">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-faded text-xs font-semibold text-accent-display">
             {initial}
           </span>
           {open ? (

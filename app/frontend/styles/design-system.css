@@ -10,39 +10,85 @@
 @theme {
   --breakpoint-xs: 400px;
 
-  --font-display: 'Stack Sans Text', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Quicksand', ui-rounded, 'Nunito', system-ui, sans-serif;
+  --font-brand: 'Quicksand', ui-rounded, 'Nunito', system-ui, sans-serif;
+  --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif;
 
-  --color-page: #ffffff;
-  --color-surface: #f8fafc;
-  --color-hairline: #e2e8f0;
-  --color-ink-body: #334155;
-  --color-ink-display: #0f172a;
-  --color-ink-muted: #64748b;
-  --color-accent: oklch(71.5% 0.143 215.221);
-  --color-accent-faded: oklch(96% 0.025 215.221);
-  --color-accent-display: oklch(62% 0.135 215.221);
-  --color-signal: #fcd34d;
-  --color-signal-faded: #fffaea;
-  --color-signal-display: oklch(76% 0.165 82);
+  /* Nest Quest palette, built on colour theory rather than taste:
+       - Scheme: a COMPLEMENTARY pair, pool aqua (cool, ~185 degrees) against
+         coral (warm, ~8 degrees), with sunshine yellow as a warm accent and
+         warm cream neutrals. Leaf green is used only for living things.
+       - Proportion: about 60% neutral (cream page and surfaces), 30% aqua
+         (actions, progress, brand) and 10% coral, yellow and green accents.
+       - Readability: every hue has three shades. The plain shade is bright and
+         decorative (buttons use it with dark "on-accent" text), "-strong" is a
+         mid shade that holds 3:1 for meters, rings, borders and focus, and
+         "-display" is a deep shade for text (4.5:1 or better).
+     The "peach" tokens are a soft apricot (the name is kept so art picks it up). */
+  --color-page: #fffdf9;
+  --color-surface: #fbf6ec;
+  --color-hairline: #eadfca;
+  --color-ink-body: #29505b;
+  --color-ink-display: #0c3440;
+  --color-ink-muted: #4f6f78;
+  --color-on-accent: #062a33;
+  --color-accent: #19d3e3;
+  --color-accent-strong: #0897ad;
+  --color-accent-faded: #dff7fa;
+  --color-accent-display: #0a6678;
+  --color-coral: #ff6b57;
+  --color-coral-strong: #d9442f;
+  --color-coral-faded: #ffe8e3;
+  --color-coral-display: #a8321f;
+  --color-leaf: #62c46a;
+  --color-leaf-strong: #3a9444;
+  --color-leaf-faded: #e4f5e3;
+  --color-leaf-display: #25652d;
+  --color-signal: #ffc933;
+  --color-signal-faded: #fff3c4;
+  --color-signal-display: #7a5200;
+  --color-peach: #ffbf9b;
+  --color-peach-faded: #ffeadb;
+  --color-peach-display: #8a4a2f;
+  --color-lilac: #b9a6f2;
+  --color-lilac-faded: #efe9ff;
+  --color-lilac-display: #5a44b0;
+  --color-forest: #0c3440;
   --color-danger: oklch(64% 0.22 25);
   --color-danger-faded: oklch(96% 0.025 25);
   --color-danger-display: oklch(55% 0.20 25);
 }
 
 .dark {
-  --color-page: #020617;
-  --color-surface: #0f172a;
-  --color-hairline: #1e293b;
-  --color-ink-body: #e2e8f0;
-  --color-ink-display: #f8fafc;
-  --color-ink-muted: #94a3b8;
-  --color-accent: oklch(78.9% 0.154 211.53);
-  --color-accent-faded: oklch(22% 0.045 211.53);
-  --color-accent-display: oklch(86% 0.135 211.53);
-  --color-signal: #fcd34d;
-  --color-signal-faded: #2f2b21;
-  --color-signal-display: oklch(93% 0.13 95);
+  --color-page: #0b2229;
+  --color-surface: #123039;
+  --color-hairline: #1f4856;
+  --color-ink-body: #e2f4f7;
+  --color-ink-display: #f3fcfd;
+  --color-ink-muted: #9cc3cc;
+  --color-on-accent: #062a33;
+  --color-accent: #3de4f2;
+  --color-accent-strong: #3de4f2;
+  --color-accent-faded: #0e3c47;
+  --color-accent-display: #8cf1f8;
+  --color-coral: #ff8672;
+  --color-coral-strong: #ff8672;
+  --color-coral-faded: #44231e;
+  --color-coral-display: #ffbfb1;
+  --color-leaf: #8fe08f;
+  --color-leaf-strong: #8fe08f;
+  --color-leaf-faded: #1b3a1f;
+  --color-leaf-display: #bff2bf;
+  --color-signal: #ffd24d;
+  --color-signal-faded: #3d3414;
+  --color-signal-display: #ffe08a;
+  --color-peach: #ffb98f;
+  --color-peach-faded: #3d2a1f;
+  --color-peach-display: #ffd2b3;
+  --color-lilac: #b9a6f2;
+  --color-lilac-faded: #2e2a56;
+  --color-lilac-display: #d5c9fa;
+  --color-forest: #061a20;
   --color-danger: oklch(72% 0.20 22);
   --color-danger-faded: oklch(22% 0.05 22);
   --color-danger-display: oklch(82% 0.18 22);
@@ -68,16 +114,16 @@
   h1, h2, h3, h4, h5, h6 {
     color: var(--color-ink-display);
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: -0.01em;
     line-height: 1.2;
   }
 
-  h1 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; }
+  h1 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.005em; }
   @media (min-width: 400px) {
     h1 { font-size: 2.25rem; }
   }
-  h2 { font-size: 1.7rem;  letter-spacing: -0.03em; }
+  h2 { font-size: 1.7rem;  letter-spacing: -0.005em; }
   h3 { font-size: 1.3rem; }
   h4 { font-size: 1.1rem; }
   h5 { font-size: 1rem; }
@@ -89,6 +135,8 @@
     transition: color 120ms ease;
   }
   a:hover { color: color-mix(in oklab, var(--color-accent-display), black 15%); }
+  /* Links inside running text must not rely on colour alone (WCAG 1.4.1). */
+  p a:not(.btn) { text-decoration: underline; text-underline-offset: 2px; }
 
   p { color: var(--color-ink-body); }
 
@@ -111,7 +159,7 @@
   li + li { margin-top: 0; }
 
   blockquote {
-    border-left: 3px solid var(--color-accent);
+    border-left: 3px solid var(--color-accent-strong);
     padding-left: 1rem;
     color: var(--color-ink-muted);
     font-style: italic;
@@ -151,7 +199,7 @@
   /* Buttons */
   .btn {
     @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium cursor-pointer transition-colors;
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-page;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-page;
     @apply disabled:pointer-events-none disabled:opacity-50;
     @apply h-10 px-4 text-sm;
   }
@@ -159,12 +207,12 @@
   .btn-large { @apply h-11 px-5 text-base; }
   .btn-icon  { @apply h-10 w-10 px-0; }
 
-  .btn-primary   { @apply bg-accent text-page hover:bg-accent/90; }
+  .btn-primary   { @apply bg-accent text-on-accent hover:bg-accent/90; }
   .btn-secondary { @apply bg-surface text-ink-display border border-hairline hover:bg-hairline/40; }
   .btn-ghost     { @apply text-ink-body hover:bg-surface; }
-  .btn-soft      { @apply bg-accent-faded text-accent hover:bg-accent-faded/80; }
-  .btn-danger    { @apply bg-danger text-page hover:bg-danger/90; }
-  .btn-link      { @apply text-accent underline-offset-2 hover:underline p-0 h-auto; }
+  .btn-soft      { @apply bg-accent-faded text-accent-display hover:bg-accent-faded/80; }
+  .btn-danger    { @apply bg-danger-display text-page hover:bg-danger-display/90; }
+  .btn-link      { @apply text-accent-display underline-offset-2 hover:underline p-0 h-auto; }
 
   /* Button-dropdown (split button: primary action on the left, chevron end-cap
      on the right that opens a menu of secondary actions). The two halves are
@@ -187,7 +235,7 @@
   .form-control {
     @apply flex h-10 w-full rounded-md border border-hairline bg-page px-3 py-2 text-sm text-ink-body;
     @apply placeholder:text-ink-muted;
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-page focus-visible:border-accent focus-visible:bg-accent-faded/50;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-page focus-visible:border-accent-strong focus-visible:bg-accent-faded/50;
     @apply disabled:cursor-not-allowed disabled:opacity-50;
   }
   .form-control-select { @apply appearance-none pr-9; }
@@ -200,19 +248,27 @@
   .badge-neutral { @apply bg-surface text-ink-body border border-hairline; }
   .badge-accent  { @apply bg-accent-faded text-accent-display; }
   .badge-signal  { @apply bg-signal-faded text-signal-display; }
+  /* Semantic text variants for elements that must not carry size/colour
+     utilities (see CLAUDE.md): small muted helper text, and a smaller h2/h3. */
+  .caption    { font-size: 0.875rem; color: var(--color-ink-muted); }
+  .heading-sm { font-size: 1.125rem; }
+  /* Big countdown/clock numbers (tidy blitz). */
+  .timer-readout { font-family: var(--font-display); font-size: 2.5rem; line-height: 1; color: var(--color-ink-display); font-variant-numeric: tabular-nums; }
+
   .badge-muted   { @apply bg-transparent text-ink-muted border border-hairline; }
-  .badge-solid   { @apply bg-accent text-page; }
+  .badge-solid   { @apply bg-accent text-on-accent; }
 
   /* Toggle buttons (pill-shaped on/off) */
   .toggle-button {
     @apply inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-hairline bg-page px-3 py-1 text-xs font-medium text-ink-body transition-colors;
     @apply hover:bg-surface;
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-page;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-page;
     @apply disabled:pointer-events-none disabled:opacity-50;
   }
   .toggle-button-on,
-  .toggle-button[aria-pressed="true"] {
-    @apply border-accent bg-accent-faded text-accent-display hover:bg-accent-faded;
+  .toggle-button[aria-pressed="true"],
+  .toggle-button[aria-current="true"] {
+    @apply border-accent-strong bg-accent-faded text-accent-display hover:bg-accent-faded;
   }
 
   /* Modal (dialog) */
@@ -235,7 +291,7 @@
   .modal-description { @apply text-sm text-ink-muted; }
   .modal-close {
     @apply absolute right-4 top-4 cursor-pointer rounded-sm text-ink-muted hover:text-ink-display;
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-accent;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong;
   }
 
   /* Callouts */
@@ -342,7 +398,7 @@ html {
 .bm-rich-text .milkdown .ProseMirror li + li { margin-top: 0.25rem; }
 
 .bm-rich-text .milkdown .ProseMirror blockquote {
-  border-left: 3px solid var(--color-accent);
+  border-left: 3px solid var(--color-accent-strong);
   padding-left: 1rem;
   color: var(--color-ink-muted);
   font-style: italic;
@@ -426,3 +482,67 @@ html {
 .dark .bm-rich-text .milkdown .milkdown-toolbar .divider {
   background: rgba(0, 0, 0, 0.12);
 }
+
+
+/* Monster-defeat celebration: three puffs that rise and fade. CSS-only, and
+   switched off entirely for people who prefer reduced motion. */
+.victory-poof {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+}
+.victory-poof span {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  background: var(--color-signal);
+  opacity: 0.9;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .victory-poof span {
+    animation: victory-poof 900ms ease-out both;
+  }
+  .victory-poof span:nth-child(2) { animation-delay: 120ms; background: var(--color-coral); }
+  .victory-poof span:nth-child(3) { animation-delay: 240ms; background: var(--color-accent); }
+  @keyframes victory-poof {
+    0%   { transform: translateY(1.5rem) scale(0.4); opacity: 0; }
+    60%  { transform: translateY(-0.25rem) scale(1.15); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 0.9; }
+  }
+}
+
+/* In-app "Reduce motion" setting: stops every animation and transition. */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* Confetti for victories and level-ups. Falls from the top of its container;
+   hidden entirely when motion is reduced (OS setting or the in-app setting). */
+.confetti {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.confetti span {
+  position: absolute;
+  top: -12px;
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .confetti span { animation: confetti-fall 1400ms ease-in both; }
+  @keyframes confetti-fall {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(340px) rotate(300deg); opacity: 0; }
+  }
+}
+.reduce-motion .confetti { display: none; }

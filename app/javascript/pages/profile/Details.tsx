@@ -35,7 +35,7 @@ export default function ProfileDetails() {
         />
 
         {props.flash?.notice && (
-          <p className="mt-6 text-sm text-accent">{props.flash.notice}</p>
+          <p className="mt-6 text-sm text-accent-display">{props.flash.notice}</p>
         )}
 
         <section className="mt-10 max-w-md">

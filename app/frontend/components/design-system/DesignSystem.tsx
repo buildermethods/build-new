@@ -5,6 +5,7 @@ import { SidebarNav } from "@/components/design-system/SidebarNav";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ColorsSection } from "@/components/design-system/sections/branding/ColorsSection";
+import { LogoSection } from "@/components/design-system/sections/branding/LogoSection";
 import { TypographySection } from "@/components/design-system/sections/branding/TypographySection";
 import { ShellsSection } from "@/components/design-system/sections/structure/ShellsSection";
 import { MainNavSection } from "@/components/design-system/sections/structure/MainNavSection";
@@ -18,6 +19,13 @@ import { ButtonsSection } from "@/components/design-system/sections/elements/But
 import { ButtonDropdownSection } from "@/components/design-system/sections/elements/ButtonDropdownSection";
 import { FormsSection } from "@/components/design-system/sections/elements/FormsSection";
 import { BadgesSection } from "@/components/design-system/sections/elements/BadgesSection";
+import { QuestCardSection } from "@/components/design-system/sections/elements/QuestCardSection";
+import { XpBarSection } from "@/components/design-system/sections/elements/XpBarSection";
+import { CottageSection } from "@/components/design-system/sections/elements/CottageSection";
+import { RoomIconSection } from "@/components/design-system/sections/elements/RoomIconSection";
+import { MonsterArtSection } from "@/components/design-system/sections/elements/MonsterArtSection";
+import { ProgressRingSection } from "@/components/design-system/sections/elements/ProgressRingSection";
+import { EmptyStateSection } from "@/components/design-system/sections/elements/EmptyStateSection";
 import { ToggleButtonsSection } from "@/components/design-system/sections/elements/ToggleButtonsSection";
 import { ListingsSection } from "@/components/design-system/sections/elements/ListingsSection";
 import { DataTableSection } from "@/components/design-system/sections/elements/DataTableSection";
@@ -104,6 +112,8 @@ export function DesignSystem() {
             </p>
           </div>
 
+          <LogoSection />
+
           <ColorsSection />
           <TypographySection />
           <ShellsSection />
@@ -118,6 +128,13 @@ export function DesignSystem() {
           <FormsSection />
           <BadgesSection />
           <ToggleButtonsSection />
+          <QuestCardSection />
+          <XpBarSection />
+          <CottageSection />
+          <RoomIconSection />
+          <MonsterArtSection />
+          <EmptyStateSection />
+          <ProgressRingSection />
           <ListingsSection />
           <DataTableSection />
           <ModalSection />

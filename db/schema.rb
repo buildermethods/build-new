@@ -10,9 +10,171 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_23_000005) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_28_110000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "boss_battles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "title", null: false
+    t.string "monster_key", null: false
+    t.string "status", default: "active", null: false
+    t.datetime "defeated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "status"], name: "index_boss_battles_on_user_id_and_status"
+    t.index ["user_id"], name: "index_boss_battles_on_user_id"
+  end
+
+  create_table "boss_stages", force: :cascade do |t|
+    t.bigint "boss_battle_id", null: false
+    t.string "title", null: false
+    t.integer "position", default: 0, null: false
+    t.integer "damage", default: 0, null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "task_id"
+    t.index ["boss_battle_id"], name: "index_boss_stages_on_boss_battle_id"
+    t.index ["task_id"], name: "index_boss_stages_on_task_id"
+  end
+
+  create_table "completions", force: :cascade do |t|
+    t.bigint "task_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "completed_at", null: false
+    t.date "previous_next_due_on"
+    t.datetime "undone_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "previous_assignee_id"
+    t.index ["task_id"], name: "index_completions_on_task_id"
+    t.index ["user_id", "completed_at"], name: "index_completions_on_user_id_and_completed_at"
+    t.index ["user_id"], name: "index_completions_on_user_id"
+  end
+
+  create_table "daily_intentions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "task_id", null: false
+    t.date "on_date", null: false
+    t.string "anchor"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_daily_intentions_on_task_id"
+    t.index ["user_id", "on_date"], name: "index_daily_intentions_on_user_id_and_on_date", unique: true
+  end
+
+  create_table "household_members", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "position"], name: "index_household_members_on_user_id_and_position"
+    t.index ["user_id"], name: "index_household_members_on_user_id"
+  end
+
+  create_table "owned_decorations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "decoration_key", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "decoration_key"], name: "index_owned_decorations_on_user_id_and_decoration_key", unique: true
+  end
+
+  create_table "player_progresses", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "xp", default: 0, null: false
+    t.integer "coins", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "peak_level", default: 1, null: false
+    t.index ["user_id"], name: "index_player_progresses_on_user_id", unique: true
+  end
+
+  create_table "reward_transactions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "completion_id"
+    t.string "kind", null: false
+    t.integer "xp_delta", default: 0, null: false
+    t.integer "coin_delta", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "reference"
+    t.index ["completion_id", "kind"], name: "index_reward_transactions_once_per_completion", unique: true, where: "(completion_id IS NOT NULL)"
+    t.index ["completion_id"], name: "index_reward_transactions_on_completion_id"
+    t.index ["user_id", "reference"], name: "index_reward_transactions_once_per_engagement_reward", unique: true, where: "((kind)::text = ANY ((ARRAY['todo'::character varying, 'boss_stage'::character varying, 'boss_defeat'::character varying, 'challenge'::character varying])::text[]))"
+    t.index ["user_id", "reference"], name: "index_reward_transactions_once_per_one_off", unique: true, where: "((kind)::text = ANY ((ARRAY['start'::character varying, 'welcome'::character varying])::text[]))"
+    t.index ["user_id", "reference"], name: "index_reward_transactions_once_per_purchase", unique: true, where: "((kind)::text = 'purchase'::text)"
+    t.index ["user_id", "reference"], name: "index_reward_transactions_once_per_routine_day", unique: true, where: "((kind)::text = 'routine_bonus'::text)"
+    t.index ["user_id"], name: "index_reward_transactions_on_user_id"
+  end
+
+  create_table "routine_step_completions", force: :cascade do |t|
+    t.bigint "routine_step_id", null: false
+    t.date "on_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["routine_step_id", "on_date"], name: "index_routine_step_completions_on_routine_step_id_and_on_date", unique: true
+  end
+
+  create_table "routine_steps", force: :cascade do |t|
+    t.bigint "routine_id", null: false
+    t.bigint "task_id"
+    t.string "title", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["routine_id"], name: "index_routine_steps_on_routine_id"
+    t.index ["task_id"], name: "index_routine_steps_on_task_id"
+  end
+
+  create_table "routines", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.integer "weekdays", default: [], null: false, array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_routines_on_user_id"
+  end
+
+  create_table "sanctuary_placements", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "slot", null: false
+    t.string "decoration_key", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "room", default: "living_room", null: false
+    t.index ["user_id", "room", "slot"], name: "index_sanctuary_placements_on_user_id_and_room_and_slot", unique: true
+  end
 
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -165,6 +327,56 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_23_000005) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "notes"
+    t.string "room", default: "other", null: false
+    t.string "category", default: "other", null: false
+    t.integer "duration_minutes", default: 10, null: false
+    t.string "effort", default: "small", null: false
+    t.string "priority", default: "normal", null: false
+    t.date "due_on"
+    t.string "recurrence_kind", default: "none", null: false
+    t.integer "recurrence_interval_days"
+    t.integer "recurrence_weekdays", default: [], null: false, array: true
+    t.date "next_due_on"
+    t.string "status", default: "active", null: false
+    t.date "deferred_until"
+    t.datetime "completed_at"
+    t.string "monster_key"
+    t.string "fantasy_title"
+    t.string "room_label"
+    t.string "source_key"
+    t.bigint "assignee_id"
+    t.boolean "rotate", default: false, null: false
+    t.index ["assignee_id"], name: "index_tasks_on_assignee_id"
+    t.index ["user_id", "created_at"], name: "index_tasks_on_user_id_and_created_at"
+    t.index ["user_id", "source_key"], name: "index_tasks_on_user_id_and_source_key", unique: true, where: "(source_key IS NOT NULL)"
+    t.index ["user_id", "status"], name: "index_tasks_on_user_id_and_status"
+  end
+
+  create_table "todos", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "title", null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "remind_on"
+    t.index ["user_id", "completed_at"], name: "index_todos_on_user_id_and_completed_at"
+  end
+
+  create_table "user_achievements", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "key", null: false
+    t.datetime "earned_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "key"], name: "index_user_achievements_on_user_id_and_key", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
@@ -172,9 +384,34 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_23_000005) do
     t.boolean "admin", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "display_name"
+    t.boolean "reduced_motion", default: false, null: false
+    t.datetime "onboarded_at"
+    t.jsonb "onboarding_draft", default: {}, null: false
+    t.string "anchor"
+    t.string "treat"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "boss_battles", "users"
+  add_foreign_key "boss_stages", "boss_battles"
+  add_foreign_key "boss_stages", "tasks", on_delete: :nullify
+  add_foreign_key "completions", "tasks"
+  add_foreign_key "completions", "users"
+  add_foreign_key "daily_intentions", "tasks", on_delete: :cascade
+  add_foreign_key "daily_intentions", "users"
+  add_foreign_key "household_members", "users"
+  add_foreign_key "owned_decorations", "users"
+  add_foreign_key "player_progresses", "users"
+  add_foreign_key "reward_transactions", "completions"
+  add_foreign_key "reward_transactions", "users"
+  add_foreign_key "routine_step_completions", "routine_steps"
+  add_foreign_key "routine_steps", "routines"
+  add_foreign_key "routine_steps", "tasks", on_delete: :nullify
+  add_foreign_key "routines", "users"
+  add_foreign_key "sanctuary_placements", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
@@ -182,4 +419,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_23_000005) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "tasks", "household_members", column: "assignee_id", on_delete: :nullify
+  add_foreign_key "tasks", "users"
+  add_foreign_key "todos", "users"
+  add_foreign_key "user_achievements", "users"
 end

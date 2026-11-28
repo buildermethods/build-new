@@ -1,0 +1,31 @@
+# Ready-made routines a player can add with one click, then edit freely.
+# weekdays: 0 = Sunday ... 6 = Saturday; empty means every day.
+sunday_reset:
+  name: Sunday reset
+  blurb: A calm weekly reset so Monday starts fresh.
+  weekdays: [0]
+  steps:
+    - Strip the beds and start a wash
+    - Clear the kitchen surfaces
+    - Empty the bins
+    - Quick tidy of the living room
+    - Check the week ahead and plan meals
+    - Lay out what you need for tomorrow
+evening_wind_down:
+  name: Evening wind-down
+  blurb: Five small things so tomorrow's you says thanks.
+  weekdays: []
+  steps:
+    - Load the dishwasher and wipe the sides
+    - Reset the living room (cushions, cups, toys)
+    - Put tomorrow's things by the door
+    - Quick look at tomorrow's plan
+school_morning:
+  name: School morning launch
+  blurb: Get everyone out the door calmly.
+  weekdays: [1, 2, 3, 4, 5]
+  steps:
+    - Breakfast and lunchboxes
+    - Bags packed and by the door
+    - Shoes and coats on
+    - Quick tidy of the kitchen

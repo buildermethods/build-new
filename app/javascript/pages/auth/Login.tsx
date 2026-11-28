@@ -27,13 +27,13 @@ export default function Login() {
       <AuthShell>
         <div className="text-center">
           <h2>Log in</h2>
-          <p className="mt-2 text-sm text-ink-muted">
+          <p className="mt-2 caption">
             Don&apos;t have an account? <Link href="/signup">Sign up</Link>
           </p>
         </div>
 
         {props.flash?.notice && (
-          <p className="mt-4 text-center text-sm text-accent">
+          <p className="mt-4 text-center text-sm text-accent-display">
             {props.flash.notice}
           </p>
         )}

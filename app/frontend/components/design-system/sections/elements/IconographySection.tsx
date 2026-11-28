@@ -76,7 +76,7 @@ export function IconographySection() {
       options={
         <ul className="list-disc pl-5">
           <li>Pick from the full lucide set: https://lucide.dev/icons</li>
-          <li>Use <code>text-ink-muted</code> for icons that recede; <code>text-accent</code> when emphasizing.</li>
+          <li>Use <code>text-ink-muted</code> for icons that recede; <code>text-accent-display</code> when emphasizing.</li>
           <li>Always pair icon-only buttons with <code>aria-label</code>.</li>
         </ul>
       }

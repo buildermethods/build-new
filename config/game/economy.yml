@@ -1,0 +1,37 @@
+# Reward values are configuration, not code. XP is per effort level; coins are
+# a fixed fraction of XP (roughly one coin per two XP).
+xp_by_effort:
+  tiny: 15
+  small: 30
+  medium: 50
+  large: 85
+  boss: 150
+coins_per_xp: 0.5
+
+# Cumulative XP needed to reach level L is level_base * L * (L - 1) / 2,
+# so level 2 = 100, level 3 = 300, level 4 = 600 with the default base.
+level_base: 100
+
+# Finishing every step of a routine on a day pays this once, on top of any
+# XP earned by tasks linked to its steps.
+routine_bonus_xp: 20
+routine_bonus_coins: 10
+
+# Small one-off rewards that make beginning feel good. Starting a task pays once
+# per task per day; the welcome bonus pays once ever and gives the XP bar a
+# head start.
+start_xp: 3
+welcome_xp: 20
+
+# Quick to-dos pay a tiny reward, capped per day so they can't be farmed by
+# adding and ticking lots of throwaway items.
+todo_xp: 2
+todo_daily_cap: 5
+
+# Boss battles: each stage cleared pays a little, and defeating the boss pays
+# the big reward (the spec's 100-200 XP band). All exactly-once via the ledger.
+boss_stage_xp: 10
+boss_defeat_xp: 150
+boss_defeat_coins: 60
+# Stacking pays: the defeat reward grows by this much XP for every stage.
+boss_stack_bonus_xp: 15

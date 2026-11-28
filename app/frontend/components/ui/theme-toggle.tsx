@@ -46,7 +46,7 @@ export function ThemeToggle({ block = false, className }: ThemeToggleProps) {
             title={label}
             onClick={() => setTheme(value)}
             className={cn(
-              "inline-flex h-7 cursor-pointer items-center justify-center rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+              "inline-flex h-7 cursor-pointer items-center justify-center rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong",
               block ? "flex-1" : "w-7",
               isActive
                 ? "bg-page text-ink-display"
