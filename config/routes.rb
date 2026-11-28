@@ -65,6 +65,7 @@ Rails.application.routes.draw do
 
   resources :boss_battles, path: "battles", only: %i[ index show new create ] do
     member { post :abandon }
+    resources :photos, only: %i[ show create destroy ], param: :slot, controller: "boss_photos"
     resources :stages, only: [], controller: "boss_stages" do
       member do
         post :complete

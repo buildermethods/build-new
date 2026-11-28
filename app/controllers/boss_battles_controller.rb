@@ -70,8 +70,15 @@ class BossBattlesController < ApplicationController
       }
     end
 
+    # Private photos are served through our own authenticated route, never a
+    # public blob link. The blob id busts the cache when a photo is replaced.
+    def photo_url(battle, slot)
+      attachment = battle.photo(slot)
+      attachment&.attached? ? "/battles/#{battle.id}/photos/#{slot}?v=#{attachment.blob.id}" : nil
+    end
+
     def detail(battle)
-      summary(battle).merge(rewards: rewards(battle), stages: battle.stages.map do |s|
+      summary(battle).merge(photos: BossBattle::PHOTO_SLOTS.index_with { |slot| photo_url(battle, slot) }, rewards: rewards(battle), stages: battle.stages.map do |s|
         { id: s.id, title: s.title, damage: s.damage, done: s.done?, linked: s.linked? }
       end)
     end

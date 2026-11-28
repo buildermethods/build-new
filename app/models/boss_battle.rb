@@ -10,12 +10,19 @@ class BossBattle < ApplicationRecord
   TOTAL_HEALTH = 100
 
   belongs_to :user
+  PHOTO_TYPES = %w[image/jpeg image/png image/webp].freeze
+  PHOTO_MAX_BYTES = 5.megabytes
+  PHOTO_SLOTS = %w[before after].freeze
+
+  has_one_attached :before_photo
+  has_one_attached :after_photo
   has_many :stages, -> { order(:position, :id) }, class_name: "BossStage", dependent: :destroy
 
   validates :title, presence: true, length: { maximum: 120 }
   validates :status, inclusion: { in: STATUSES }
   validates :monster_key, inclusion: { in: ->(_) { Game::Catalog.monsters.keys } }
   validate :stage_count_in_range, on: :create
+  validate :photos_acceptable
 
   before_validation { self.title = title.to_s.squish }
 
@@ -109,7 +116,29 @@ class BossBattle < ApplicationRecord
     update!(status: "abandoned") if active?
   end
 
+  # Why an uploaded file can't be used, or nil when it is fine.
+  def self.photo_problem(file)
+    return "Choose a photo first." unless file.respond_to?(:content_type) && file.respond_to?(:size)
+    return "Photos must be JPG, PNG or WebP." unless PHOTO_TYPES.include?(file.content_type)
+    "Photos must be under #{PHOTO_MAX_BYTES / 1.megabyte} MB." if file.size > PHOTO_MAX_BYTES
+  end
+
+  def photo(slot)
+    public_send("#{slot}_photo") if PHOTO_SLOTS.include?(slot.to_s)
+  end
+
   private
+    # Photos are private to the player: small, and images only.
+    def photos_acceptable
+      PHOTO_SLOTS.each do |slot|
+        attachment = public_send("#{slot}_photo")
+        next unless attachment.attached?
+
+        errors.add(:base, "Photos must be JPG, PNG or WebP") unless PHOTO_TYPES.include?(attachment.blob.content_type)
+        errors.add(:base, "Photos must be under #{PHOTO_MAX_BYTES / 1.megabyte} MB") if attachment.blob.byte_size > PHOTO_MAX_BYTES
+      end
+    end
+
     def stage_count_in_range
       count = stages.size
       errors.add(:base, "A boss battle needs #{MIN_STAGES} to #{MAX_STAGES} stages") unless (MIN_STAGES..MAX_STAGES).cover?(count)
