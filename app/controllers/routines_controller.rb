@@ -12,6 +12,7 @@ class RoutinesController < ApplicationController
 
     render inertia: "routines/Index", props: {
       routines: routines.map { |r| routine_json(r, today) },
+      templates: Game::Catalog.routine_templates.map { |key, t| { key: key, name: t["name"], blurb: t["blurb"], added: routines.any? { |r| r.name == t["name"] } } },
       task_options: user.tasks.pending.order(:title).map { |t| { id: t.id, title: t.title } }
     }
   end
@@ -24,6 +25,20 @@ class RoutinesController < ApplicationController
   def update
     @routine.assign_attributes(routine_params)
     save_with_steps(@routine)
+  end
+
+  # One-click starter routines from config/game/routine_templates.yml. Adding
+  # the same one twice just takes you back to the list.
+  def from_template
+    template = Game::Catalog.routine_templates[params[:key].to_s]
+    return redirect_to(routines_path) unless template
+    return redirect_to(routines_path, notice: "#{template['name']} is already on your list.") if Current.user.routines.exists?(name: template["name"])
+
+    Routine.transaction do
+      routine = Current.user.routines.create!(name: template["name"], weekdays: template["weekdays"])
+      routine.replace_steps!(template["steps"].map { |title| { title: title } })
+    end
+    redirect_to routines_path, notice: "Added #{template['name']}. Edit it any time."
   end
 
   def destroy

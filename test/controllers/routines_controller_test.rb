@@ -108,4 +108,23 @@ class RoutinesControllerTest < ActionDispatch::IntegrationTest
     assert_equal expected, flash[:victory][:xp]
     assert_equal expected, PlayerProgress.find_by!(user: @user).xp
   end
+
+  test "a ready-made routine is added once with its steps and weekday" do
+    log_in_as(users(:one))
+    assert_difference -> { users(:one).routines.count }, 1 do
+      post routine_template_path("sunday_reset")
+      post routine_template_path("sunday_reset")
+    end
+    routine = users(:one).routines.find_by!(name: "Sunday reset")
+    assert_equal [ 0 ], routine.weekdays
+    assert_equal 6, routine.steps.count
+  end
+
+  test "an unknown template changes nothing" do
+    log_in_as(users(:one))
+    assert_no_difference -> { Routine.count } do
+      post routine_template_path("nope")
+    end
+    assert_redirected_to routines_path
+  end
 end

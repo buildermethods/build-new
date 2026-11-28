@@ -49,6 +49,10 @@ module Game
         @challenges ||= load_yaml("challenges.yml")
       end
 
+      def routine_templates
+        @routine_templates ||= load_yaml("routine_templates.yml")
+      end
+
       def playlists
         @playlists ||= load_yaml("music.yml").fetch("playlists")
       end

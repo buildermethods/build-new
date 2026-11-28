@@ -13,6 +13,8 @@ import type { PageProps, Routine } from "@/types/inertia"
 const DESCRIPTION =
   "Build repeatable Nest Quest routines from ordered steps, like the school morning launch or the Sunday reset, and track today's progress."
 
+type Template = { key: string; name: string; blurb: string; added: boolean }
+
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
 const schedule = (r: Routine) => (r.weekdays.length === 0 ? "Every day" : r.weekdays.map((d) => DAYS[d]).join(", "))
@@ -68,8 +70,8 @@ function RoutineCard({ routine, onEdit }: { routine: Routine; onEdit: (r: Routin
 }
 
 export default function RoutinesIndex() {
-  const { props } = usePage<PageProps<{ routines: Routine[]; task_options: { id: number; title: string }[] }>>()
-  const { routines, task_options } = props
+  const { props } = usePage<PageProps<{ routines: Routine[]; task_options: { id: number; title: string }[]; templates: Template[] }>>()
+  const { routines, task_options, templates } = props
   const [formOpen, setFormOpen] = useState(false)
   const [editing, setEditing] = useState<Routine | null>(null)
 
@@ -124,6 +126,26 @@ export default function RoutinesIndex() {
             <ul className="mt-4 grid list-none gap-4 p-0 sm:grid-cols-2">
               {later.map((r) => (
                 <li key={r.id}><RoutineCard routine={r} onEdit={open} /></li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {templates.some((t) => !t.added) && (
+          <section className="mt-12" aria-label="Ready-made routines">
+            <h2>Ready-made routines</h2>
+            <p className="caption mt-1">One click adds a starter you can edit any time.</p>
+            <ul className="mt-4 grid list-none gap-3 p-0 sm:grid-cols-2">
+              {templates.filter((t) => !t.added).map((t) => (
+                <li key={t.key} className="flex items-center gap-3 rounded-xl border border-hairline bg-surface p-4">
+                  <div className="flex-1">
+                    <h3 className="heading-sm">{t.name}</h3>
+                    <p className="caption">{t.blurb}</p>
+                  </div>
+                  <Button size="sm" variant="secondary" aria-label={`Add ${t.name}`} onClick={() => router.post(`/routines/template/${t.key}`, {}, { preserveScroll: true })}>
+                    Add
+                  </Button>
+                </li>
               ))}
             </ul>
           </section>

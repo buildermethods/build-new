@@ -45,6 +45,7 @@ Rails.application.routes.draw do
   post "welcome/finish", to: "onboarding#complete", defaults: { mode: "setup" }
   post "welcome/skip",   to: "onboarding#skip",     defaults: { mode: "setup" }, as: :skip_welcome
 
+  post "routines/template/:key", to: "routines#from_template", as: :routine_template
   resources :routines, only: %i[ index create update destroy ] do
     member { post :complete_all }
     resources :steps, only: [], controller: "routine_steps" do
