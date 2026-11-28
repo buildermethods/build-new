@@ -73,17 +73,17 @@ const ART: Record<string, (mood: Mood) => React.ReactNode> = {
   laundry_troll: (mood) => (
     <g>
       <ellipse cx="32" cy="58" rx="19" ry="3" className="fill-forest opacity-10" />
-      <circle cx="14.5" cy="26" r="5.5" className="fill-accent" />
-      <circle cx="49.5" cy="26" r="5.5" className="fill-accent" />
-      <circle cx="14.5" cy="26" r="2.6" className="fill-accent-display opacity-60" />
-      <circle cx="49.5" cy="26" r="2.6" className="fill-accent-display opacity-60" />
+      <circle cx="14.5" cy="26" r="5.5" className="fill-coral" />
+      <circle cx="49.5" cy="26" r="5.5" className="fill-coral" />
+      <circle cx="14.5" cy="26" r="2.6" className="fill-coral-display opacity-60" />
+      <circle cx="49.5" cy="26" r="2.6" className="fill-coral-display opacity-60" />
       <path d="M26 11 q2 -6 4 -1 q2 -6 4 -1 q2 -4 4 2" className="fill-forest" />
-      <ellipse cx="32" cy="38" rx="21" ry="19" className="fill-accent" />
-      <path d="M12 44 q20 22 40 0 q-2 10 -20 12 q-18 -2 -20 -12 z" className="fill-accent-display opacity-40" />
-      <ellipse cx="32" cy="46" rx="11" ry="9" className="fill-accent-faded opacity-70" />
-      <ellipse cx="13" cy="46" rx="4.5" ry="6" className="fill-accent" />
+      <ellipse cx="32" cy="38" rx="21" ry="19" className="fill-coral" />
+      <path d="M12 44 q20 22 40 0 q-2 10 -20 12 q-18 -2 -20 -12 z" className="fill-coral-display opacity-40" />
+      <ellipse cx="32" cy="46" rx="11" ry="9" className="fill-coral-faded opacity-70" />
+      <ellipse cx="13" cy="46" rx="4.5" ry="6" className="fill-coral" />
       <path d="M52 40 l7 -1 q4 0 3 5 l-3 9 q-1 3 -4 2 z" className="fill-peach" />
-      <path d="M53.5 46 h6 M54 50 h5" className="stroke-coral" strokeWidth="2" />
+      <path d="M53.5 46 h6 M54 50 h5" className="stroke-accent" strokeWidth="2" />
       <Face cx={32} cy={31} gap={13} mood={mood} />
       {mood === "sleepy" && <Zzz x={46} y={14} />}
     </g>
@@ -132,15 +132,15 @@ const ART: Record<string, (mood: Mood) => React.ReactNode> = {
   ),
   bathroom_slime: (mood) => (
     <g>
-      <ellipse cx="32" cy="58" rx="24" ry="4.5" className="fill-lilac opacity-45" />
-      <path d="M32 5 C48 24 56 33 56 45 a24 15 0 0 1 -48 0 C8 33 16 24 32 5 Z" className="fill-lilac" />
-      <path d="M12 47 q20 13 40 0 q-3 9 -20 10 q-17 -1 -20 -10 z" className="fill-lilac-display opacity-45" />
-      <path d="M21 33 C22 24 26 18 30 13" className="fill-none stroke-lilac-faded" strokeWidth="3.2" strokeLinecap="round" />
-      <circle cx="21" cy="40" r="1.8" className="fill-lilac-faded" />
+      <ellipse cx="32" cy="58" rx="24" ry="4.5" className="fill-accent opacity-45" />
+      <path d="M32 5 C48 24 56 33 56 45 a24 15 0 0 1 -48 0 C8 33 16 24 32 5 Z" className="fill-accent" />
+      <path d="M12 47 q20 13 40 0 q-3 9 -20 10 q-17 -1 -20 -10 z" className="fill-accent-display opacity-45" />
+      <path d="M21 33 C22 24 26 18 30 13" className="fill-none stroke-accent-faded" strokeWidth="3.2" strokeLinecap="round" />
+      <circle cx="21" cy="40" r="1.8" className="fill-accent-faded" />
       <Face cx={33} cy={39} gap={13} mood={mood} />
-      <circle cx="52" cy="12" r="4.2" className="fill-lilac-faded stroke-lilac" strokeWidth="1" />
-      <circle cx="58" cy="22" r="2.6" className="fill-lilac-faded stroke-lilac" strokeWidth="1" />
-      <circle cx="9" cy="22" r="2.2" className="fill-lilac-faded stroke-lilac" strokeWidth="1" />
+      <circle cx="52" cy="12" r="4.2" className="fill-accent-faded stroke-accent-strong" strokeWidth="1" />
+      <circle cx="58" cy="22" r="2.6" className="fill-accent-faded stroke-accent-strong" strokeWidth="1" />
+      <circle cx="9" cy="22" r="2.2" className="fill-accent-faded stroke-accent-strong" strokeWidth="1" />
       {mood === "sleepy" && <Zzz x={47} y={10} />}
     </g>
   ),
@@ -151,17 +151,17 @@ const ART: Record<string, (mood: Mood) => React.ReactNode> = {
       <rect x="10" y="43" width="44" height="7" rx="2" className="fill-peach" />
       <rect x="14" y="39" width="36" height="6" rx="2" className="fill-surface stroke-hairline" strokeWidth="1.2" />
       <path d="M12 53 h40 M12 56 h28" className="stroke-hairline" strokeWidth="1.2" />
-      <path d="M50 44 q10 -2 9 -11 q-2 -6 -7 -4 q3 4 -2 8 q-3 3 0 7 z" className="fill-coral" />
-      <path d="M59 32 l4 -3 l-1 6 z" className="fill-signal" />
-      <path d="M14 36 L2 22 q10 -3 16 6 z" className="fill-coral-display opacity-80" />
-      <path d="M50 36 L62 22 q-10 -3 -16 6 z" className="fill-coral-display opacity-80" />
-      <ellipse cx="32" cy="32" rx="19" ry="15" className="fill-coral" />
-      <ellipse cx="32" cy="37" rx="11" ry="9" className="fill-coral-faded" />
-      <path d="M22 18 l2 -8 l4 7 z M31 16 l3 -9 l3 9 z M40 18 l3 -7 l2 8 z" className="fill-signal" />
-      <path d="M14 38 q-2 6 4 5 z" className="fill-coral-display opacity-60" />
+      <path d="M50 44 q10 -2 9 -11 q-2 -6 -7 -4 q3 4 -2 8 q-3 3 0 7 z" className="fill-signal" />
+      <path d="M59 32 l4 -3 l-1 6 z" className="fill-coral" />
+      <path d="M14 36 L2 22 q10 -3 16 6 z" className="fill-coral opacity-90" />
+      <path d="M50 36 L62 22 q-10 -3 -16 6 z" className="fill-coral opacity-90" />
+      <ellipse cx="32" cy="32" rx="19" ry="15" className="fill-signal" />
+      <ellipse cx="32" cy="37" rx="11" ry="9" className="fill-signal-faded" />
+      <path d="M22 18 l2 -8 l4 7 z M31 16 l3 -9 l3 9 z M40 18 l3 -7 l2 8 z" className="fill-coral" />
+      <path d="M14 38 q-2 6 4 5 z" className="fill-signal-display opacity-40" />
       <Face cx={32} cy={28} gap={12} mood={mood} />
-      <ellipse cx="29" cy="35" rx="1" ry="1.4" className="fill-coral-display" />
-      <ellipse cx="35" cy="35" rx="1" ry="1.4" className="fill-coral-display" />
+      <ellipse cx="29" cy="35" rx="1" ry="1.4" className="fill-signal-display" />
+      <ellipse cx="35" cy="35" rx="1" ry="1.4" className="fill-signal-display" />
       {mood === "sleepy" && <Zzz x={48} y={14} />}
     </g>
   ),

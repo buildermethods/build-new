@@ -28,11 +28,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { BRAND, Logo } from "@/components/Logo"
 import { cn } from "@/lib/utils"
 import type { PageProps } from "@/types/inertia"
 
 const STORAGE_KEY = "main-nav-open"
-const BRAND = "Nest Quest"
 
 export type NavItemDef = {
   href: string
@@ -146,10 +146,10 @@ export function MainNav({
             aria-hidden
           />
           <aside className="absolute left-0 top-0 flex h-full w-64 flex-col bg-page shadow-xl">
-            <div className="flex h-14 shrink-0 items-center justify-between border-b border-hairline px-4">
-              <span className="font-display text-sm font-semibold text-ink-display">
-                {BRAND}
-              </span>
+            <div className="flex h-20 shrink-0 items-center justify-between border-b border-hairline px-4">
+              <Link href={brandHref} aria-label={`${BRAND} home`}>
+                <Logo size="md" />
+              </Link>
               <button
                 type="button"
                 onClick={() => setMobileOpen(false)}
@@ -194,26 +194,15 @@ function RailBody({
     <>
       <div
         className={cn(
-          "flex h-14 shrink-0 items-center gap-3 border-b border-hairline px-3",
+          "flex h-20 shrink-0 items-center gap-3 border-b border-hairline px-3",
           open ? "justify-between" : "justify-center",
         )}
       >
         <Link
           href={brandHref}
           className="flex min-w-0 items-center gap-2 text-ink-display no-underline"
-          aria-label={open ? undefined : BRAND}
         >
-          <span
-            aria-hidden="true"
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent-faded font-display text-sm font-semibold text-accent-display"
-          >
-            {BRAND.charAt(0)}
-          </span>
-          {open && (
-            <span className="truncate font-display text-sm font-semibold">
-              {BRAND}
-            </span>
-          )}
+          <Logo size="md" iconOnly={!open} />
         </Link>
         {open && (
           <button

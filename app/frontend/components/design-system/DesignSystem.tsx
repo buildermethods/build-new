@@ -5,6 +5,7 @@ import { SidebarNav } from "@/components/design-system/SidebarNav";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ColorsSection } from "@/components/design-system/sections/branding/ColorsSection";
+import { LogoSection } from "@/components/design-system/sections/branding/LogoSection";
 import { TypographySection } from "@/components/design-system/sections/branding/TypographySection";
 import { ShellsSection } from "@/components/design-system/sections/structure/ShellsSection";
 import { MainNavSection } from "@/components/design-system/sections/structure/MainNavSection";
@@ -110,6 +111,8 @@ export function DesignSystem() {
               Reuse what's here. Propose additions before building one-offs.
             </p>
           </div>
+
+          <LogoSection />
 
           <ColorsSection />
           <TypographySection />

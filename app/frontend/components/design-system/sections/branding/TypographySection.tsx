@@ -2,7 +2,7 @@ import { SectionShell } from "@/components/design-system/SectionShell";
 import { FONTS } from "@/components/design-system/palette";
 
 const code = `// Set in design-system.css via @theme:
-//   --font-display: 'Fraunces', ui-serif, Georgia, serif;
+//   --font-display: 'Quicksand', ui-rounded, 'Nunito', system-ui, sans-serif;
 //   --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif;
 
 <h1 className="font-display">Display headline</h1>

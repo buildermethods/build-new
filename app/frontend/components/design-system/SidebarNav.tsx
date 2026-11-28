@@ -9,6 +9,7 @@ const NAV: NavGroup[] = [
   {
     label: "Branding",
     items: [
+      { id: "logo", label: "Logo" },
       { id: "colors", label: "Colors" },
       { id: "typography", label: "Typography" },
     ],

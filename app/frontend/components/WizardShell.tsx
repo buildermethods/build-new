@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Link } from "@inertiajs/react"
+import { Logo } from "@/components/Logo"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -34,6 +35,9 @@ export function WizardShell({
 
   return (
     <main className="mx-auto max-w-2xl px-6 py-10">
+      <div className="mb-8">
+        <Logo size="sm" />
+      </div>
       <nav aria-label="Setup progress">
         <ol className="flex items-center gap-2">
           {wizard.steps.map((s, i) => (

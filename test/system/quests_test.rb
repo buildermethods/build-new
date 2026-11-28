@@ -79,18 +79,18 @@ class QuestsTest < ApplicationSystemTestCase
 
   test "create a routine and complete it for a bonus" do
     visit routines_path
-    click_button "New routine"
+    js_click find_button("Create my first routine")
     within("[role=dialog]") do
-      fill_in "Name", with: "Evening reset"
-      fill_in "Step 1 title", with: "Dishes"
-      click_button "Add step"
-      fill_in "Step 2 title", with: "Lights off"
-      click_button "Create routine"
+      js_fill find_field("Name"), "Evening reset"
+      js_fill find_field("Step 1 title"), "Dishes"
+      js_click find_button("Add step")
+      js_fill find_field("Step 2 title"), "Lights off"
+      js_click find_button("Create routine")
     end
     assert_text "0 of 2 done"
-    check "Dishes"
+    js_click find_field("Dishes", visible: :all)
     assert_text "1 of 2 done"
-    check "Lights off"
+    js_click find_field("Lights off", visible: :all)
     assert_text "defeated!"
     assert_text "+20 XP"
   end

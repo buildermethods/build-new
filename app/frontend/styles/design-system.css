@@ -10,80 +10,85 @@
 @theme {
   --breakpoint-xs: 400px;
 
-  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-display: 'Quicksand', ui-rounded, 'Nunito', system-ui, sans-serif;
+  --font-brand: 'Quicksand', ui-rounded, 'Nunito', system-ui, sans-serif;
   --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif;
 
-  /* Nest Quest palette: fresh and bright, never heavy. Turquoise is the main
-     accent and is paired with coral, leaf green, sunny yellow and soft pink so
-     no single hue dominates. For every colour, "-display" is a deep shade for
-     text, "-strong" is a mid shade that keeps 3:1 contrast for meters,
-     borders and focus rings, and the plain shade is bright and decorative
-     (buttons use it with dark "on-accent" text). The "peach" tokens are a soft
-     rose pink (the name is kept so existing art picks it up). */
-  --color-page: #fffaf7;
-  --color-surface: #fff0f2;
-  --color-hairline: #f3d6dc;
-  --color-ink-body: #2c4a4c;
-  --color-ink-display: #163a3c;
-  --color-ink-muted: #55706f;
-  --color-on-accent: #0b2e2c;
-  --color-accent: #19c3b3;
-  --color-accent-strong: #0d9488;
-  --color-accent-faded: #d9f6f2;
-  --color-accent-display: #0b6e66;
-  --color-coral: #ff7f6e;
-  --color-coral-strong: #d9533f;
-  --color-coral-faded: #ffe6e0;
-  --color-coral-display: #a63a28;
-  --color-leaf: #6fcf7a;
-  --color-leaf-strong: #3f9d48;
-  --color-leaf-faded: #e3f6e3;
-  --color-leaf-display: #276a2f;
-  --color-signal: #ffd54a;
-  --color-signal-faded: #fff4cc;
-  --color-signal-display: #7a5300;
-  --color-peach: #ffb3c4;
-  --color-peach-faded: #ffe6ec;
+  /* Nest Quest palette, built on colour theory rather than taste:
+       - Scheme: a COMPLEMENTARY pair, pool aqua (cool, ~185 degrees) against
+         coral (warm, ~8 degrees), with sunshine yellow as a warm accent and
+         warm cream neutrals. Leaf green is used only for living things.
+       - Proportion: about 60% neutral (cream page and surfaces), 30% aqua
+         (actions, progress, brand) and 10% coral, yellow and green accents.
+       - Readability: every hue has three shades. The plain shade is bright and
+         decorative (buttons use it with dark "on-accent" text), "-strong" is a
+         mid shade that holds 3:1 for meters, rings, borders and focus, and
+         "-display" is a deep shade for text (4.5:1 or better).
+     The "peach" tokens are a soft apricot (the name is kept so art picks it up). */
+  --color-page: #fffdf9;
+  --color-surface: #fbf6ec;
+  --color-hairline: #eadfca;
+  --color-ink-body: #29505b;
+  --color-ink-display: #0c3440;
+  --color-ink-muted: #4f6f78;
+  --color-on-accent: #062a33;
+  --color-accent: #19d3e3;
+  --color-accent-strong: #0897ad;
+  --color-accent-faded: #dff7fa;
+  --color-accent-display: #0a6678;
+  --color-coral: #ff6b57;
+  --color-coral-strong: #d9442f;
+  --color-coral-faded: #ffe8e3;
+  --color-coral-display: #a8321f;
+  --color-leaf: #62c46a;
+  --color-leaf-strong: #3a9444;
+  --color-leaf-faded: #e4f5e3;
+  --color-leaf-display: #25652d;
+  --color-signal: #ffc933;
+  --color-signal-faded: #fff3c4;
+  --color-signal-display: #7a5200;
+  --color-peach: #ffbf9b;
+  --color-peach-faded: #ffeadb;
   --color-peach-display: #8a4a2f;
   --color-lilac: #b9a6f2;
   --color-lilac-faded: #efe9ff;
   --color-lilac-display: #5a44b0;
-  --color-forest: #1d3b3d;
+  --color-forest: #0c3440;
   --color-danger: oklch(64% 0.22 25);
   --color-danger-faded: oklch(96% 0.025 25);
   --color-danger-display: oklch(55% 0.20 25);
 }
 
 .dark {
-  --color-page: #11201f;
-  --color-surface: #1a2f2d;
-  --color-hairline: #2b4744;
-  --color-ink-body: #e4f3f0;
-  --color-ink-display: #f5fffd;
-  --color-ink-muted: #a3c5c0;
-  --color-on-accent: #0b2e2c;
-  --color-accent: #3fe0d0;
-  --color-accent-strong: #3fe0d0;
-  --color-accent-faded: #14403c;
-  --color-accent-display: #8ff0e6;
-  --color-coral: #ff9283;
-  --color-coral-strong: #ff9283;
-  --color-coral-faded: #45221e;
-  --color-coral-display: #ffc1b6;
-  --color-leaf: #8fe48f;
-  --color-leaf-strong: #8fe48f;
+  --color-page: #0b2229;
+  --color-surface: #123039;
+  --color-hairline: #1f4856;
+  --color-ink-body: #e2f4f7;
+  --color-ink-display: #f3fcfd;
+  --color-ink-muted: #9cc3cc;
+  --color-on-accent: #062a33;
+  --color-accent: #3de4f2;
+  --color-accent-strong: #3de4f2;
+  --color-accent-faded: #0e3c47;
+  --color-accent-display: #8cf1f8;
+  --color-coral: #ff8672;
+  --color-coral-strong: #ff8672;
+  --color-coral-faded: #44231e;
+  --color-coral-display: #ffbfb1;
+  --color-leaf: #8fe08f;
+  --color-leaf-strong: #8fe08f;
   --color-leaf-faded: #1b3a1f;
   --color-leaf-display: #bff2bf;
-  --color-signal: #ffd54a;
-  --color-signal-faded: #3d3818;
-  --color-signal-display: #ffe48a;
-  --color-peach: #ff9db4;
-  --color-peach-faded: #3d2440;
-  --color-peach-display: #ffc2d1;
+  --color-signal: #ffd24d;
+  --color-signal-faded: #3d3414;
+  --color-signal-display: #ffe08a;
+  --color-peach: #ffb98f;
+  --color-peach-faded: #3d2a1f;
+  --color-peach-display: #ffd2b3;
   --color-lilac: #b9a6f2;
   --color-lilac-faded: #2e2a56;
   --color-lilac-display: #d5c9fa;
-  --color-forest: #0f2f2e;
+  --color-forest: #061a20;
   --color-danger: oklch(72% 0.20 22);
   --color-danger-faded: oklch(22% 0.05 22);
   --color-danger-display: oklch(82% 0.18 22);
@@ -109,16 +114,16 @@
   h1, h2, h3, h4, h5, h6 {
     color: var(--color-ink-display);
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: -0.01em;
     line-height: 1.2;
   }
 
-  h1 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; }
+  h1 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.005em; }
   @media (min-width: 400px) {
     h1 { font-size: 2.25rem; }
   }
-  h2 { font-size: 1.7rem;  letter-spacing: -0.03em; }
+  h2 { font-size: 1.7rem;  letter-spacing: -0.005em; }
   h3 { font-size: 1.3rem; }
   h4 { font-size: 1.1rem; }
   h5 { font-size: 1rem; }

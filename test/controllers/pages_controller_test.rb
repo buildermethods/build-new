@@ -74,4 +74,19 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "Put one load of washing on"
     assert_includes response.body, "after dinner"
   end
+
+  test "every page carries the Nest Quest brand metadata" do
+    get root_path
+    assert_includes response.body, 'property="og:site_name" content="Nest Quest"'
+    assert_match(%r{property="og:image" content="http://www\.example\.com/og-image\.png"}, response.body)
+    assert_includes response.body, 'name="twitter:card" content="summary_large_image"'
+    assert_includes response.body, 'name="theme-color" content="#19d3e3"'
+    assert File.exist?(Rails.root.join("public/og-image.png"))
+  end
+
+  test "the web app manifest is branded" do
+    manifest = Rails.root.join("app/views/pwa/manifest.json.erb").read
+    assert_includes manifest, '"name": "Nest Quest"'
+    assert_not_includes manifest, "Build New"
+  end
 end

@@ -1,4 +1,5 @@
 import { Link, Head } from "@inertiajs/react"
+import { Logo } from "@/components/Logo"
 import { Cottage } from "@/components/sanctuary/Cottage"
 import { Button } from "@/components/ui/button"
 import { MonsterArt } from "@/components/ui/monster-art"
@@ -35,7 +36,7 @@ export default function Home() {
       </Head>
       <main className="mx-auto max-w-5xl px-6 py-8">
         <header className="flex items-center justify-between gap-4">
-          <p className="font-display text-lg font-semibold text-ink-display">Nest Quest</p>
+          <Logo size="md" />
           <Button asChild variant="ghost" size="sm">
             <Link href="/login">Log in</Link>
           </Button>
@@ -43,6 +44,7 @@ export default function Home() {
 
         <section className="mt-10 grid items-center gap-10 md:grid-cols-2" aria-label="Welcome">
           <div>
+            <Logo size="xl" className="mb-8" />
             <h1>Defeat chaos. Build calm.</h1>
             <p className="mt-4 text-lg">
               Turn the work of running a home into a cosy adventure. Real chores, friendly monsters, and a cottage
@@ -97,8 +99,9 @@ export default function Home() {
           </ul>
         </section>
 
-        <footer className="mt-16 pb-6 text-center text-sm text-ink-muted">
-          <p>Progress without punishment.</p>
+        <footer className="mt-16 flex flex-col items-center gap-3 pb-6 text-center">
+          <Logo size="sm" />
+          <p className="caption">Progress without punishment.</p>
         </footer>
       </main>
     </>
